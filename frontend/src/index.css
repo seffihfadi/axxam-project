@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* 
+
+  // frontend
+  - create popup component
+  - create alert component
+  - create empty component 
+  - create loader component
+  - set up user, alert slices and all redux
+  - orginizing App.jsx with lazy load (project layout)
+  - create the max i can of components and pages structures
+  - use branding colors in tailwind.config and logo in public
+
+  // backend
+  - setup cloudinary
+  - create mongodb schemas
+  - create main user functions
+  - create the server.js structure
+  - complete backend structre in the paper
+
+*/
