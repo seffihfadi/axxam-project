@@ -15,10 +15,10 @@
   - use branding colors in tailwind.config and logo in public
 
   // backend
-  - setup cloudinary
+  * - setup cloudinary
   - create mongodb schemas
   - create main user functions
-  - create the server.js structure
+  * - create the server.js structure
   - complete backend structre in the paper
 
 */
