@@ -1,5 +1,4 @@
 import {model, Schema, Types} from 'mongoose'
-import bcrypt from 'bcrypt'
 
 const userSchema = new Schema({
   fullname: {
@@ -19,6 +18,10 @@ const userSchema = new Schema({
   },
   OTPCode: {
     type: Number,
+  },
+  otpExpiry: {
+    type: Date,
+    required: true
   },
   role: {
     type: String,
@@ -43,18 +46,18 @@ const userSchema = new Schema({
 })
 
 
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')){
-    return next()
-  }else {
-    // encrypt password 
-    const salt = bcrypt.genSaltSync(10)
-    const hashPass = bcrypt.hashSync(this.password, salt)
-    this.password = hashPass
-    next()
+// userSchema.pre('save', async function(next) {
+//   if (!this.isModified('password')){
+//     return next()
+//   }else {
+//     // encrypt password 
+//     const salt = bcrypt.genSaltSync(10)
+//     const hashPass = bcrypt.hashSync(this.password, salt)
+//     this.password = hashPass
+//     next()
 
-  }
-})
+//   }
+// })
 
 
 const User = model('User', userSchema)
