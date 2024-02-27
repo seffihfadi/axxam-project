@@ -1,22 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+
+
+body {
+  font-family: 'Poppins', sans-serif;
+  /* @apply text-white bg-[#0c172b] */
+}
+
+
+/* loader  */
+.loading{
+  @apply h-full w-full flex justify-center flex-col items-center absolute z-10 left-0 top-0
+}
+.circul_loader {
+  position: relative;
+  width: 100px;
+}
+.circul_loader:before {
+  content: "";
+  display: block;
+  padding-top: 100%;
+}
+
+.circular {
+  -webkit-animation: rotate 2s linear infinite;
+          animation: rotate 2s linear infinite;
+  height: 100%;
+  transform-origin: center center;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+.path {
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+          animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+  stroke-linecap: round;
+}
+
+@-webkit-keyframes rotate {
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate {
+  100% {
+      transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes dash {
+  0% {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+  }
+  50% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -35px;
+  }
+  100% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -124px;
+  }
+}
+@keyframes dash {
+  0% {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+  }
+  50% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -35px;
+  }
+  100% {
+      stroke-dasharray: 89, 200;
+      stroke-dashoffset: -124px;
+  }
+}
+@-webkit-keyframes color {
+  100%, 0% {
+    stroke: #1a73e8;
+  }
+  40% {
+      stroke: #0F9D58;
+  }
+  66% {
+      stroke: #F4B400;
+  }
+  80%, 90% {
+      stroke: #DB4437;
+  }
+}
+@keyframes color {
+  100%, 0% {
+    stroke: #1a73e8;
+  }
+  40% {
+      stroke: #0F9D58;
+  }
+  66% {
+      stroke: #F4B400;
+  }
+  80%, 90% {
+      stroke: #DB4437;
+  }
+}
+
+
+.container > div:not(.loading) {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.3s ease-in-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Define keyframes for fade out */
+@keyframes fadeOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.alert{
+  animation: fadeIn 0.5s ease-in-out, fadeOut 0.5s ease-in-out 4.5s forwards;
+  @apply fixed font-semibold w-full bottom-0 left-0 md:bottom-auto md:left-auto md:right-6
+  md:max-w-xs md:top-20 bg-white px-5 py-3 rounded-lg md:border-[1px] border-[#353535] flex 
+  justify-center items-center gap-3 md:w-fit z-40 shadow-lg backdrop-blur-md text-sm
+}
+.alert i {
+  @apply text-[20px]
+}
+.alert.error *{
+  @apply text-red-600
+}
+
+.alert.warning *{
+  @apply text-orange-600
+}
+.alert.success *{
+  @apply text-green-600
+}
+
+
+button:disabled {
+  @apply animate-pulse
+}
 /* 
 
   // frontend
   - create popup component
-  - create alert component
-  - create empty component 
-  - create loader component
+  * - create alert component
+  * - create empty component 
+  * - create loader component
   - set up user, alert slices and all redux
-  - orginizing App.jsx with lazy load (project layout)
+  * - orginizing App.jsx with lazy load (project layout)
   - create the max i can of components and pages structures
   - use branding colors in tailwind.config and logo in public
 
   // backend
   * - setup cloudinary
-  - create mongodb schemas
+  * - create fondamental mongodb schemas
   * - create main user functions
   * - create the server.js structure
   - complete backend structre in the paper
