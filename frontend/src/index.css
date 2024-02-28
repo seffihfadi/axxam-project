@@ -11,7 +11,7 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  @apply dark:text-white dark:bg-slate-800 
+  @apply dark:text-white dark:bg-darkmode bg-whitemode
 }
 
 .btn-switch{
@@ -188,7 +188,7 @@ button:disabled {
 /* 
 
   // frontend
-  
+
   * - create alert component
   * - create empty component 
   * - create loader component
