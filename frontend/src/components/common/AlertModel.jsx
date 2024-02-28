@@ -1,4 +1,4 @@
-import { resetAlert, selectCurrentAlert } from "../features/ui/alertSlice"
+import { resetAlert, selectCurrentAlert } from "../../app/slices/alertSlice"
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect } from "react"
 
