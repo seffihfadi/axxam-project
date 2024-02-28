@@ -60,6 +60,83 @@ body {
   stroke-linecap: round;
 }
 
+
+.container > div:not(.loading) {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.3s ease-in-out forwards;
+}
+
+
+.alert{
+  animation: fadeIn 0.5s ease-in-out, fadeOut 0.5s ease-in-out 4.5s forwards;
+  @apply fixed w-full bottom-0 left-0 md:bottom-auto md:left-auto md:right-6
+  md:max-w-xs md:top-20 bg-white px-5 py-3 rounded-lg md:border-[1px] border-[#353535] flex 
+  justify-center items-center gap-3 md:w-fit z-40 shadow-lg backdrop-blur-md text-sm
+}
+.alert i {
+  @apply text-[20px]
+}
+.alert.error *{
+  @apply text-red-600
+}
+
+.alert.warning *{
+  @apply text-orange-600
+}
+.alert.success *{
+  @apply text-green-600
+}
+
+
+button:disabled {
+  @apply animate-pulse
+}
+
+.container {
+  @apply max-w-7xl mx-auto
+}
+
+
+.popup {
+  @apply w-screen h-screen flex justify-center items-center z-20 absolute top-0 left-0 backdrop-blur-sm
+}
+.popup .window {
+  @apply max-w-xl bg-white rounded-xl max-h-[75%] overflow-y-auto shadow-xl p-6
+}
+/* 
+
+  // frontend
+
+  * - create alert component
+  * - create empty component 
+  * - create loader component
+  * - create theme component
+  * - set up user, alert slices and all redux
+  * - orginizing App.jsx with lazy load (project layout)
+  * - create popup component
+  * - use branding colors in tailwind.config and logo in public
+
+  - create the max i can of components and pages structures
+
+
+  // backend
+
+  * - setup cloudinary
+  * - create fondamental mongodb schemas
+  * - create main user functions
+  * - create the server.js structure
+
+  - complete backend structre in the paper
+
+*/
+
+
+
+
+/* @-webkit-keyframes */
+
+
 @-webkit-keyframes rotate {
   100% {
       transform: rotate(360deg);
@@ -129,12 +206,6 @@ body {
 }
 
 
-.container > div:not(.loading) {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeInUp 0.3s ease-in-out forwards;
-}
-
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -168,66 +239,3 @@ body {
     opacity: 0;
   }
 }
-
-.alert{
-  animation: fadeIn 0.5s ease-in-out, fadeOut 0.5s ease-in-out 4.5s forwards;
-  @apply fixed w-full bottom-0 left-0 md:bottom-auto md:left-auto md:right-6
-  md:max-w-xs md:top-20 bg-white px-5 py-3 rounded-lg md:border-[1px] border-[#353535] flex 
-  justify-center items-center gap-3 md:w-fit z-40 shadow-lg backdrop-blur-md text-sm
-}
-.alert i {
-  @apply text-[20px]
-}
-.alert.error *{
-  @apply text-red-600
-}
-
-.alert.warning *{
-  @apply text-orange-600
-}
-.alert.success *{
-  @apply text-green-600
-}
-
-
-button:disabled {
-  @apply animate-pulse
-}
-
-.container {
-  @apply max-w-7xl mx-auto
-}
-
-
-.popup {
-  @apply w-screen h-screen flex justify-center items-center z-20 absolute top-0 left-0 backdrop-blur-sm
-}
-.popup .window {
-  @apply max-w-xl bg-white rounded-xl max-h-[75%] overflow-y-auto shadow-xl p-6
-}
-/* 
-
-  // frontend
-
-  * - create alert component
-  * - create empty component 
-  * - create loader component
-  * - create theme component
-  * - set up user, alert slices and all redux
-  * - orginizing App.jsx with lazy load (project layout)
-
-  - create popup component
-  - use branding colors in tailwind.config and logo in public
-  - create the max i can of components and pages structures
-
-
-  // backend
-
-  * - setup cloudinary
-  * - create fondamental mongodb schemas
-  * - create main user functions
-  * - create the server.js structure
-
-  - complete backend structre in the paper
-
-*/
