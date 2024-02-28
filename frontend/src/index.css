@@ -5,17 +5,25 @@
 @tailwind utilities;
 
 
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 200,
+  'GRAD' 0,
+  'opsz' 24
+}
+
 * {
   @apply text-gray-800 dark:text-white
 }
 
 body {
   font-family: 'Poppins', sans-serif;
-  @apply dark:text-white dark:bg-darkmode bg-whitemode
+  @apply dark:text-white dark:bg-darkmode bg-whitemode transition-colors
 }
 
 .btn-switch{
-  @apply bg-[#a6ad74] rounded-lg px-4 py-2 flex justify-center items-center dark:bg-slate-600 shadow-lg 
+  @apply bg-primary rounded-full px-4 py-2 flex justify-center items-center dark:bg-slate-600 shadow-lg 
 }
 /* loader  */
 .loading{
@@ -184,6 +192,18 @@ body {
 
 button:disabled {
   @apply animate-pulse
+}
+
+.container {
+  @apply max-w-7xl mx-auto
+}
+
+
+.popup {
+  @apply w-screen h-screen flex justify-center items-center z-20 absolute top-0 left-0 backdrop-blur-sm
+}
+.popup .window {
+  @apply max-w-xl bg-white rounded-xl max-h-[75%] overflow-y-auto shadow-xl p-6
 }
 /* 
 
