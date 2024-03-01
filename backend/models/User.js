@@ -7,7 +7,7 @@ const userSchema = new Schema({
     match: [/^(?=.{4,18}$)[a-zA-Z]+ [a-zA-Z]+$/, "{VALUE} is not a valid fullname"]
   },
   phone: {
-    type: String, 
+    type: String,
     required: true,
     unique: true,
     match: [/^0[5-7]\d{8}$/, "Please fill a valid phone number"]
@@ -37,6 +37,10 @@ const userSchema = new Schema({
     ref: 'UserExtraDetails'
   },
   isVerified: {
+    type: Boolean,
+    default: false
+  },
+  isCompleted: {
     type: Boolean,
     default: false
   }

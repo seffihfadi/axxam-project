@@ -2,35 +2,67 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import twilio from 'twilio'
 import User from "../models/User.js"
+import { isPhone, strToBool } from '../utils/func.js'
+import cloudinary from '../utils/cloudinary.js'
 
 
-export const sendOTP = async (req, res, next) => {
-  const { phone, isSignup } = req.body
-  const otp = Math.floor(100000 + Math.random() * 900000).toString() // 6 digit
+
+export const sendOTPSignup = async (req, res, next) => {
+  const { phone } = req.body
   const otpExpiry = new Date(Date.now() + 12e4) // 2 minutes from now
+  const OTPCode = 147852
 
   try {
-    if (!phone || !isSignup) {
+
+    if (!isPhone(phone)) {
       res.status(400)
-      throw new Error('phone number is required')
+      throw new Error('phone number is invalid')
     }
     
-    const user = await User.updateOne({ phone }, { phone, otp, otpExpiry }, { upsert: isSignup })
+    const user = await User.findOne({phone})
 
-    if (!user && !isSignup) {
+    if (!!user) {
+      if (user.isCompleted) {
+        res.status(409)
+        throw new Error('account already exists, please login.')
+      }
+      await User.updateOne({ phone }, { OTPCode, otpExpiry });
+    } else {
+      await User.create({ phone, OTPCode, otpExpiry });
+    }
+
+    return res.json({ message: 'OTP sent successfully' }) 
+
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const sendOTPSignin = async (req, res, next) => {
+  const { phone } = req.body
+  const otpExpiry = new Date(Date.now() + 12e4) // 2 minutes from now
+  const OTPCode = 147852
+
+  try {
+    if (!isPhone(phone)) {
       res.status(400)
-      throw new Error('user not found, create another account')
+      throw new Error('phone number is invalid')
     }
     
-    const accountSid = process.env.TWILIO_ACCOUNT_SID
-    const authToken = process.env.TWILIO_AUTH_TOKEN
-    const twilioClient = new twilio(accountSid, authToken)
+    
+    const user = await User.findOne({phone})
+    
+    if (!user) {
+      res.status(404)
+      throw new Error('user not found, create a new account')
+    }
 
-    await twilioClient.messages.create({
-      body: `Your OTP is ${otp}`,
-      to: phone,
-      from: process.env.TWILIO_PHONE_NUMBER, //1CP4K88XWS82BF94K7JHGQSF
-    })
+    if (!user.isCompleted) {
+      res.status(409)
+      throw new Error('this account was not completed')
+    }
+    
+    await User.updateOne({ phone }, { OTPCode, otpExpiry });
 
     return res.json({ message: 'OTP sent successfully' }) 
 
@@ -42,8 +74,9 @@ export const sendOTP = async (req, res, next) => {
 export const verifyOTP = async (req, res, next) => {
   const { phone, otp } = req.body
 
+  
   try {
-    const user = await User.findOne({ phone, otp })
+    const user = await User.findOne({ phone, OTPCode: otp })
 
     if (!user) {
       res.status(400)
@@ -52,12 +85,26 @@ export const verifyOTP = async (req, res, next) => {
 
     if (user.otpExpiry < Date.now()) {
       res.status(400)
-      throw new Error('OTP has expired')
+      throw new Error('OTP has expired, try again.')
     }
 
-    // user.otp = null
-    user.otpExpiry = new Date()
-    await user.save()
+    await User.updateOne(user, {isVerified: true})
+
+    if (user.isCompleted) {
+      // create token
+      const {_id, phone} = user
+      const token = generateToken({_id, phone})
+      res.cookie('tigerToken', token, {
+        httpOnly: true,
+        expires: new Date(Date.now() + 864e5),
+        secure: true,
+        sameSite: 'none',
+        path: '/'
+      })
+
+      return res.status(200).json({message: 'signin seccessfuly'})
+
+    }
 
     return res.json({ message: 'OTP verified successfully' })
 
@@ -67,110 +114,118 @@ export const verifyOTP = async (req, res, next) => {
 }
 
 
+const generateToken = ({userID, phone}) => {
+  return jwt.sign({userID, phone}, process.env.JWT_SECRET, {expiresIn: '1d'})
+}
+
+export const signupUser = async (req, res, next) => {
+  const { fullname, birthDate, image, phone } = req.body
+  console.log('{ fullname, birthDate, image, phone }', { fullname, birthDate, image, phone })
+  try {
+    if (!fullname || !birthDate || !phone ){
+      res.status(400)
+      throw new Error('please fill in all required fields')
+    } 
+
+    const user = await User.findOne({phone, isVerified: true})
+    if (!user) {
+      res.status(404)
+      throw new Error('you must first validate your phone number')
+    }
 
 
+    let avatar = ''
+    if (!!image) {
+      const {secure_url: url} = await cloudinary.uploader.upload(image, {
+        folder: "Zoquix",
+      })
+      avatar = url
+    }
+    
+    const newUser = await User.updateOne(
+      { phone }, 
+      { fullname, birthDate, avatar: avatar, isCompleted: true }
+    )
+
+    if (!newUser) {
+      res.status(500)
+      throw new Error('an error was accured, please try later.')
+    }
 
 
+    const {_id, phone: phoneNumber} = newUser
+
+    // create token
+    const token = generateToken({_id, phoneNumber})
+    res.cookie('tigerToken', token, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 864e5),
+      secure: true,
+      sameSite: 'none',
+      path: '/'
+    })
+    
+    res.status(201).json({message: 'signup seccessfuly'})
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const signoutUser = async (req, res, next) => {
+
+  try {
+    res.cookie('tigerToken', '', {
+      expires: new Date(0),
+      sameSite: 'none',
+      secure: true
+    })
+    res.status(200).json({message: 'successfuly logged out'})
+  } catch (err) {
+    next(err)
+  }
+
+}
 
 
-// const generateToken = (userID) => {
-//   return jwt.sign({ userID }, process.env.JWT_SECRET, {expiresIn: '1d'})
-// }
+// export const sendOTP = async (req, res, next) => {
+//   const { phone, isSignup } = req.body
+//   const otp = Math.floor(100000 + Math.random() * 900000).toString() // 6 digit
+//   const otpExpiry = new Date(Date.now() + 12e4) // 2 minutes from now
+//   const OTPCode = 147852
 
-// export const signupUser = async (req, res, next) => {
-//   const { email, fullname, password, motivation, field } = req.body
+
 //   try {
-
-//     if (!fullname || !email || !password || !field ){
+//     if (!isPhone(phone) || !isSignup) {
 //       res.status(400)
-//       throw new Error('please fill in all required fields')
-//     } 
-
-//     const user = await User.findOne({email})
-//     if (!!user) {
-//       res.status(409)
-//       throw new Error('user already exsits !')
+//       throw new Error('phone number is invalid')
 //     }
     
-//     const newUser = await User.create({
-//       email, 
-//       fullname, 
-//       password, 
-//       motivation,
-//       field
-//     })
-//     if (!newUser) {
-//       res.status(500)
-//       throw new Error('account not created, please try later.')
+//     const user = await User.updateOne(
+//       { phone }, 
+//       { phone, OTPCode, otpExpiry }, 
+//       { upsert: strToBool(isSignup) }
+//     )
+
+//     if (!user.upsertedId && !strToBool(isSignup)) {
+//       res.status(400)
+//       throw new Error('user not found, create another account')
 //     }
+    
+//     // const accountSid = process.env.TWILIO_ACCOUNT_SID
+//     // const authToken = process.env.TWILIO_AUTH_TOKEN
+//     // const twilioClient = new twilio(accountSid, authToken)
 
-//     const {_id} = newUser
+//     // await twilioClient.messages.create({
+//     //   body: `Your OTP is ${otp}`,
+//     //   to: phone,
+//     //   from: process.env.TWILIO_PHONE_NUMBER, //1CP4K88XWS82BF94K7JHGQSF
+//     // })
 
-//     // create token
-//     const token = generateToken(_id)
-//     res.cookie('tigerToken', token, {
-//       httpOnly: true,
-//       expires: new Date(Date.now() + 864e5),
-//       secure: true,
-//       sameSite: 'none',
-//       path: '/'
-//     })
+//     return res.json({ message: 'OTP sent successfully' }) 
 
-//     res.status(201).json({message: 'signup seccessfuly'})
 //   } catch (error) {
 //     next(error)
 //   }
-// }
-
-// export const signinUser = async (req, res, next) => {
-//   const {email, password} = req.body
-
-//   try {
-//     if (!email || !password) {
-//       res.status(400)
-//       throw new Error('fill in required fields.')
-//     }
-//     const user = await User.findOne({email}).select(['password', '_id'])
-//     if (!user) {
-//       res.status(404)
-//       throw new Error('user not found, you can create new accout.')
-//     }
-
-//     const hashPass = user.password
-//     const isMatch = bcrypt.compareSync(password, hashPass)
-//     if (!isMatch) {
-//       res.status(400)
-//       throw new Error('wrong password !')
-//     } 
-
-//     // create token
-//     const token = generateToken(user._id)
-//     res.cookie('tigerToken', token, {
-//       httpOnly: true,
-//       expires: new Date(Date.now() + 864e5),
-//       secure: true,
-//       sameSite: 'none',
-//       path: '/'
-//     })
-//     res.status(200).json({message: 'signin successfuly'})
-//   } catch (error) {
-//     next(error)
-//   }
-// }
-
-// export const signoutUser = async (req, res, next) => {
-
-//   try {
-//     res.cookie('tigerToken', '', {
-//       expires: new Date(0),
-//       sameSite: 'none',
-//       secure: true
-//     })
-//     res.status(200).json({message: 'successfuly logged out'})
-//   } catch (err) {
-//     next(err)
-//   }
-
 // }
 
 // export const getUser = async (req, res, next) => {
@@ -185,27 +240,6 @@ export const verifyOTP = async (req, res, next) => {
 //     userSession.password = undefined
 //     res.status(200).json({user: userSession})
     
-//   } catch (error) {
-//     next(error)
-//   }
-// }
-
-// export const getAllUsers = async (req, res, next) => {
-//   const search = req.query.search
-//   try {
-//     const usersSearchQuery = search 
-//     ? 
-//       { $or: [
-//         {email: { $regex: search }}, 
-//         {fullname: { $regex: search }},
-//         {role: { $regex: search }},
-//         {field: { $regex: search }}
-//       ]} 
-//     : 
-//       {}
-//     const users = await User.find(usersSearchQuery).select('-password')
-//     res.status(200).json(users)
-  
 //   } catch (error) {
 //     next(error)
 //   }

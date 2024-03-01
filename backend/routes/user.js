@@ -2,15 +2,20 @@ import express from 'express';
 import access from '../middlewares/auth.js';
 import ROLES from '../utils/roles.js'
 import { 
-  sendOTP, 
-  verifyOTP
+  sendOTPSignup,
+  sendOTPSignin, 
+  verifyOTP,
+  signoutUser,
+  signupUser
 } from '../controllers/user.js';
 
 const userRoutes = express.Router();
 
-userRoutes.post('/send-otp', sendOTP);
+userRoutes.post('/send-otp-signin', sendOTPSignin);
+userRoutes.post('/send-otp-signup', sendOTPSignup);
 userRoutes.post('/verify-otp', verifyOTP);
-// userRoutes.get('/signout', signoutUser);
+userRoutes.patch('/signup', signupUser);
+userRoutes.get('/signout', signoutUser);
 // userRoutes.get('/get-users', access(ROLES.all), getAllUsers);
 
 // userRoutes.get('/get-user', access(ROLES.all), getUser);
