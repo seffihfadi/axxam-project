@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser"
 import errorHandler from './middlewares/error.js'
 
 import userRoutes from "./routes/user.js"
+import reviewRoutes from './routes/review.js'
 
 
 // init
@@ -23,6 +24,7 @@ app.use(cookieParser())
 
 // routes middlewares
 app.use('/api/user', userRoutes)
+app.use('/api/review', reviewRoutes)
 
 
 // error middlewares

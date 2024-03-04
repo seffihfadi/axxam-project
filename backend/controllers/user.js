@@ -1,8 +1,9 @@
-import bcrypt from 'bcrypt'
+// import bcrypt from 'bcrypt'
+// import twilio from 'twilio'
+
 import jwt from 'jsonwebtoken'
-import twilio from 'twilio'
 import User from "../models/User.js"
-import { isPhone, strToBool } from '../utils/func.js'
+import { isPhone } from '../utils/func.js'
 import cloudinary from '../utils/cloudinary.js'
 
 
