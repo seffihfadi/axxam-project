@@ -9,6 +9,7 @@ const LesseeLayout = lazy(() => import('./components/common/LesseeLayout'))
 const LessorLayout = lazy(() => import('./components/common/LessorLayout'))
 const Layout = lazy(() => import('./components/common/Layout'))
 const HomePage = lazy(() => import('./pages/HomePage')) 
+const LandingPage = lazy(() => import('./pages/LandingPage')) 
 
 
 const App = () => {
@@ -19,7 +20,7 @@ const App = () => {
         <Route path="/" element={ <Layout /> }>
 
           {/* public routes */}
-          <Route index element={<HomePage />} />
+          <Route index element={<LandingPage />} />
 
           {/* lessee routes */}
           <Route

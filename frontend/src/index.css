@@ -94,8 +94,8 @@ button:disabled {
 }
 
 .container {
-  @apply max-w-7xl mx-auto
-}
+  @apply max-w-7xl mx-auto 
+} 
 
 
 .popup {
@@ -103,6 +103,20 @@ button:disabled {
 }
 .popup .window {
   @apply max-w-xl bg-white rounded-xl max-h-[75%] overflow-y-auto shadow-xl p-6
+}
+
+
+.backdrop {
+  @apply w-full flex-col absolute top-16 left-0 h-[calc(100vh-4rem)] z-10 bg-[#1d1d1dda] flex justify-center items-center
+}
+
+
+.backdrop *{
+  @apply text-white leading-normal
+}
+
+button.primary {
+  @apply px-6 py-4 rounded-lg bg-primary font-semibold
 }
 /* 
 
@@ -239,3 +253,4 @@ button:disabled {
     opacity: 0;
   }
 }
+
