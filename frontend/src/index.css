@@ -94,7 +94,7 @@ button:disabled {
 }
 
 .container {
-  @apply max-w-7xl mx-auto 
+  @apply max-w-5xl mx-auto px-4
 } 
 
 
@@ -116,8 +116,76 @@ button:disabled {
 }
 
 button.primary {
-  @apply px-6 py-4 rounded-lg bg-primary font-semibold
+  @apply px-7 py-2.5 rounded-lg bg-primary text-white font-semibold w-fit
 }
+
+section.landing {
+  @apply my-20
+}
+section.landing img {
+  @apply rounded-xl
+}
+img {
+  @apply object-cover
+}
+
+.landing .title {
+  @apply text-secondary w-full px-4 py-2 border-l-4 border-primary my-4
+}
+button.secondary {
+  @apply rounded-full border-[1px] border-black px-7 py-2.5 w-fit
+}
+
+
+
+
+.user {
+  @apply flex gap-4 justify-center items-center w-fit
+}
+.user .img{
+  @apply flex-shrink-0 rounded-full w-12 h-12 flex overflow-hidden
+}
+.user .img img{
+  @apply object-cover
+}
+.user .name{
+  @apply flex flex-col justify-center
+}
+
+.user .name span{
+  @apply capitalize font-semibold
+}
+.user .name p{
+  @apply text-gray-500 text-sm
+}
+
+
+.raiting_display img{
+  @apply w-7 h-7
+}
+/* .user .img.sm {
+  @apply w-6 h-6 text-sm mr-3
+}
+.user .img.plus{
+  @apply text-xs
+}
+p.link a{
+  @apply text-blue-500 
+} */
+
+/* .user .img.logout:hover button{
+  @apply flex
+}
+.user .img.logout:hover span{
+  @apply hidden
+} */
+
+
+
+
+
+
+
 /* 
 
   // frontend
