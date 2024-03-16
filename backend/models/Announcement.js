@@ -35,7 +35,7 @@ const announcementSchema = new Schema({
   },
   periode: {
     type: String,
-    enum: ['small', 'long'],
+    enum: ['small','long'],
     required: true,
   },
   
