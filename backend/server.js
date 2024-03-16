@@ -7,7 +7,7 @@ import errorHandler from './middlewares/error.js'
 
 import userRoutes from "./routes/user.js"
 import reviewRoutes from './routes/review.js'
-
+import announcementRoutes from './routes/announcement.js'
 
 // init
 dotenv.config()
@@ -25,7 +25,7 @@ app.use(cookieParser())
 // routes middlewares
 app.use('/api/user', userRoutes)
 app.use('/api/review', reviewRoutes)
-
+app.use('/api/announcement', announcementRoutes)
 
 // error middlewares
 app.use(errorHandler)

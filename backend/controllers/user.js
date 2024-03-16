@@ -188,6 +188,89 @@ export const signoutUser = async (req, res, next) => {
 }
 
 
+
+
+/// update the main info:
+export const updateUserMain = async (req, res ,next) => {
+  const {newFullname, newBirthDate, newAvatar} = req.body
+  const {_id: sessionID} = req.user
+  const {userID} = req.params
+
+  try {
+    if( sessionID.toString() !== userID.toString()){
+      res.status(401)
+      throw new error('you can\'t update this account.')
+    }
+
+    const user = await User.findOne({sessionID})
+    if(!user){
+      res.status(400)
+      throw new error ('user not found')
+    }
+    const updatedDoc = {
+      fullName : newFullname || user.fullName,
+      birthDate : newBirthDate || user.birthDate
+    }   
+    if (newAvatar !== '') {
+      const {secure_url: url} = await cloudinary.uploader.upload(newAvatar, {
+        folder: "Zoquix",
+      })
+      updatedDoc.avatar = url
+    }
+    
+    const updatedUser = await User.findByIdAndUpdate(sessionID, updatedDoc)
+    if (!updatedUser) {
+      res.status(500)
+      throw new Error('failed to update profile')
+    }
+    return res.status(200).json({message: 'updated successfuly'})
+    }catch(err){
+      next(err)
+    }
+  }
+
+
+// update the secondary info :
+export const updateUserAdditional = async (req, res ,next) => {
+  const {newBio, newGender, newLivesIn} = req.body
+  const {_id: sessionID , extra : userDetailsID} = req.user
+  const {userID} = req.params
+
+  try {
+  const user = await User.findOne({sessionID})
+  if(!user){
+    res.status(400)
+    throw new error('user do not exist')
+  }
+
+  if(sessionID.toString() !== userID.toString()){
+    res.status(401)
+      throw new error('you can\'t update this account.')
+    }
+    let userDetails = await UserExtraDetails.findById(userDetailsID)
+    if(!userDetails){
+      res.status(400)
+      throw new error('details does not exist')
+    }
+
+    const updatedDoc = {
+      bio : newBio || userDetails.bio,
+      gender : newGender || userDetails.gender,
+      livesIn : newLivesIn || userDetails.livesIn 
+    }  
+
+    const updatedUser = await UserExtraDetails.findByIdAndUpdate(userDetailsID, updatedDoc)
+    if (!updatedUser) {
+      res.status(500)
+      throw new Error('failed to update profile')
+    }
+    return res.status(200).json({message: 'updated successfuly'})
+  }catch(err){
+    next(err)
+  }
+}
+
+
 // export const sendOTP = async (req, res, next) => {
 //   const { phone, isSignup } = req.body
 //   const otp = Math.floor(100000 + Math.random() * 900000).toString() // 6 digit
