@@ -17,7 +17,8 @@ const access = (roles) => {
         throw new Error('something went wrong, please login')
       }
       const {userID} = verified
-      const user = await User.findById(userID)   // .select('-password')
+      const user = await User.findById(userID)
+      console.log('user', verified)   // .select('-password')
       if (!user) {
         res.status(401)
         throw new Error('user not found, something went wrong, please login')
