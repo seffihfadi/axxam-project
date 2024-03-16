@@ -94,7 +94,7 @@ export const verifyOTP = async (req, res, next) => {
     if (user.isCompleted) {
       // create token
       const {_id, phone} = user
-      const token = generateToken({_id, phone})
+      const token = generateToken(_id)
       res.cookie('tigerToken', token, {
         httpOnly: true,
         expires: new Date(Date.now() + 864e5),
@@ -115,8 +115,8 @@ export const verifyOTP = async (req, res, next) => {
 }
 
 
-const generateToken = ({userID, phone}) => {
-  return jwt.sign({userID, phone}, process.env.JWT_SECRET, {expiresIn: '1d'})
+const generateToken = (userID) => {
+  return jwt.sign({userID}, process.env.JWT_SECRET, {expiresIn: '1d'})
 }
 
 export const signupUser = async (req, res, next) => {
@@ -153,11 +153,8 @@ export const signupUser = async (req, res, next) => {
       throw new Error('an error was accured, please try later.')
     }
 
-
-    const {_id, phone: phoneNumber} = newUser
-
     // create token
-    const token = generateToken({_id, phoneNumber})
+    const token = generateToken(newUser._id)
     res.cookie('tigerToken', token, {
       httpOnly: true,
       expires: new Date(Date.now() + 864e5),

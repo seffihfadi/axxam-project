@@ -5,7 +5,7 @@ const reservationSchema = new Schema({
     type: Types.ObjectId,
     ref: 'Announcement'
   },
-  reviewer: {
+  client: {
     type: Types.ObjectId,
     ref: 'User'
   },
@@ -19,13 +19,9 @@ const reservationSchema = new Schema({
   },
   status: {
     type: String,
-    enum: ['pending', 'accepted', 'rejected'],
+    enum: ['pending', 'accepted', 'rejected', 'cancelled'],
     default: 'pending'
-  },
-  amount: {  // the total that the reserver paied, if rejected the amount back to the reserver
-    type: Number,
-    required: true
-  },
+  }, // the total that the reserver paied, if rejected the amount back to the reserver
   guests: {
     adults: {
       type: Number,
@@ -42,6 +38,10 @@ const reservationSchema = new Schema({
       required: false,
       default: 0
     }
+  }, 
+  paymentDetails: {
+    type: Types.ObjectId,
+    ref: 'Payment'
   }
 
 }, {

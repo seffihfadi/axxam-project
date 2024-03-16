@@ -1,6 +1,8 @@
-import Announcement from './models/Announcement'
+
+import Announcement from '../models/Announcement.js'
 import cloudinary from '../utils/cloudinary.js'
-import getPublicIDFromUrl from '../utils/getPublicIDFromUrl.js'
+import { getPublicIDFromUrl } from '../utils/func.js'
+
 
 export const createAnnouncement = async (req, res) => {
   try {

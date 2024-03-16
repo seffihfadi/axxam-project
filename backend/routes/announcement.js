@@ -10,10 +10,10 @@ import {
 
 const announcementRoutes = express.Router();
 
-userRoutes.post('/create-announcement',access(ROLES.lessor), createAnnouncement);
-userRoutes.patch('/update-announcement/:announcementID',access(ROLES.lessor), updateAnnouncement);
-userRoutes.get('/get-announcement/:announcementID',access(ROLES.all), getAnnouncement);
-userRoutes.delete('/delete-announcement/:announcementID',access(ROLES.lessor), deleteAnnouncement);
+announcementRoutes.post('/create',access(ROLES.lessor), createAnnouncement);
+announcementRoutes.patch('/update/:announcementID',access(ROLES.lessor), updateAnnouncement);
+announcementRoutes.get('/get/:announcementID',access(ROLES.all), getAnnouncement);
+announcementRoutes.delete('/delete/:announcementID',access(ROLES.lessor), deleteAnnouncement);
 
 
 
