@@ -5,12 +5,14 @@ import {
   cancelReservation, 
   getLesseeReservations, 
   getLessorReservations, 
-  getReservation 
+  getReservation,
+  createCheckoutSession
 } from '../controllers/reservation.js'
 import ROLES from '../utils/roles.js'
 
 const reservationRoutes = express.Router()
 
+reservationRoutes.post('/create-checkout-session', access(ROLES.all), createCheckoutSession)
 reservationRoutes.post('/create/:announcementID', access(ROLES.lessor), createReservation)
 reservationRoutes.put('/cancel/:reservationID', access(ROLES.all), cancelReservation)
 reservationRoutes.get('/get/:reservationID', access(ROLES.all), getReservation)

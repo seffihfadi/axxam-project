@@ -1,11 +1,38 @@
 import Announcement from "../models/Announcement.js"
 import Reservation from "../models/Reservation.js"
 import Payment from "../models/Payment.js"
+import moment from 'moment'
 
 import { isValidObjectId } from "mongoose"
-import moment from 'moment'
 import { validateGuests } from "../utils/validation.js"
 import { stripe } from "../utils/stripe.js"
+
+export const createCheckoutSession = async (req, res, next) => {
+  const {line_items} = req.body
+  const domainUrl = process.env.WEB_APP_URL
+  const {_id: clientID} = req.user
+  try {
+    // check all data in reservation.
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      mode: 'payment',
+      line_items,
+      success_url: `${domainUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${domainUrl}/canceled`,
+
+      metadata: { // such as rental period, property ID, or booking reference.
+        // booking_id: "123456",
+        user_id: clientID,
+      },
+    })
+
+    return res.status(200).json({sessionId: session.id})
+    
+  } catch (error) {
+    next(error)
+  }
+}
 
 export const createReservation = async (req, res, next) => {
   const {_id: clientID} = req.user
@@ -60,7 +87,7 @@ export const createReservation = async (req, res, next) => {
     const totalChildrenPrice = basePrice * guests.children * (1 - (announcement.reductions.children / 100))
     const totalInfantsPrice = basePrice * guests.infants * (1 - (announcement.reductions.infants / 100))
 
-    const totalPrice = totalAdultPrice + totalChildrenPrice + totalInfantsPrice;
+    const totalPrice = totalAdultPrice + totalChildrenPrice + totalInfantsPrice
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(totalPrice * 100), 
