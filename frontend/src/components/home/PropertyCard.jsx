@@ -1,9 +1,9 @@
 import React from "react";
 import { FaHeart } from "react-icons/fa6";
-
+import { Link } from "react-router-dom";
 function PropertyCard({ props }) {
   return (
-    <div className="flex flex-wrap cursor-pointer">
+    <div className="flex flex-wrap cursor-pointer mb-3">
       <div className="w-full mb-2 relative overflow-hidden rounded-2xl">
         <img
           src={props.image}
@@ -13,14 +13,13 @@ function PropertyCard({ props }) {
       </div>
       <div className="flex justify-between w-full">
         <div>
-          <span className="font-semibold">{props.location}</span>
+          <span className="font-semibold dark:text-gray-200">{props.location}</span>
           <br />
-          <span className="text-[#6D6D6D] text-[14px] font-light">
+          <span className="text-secondary dark:text-gray-200 text-[14px] font-light block mb-2 leading-6">
             {props.description}
             <br />
             {props.date}
           </span>
-          <br />
           <span>{props.price} DZD/night</span>
         </div>
         <div>

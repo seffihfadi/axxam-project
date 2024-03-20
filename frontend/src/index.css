@@ -54,9 +54,7 @@ body {
   animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
   stroke-linecap: round;
 }
-.container {
-  @apply max-w-6xl
-}
+
 .container > div:not(.loading) {
   opacity: 0;
   transform: translateY(20px);
@@ -164,22 +162,6 @@ button.secondary {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .headerSearchText {
   cursor : pointer;
  
@@ -223,42 +205,6 @@ button.secondary {
     
   }
  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* .user .img.sm {

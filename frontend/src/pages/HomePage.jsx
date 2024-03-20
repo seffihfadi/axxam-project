@@ -16,11 +16,9 @@ const HomePage = () => {
   
   return (
     <>
-    <Header/>
     <SearchBar/>
     <Filters/>
     <Properties/>
-    <Footer/>
     </>
   )
 }
