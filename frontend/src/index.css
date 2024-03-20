@@ -55,6 +55,10 @@ body {
   stroke-linecap: round;
 }
 
+.container {
+  @apply max-w-6xl
+}
+
 .container > div:not(.loading) {
   opacity: 0;
   transform: translateY(20px);
@@ -103,7 +107,10 @@ button:disabled {
 }
 
 button.primary {
-  @apply px-7 py-2.5 rounded-lg bg-primary text-white font-semibold w-fit;
+  @apply px-6 py-2 rounded-lg bg-primary text-white font-semibold w-fit;
+}
+button.secondary-sq {
+  @apply px-6 py-2 rounded-lg bg-white text-black font-semibold border-[1px] w-fit border-black;
 }
 
 section.landing {
@@ -120,7 +127,7 @@ img {
   @apply text-secondary w-full px-4 py-2 border-l-4 border-primary my-4;
 }
 button.secondary {
-  @apply rounded-full border-[1px] border-black px-7 py-2.5 w-fit;
+  @apply rounded-full border-[1px] border-black px-7 py-2 w-fit;
 }
 
 .user {
@@ -183,30 +190,33 @@ button.secondary {
 .arrow{
   @apply flex  items-center gap-[2px]
 }
-.singleInput{
-  .iconDiv{
 
-    padding: 5px 1px ;
-    border-radius: 3rem;
-   
-    margin-right: 1rem;
-    .icon{
-      opacity: .7;
+.singleInput .iconDiv{
 
-    }
-  }
-  .texts{
-    h4{
-      padding-top: 0;
-
-      color: black;
-      font-weight: 700;
-    }
+  padding: 5px 1px ;
+  border-radius: 3rem;
+  margin-right: 1rem;
     
-  }
- }
+}
+ 
+.singleInput .iconDiv .icon{
+  opacity: .7;
 
+}
 
+.texts h4{
+  padding-top: 0;
+  color: black;
+  font-weight: 700;
+}
+
+header nav a {
+  @apply capitalize font-semibold cursor-pointer relative
+}
+
+header nav a:hover:before {
+  @apply w-full h-[3px] bg-primary content-[''] -bottom-5 absolute left-0 rounded-tl-xl rounded-tr-xl animate-bounce
+}
 /* .user .img.sm {
   @apply w-6 h-6 text-sm mr-3
 }
