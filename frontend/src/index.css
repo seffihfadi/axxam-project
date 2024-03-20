@@ -54,9 +54,7 @@ body {
   animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
   stroke-linecap: round;
 }
-.container {
-  @apply max-w-6xl
-}
+
 .container > div:not(.loading) {
   opacity: 0;
   transform: translateY(20px);
@@ -148,6 +146,67 @@ button.secondary {
 .raiting_display img {
   @apply w-7 h-7;
 }
+
+.btn{
+  @apply hover:transform  hover:scale-75
+  transition-all duration-150 ease-in-out  ;
+ }
+ 
+ .brd{
+  @apply hover:border-b-2 hover:border-b-[#0051CB] hover:text-[#0051CB] active:text-[#0051CB] transition-colors duration-200 ;
+ }
+ @layer{
+  .element-center{
+ @apply flex justify-center items-center 
+  }
+}
+
+
+.headerSearchText {
+  cursor : pointer;
+ 
+}
+
+.date {
+  position: absolute;
+  top: 50px;
+  z-index: 2;
+}
+.pd{
+ @apply h-[28px] w-[28px] flex justify-center items-center bg-[#EFEFEF] rounded-md 
+}
+
+.fle{
+  @apply flex justify-center items-center gap-[10px]
+  
+}
+.arrow{
+  @apply flex  items-center gap-[2px]
+}
+.singleInput{
+  .iconDiv{
+
+    padding: 5px 1px ;
+    border-radius: 3rem;
+   
+    margin-right: 1rem;
+    .icon{
+      opacity: .7;
+
+    }
+  }
+  .texts{
+    h4{
+      padding-top: 0;
+
+      color: black;
+      font-weight: 700;
+    }
+    
+  }
+ }
+
+
 /* .user .img.sm {
   @apply w-6 h-6 text-sm mr-3
 }

@@ -94,7 +94,7 @@ function Properties() {
     {
       image: "public/card12.png",
       location: "Seraidi, Annaba",
-      description: "Villa with terrace and swimming pool",
+      description: "Villa with swimming pool",
       date: "Mar 1-6",
       price: "25000,00",
       rating: "5.0",
