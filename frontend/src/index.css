@@ -56,7 +56,8 @@ body {
 }
 
 .container {
-  @apply max-w-6xl
+  @apply lg:max-w-[1250px];
+  @apply px-4
 }
 
 .container > div:not(.loading) {
