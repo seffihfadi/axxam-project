@@ -55,6 +55,11 @@ body {
   stroke-linecap: round;
 }
 
+.container {
+  @apply lg:max-w-[1250px];
+  @apply px-4
+}
+
 .container > div:not(.loading) {
   opacity: 0;
   transform: translateY(20px);
@@ -103,7 +108,10 @@ button:disabled {
 }
 
 button.primary {
-  @apply px-7 py-2.5 rounded-lg bg-primary text-white font-semibold w-fit;
+  @apply px-6 py-2 rounded-lg bg-primary text-white font-semibold w-fit;
+}
+button.secondary-sq {
+  @apply px-6 py-2 rounded-lg bg-white text-black font-semibold border-[1px] w-fit border-black;
 }
 
 section.landing {
@@ -120,7 +128,7 @@ img {
   @apply text-secondary w-full px-4 py-2 border-l-4 border-primary my-4;
 }
 button.secondary {
-  @apply rounded-full border-[1px] border-black px-7 py-2.5 w-fit;
+  @apply rounded-full border-[1px] border-black px-7 py-2 w-fit;
 }
 
 .user {
@@ -145,6 +153,70 @@ button.secondary {
 
 .raiting_display img {
   @apply w-7 h-7;
+}
+
+.btn{
+  @apply hover:transform  hover:scale-75
+  transition-all duration-150 ease-in-out  ;
+ }
+ 
+ .brd{
+  @apply hover:border-b-2 hover:border-b-[#0051CB] hover:text-[#0051CB] active:text-[#0051CB] transition-colors duration-200 ;
+ }
+ @layer{
+  .element-center{
+ @apply flex justify-center items-center 
+  }
+}
+
+
+.headerSearchText {
+  cursor : pointer;
+ 
+}
+
+.date {
+  position: absolute;
+  top: 50px;
+  z-index: 2;
+}
+.pd{
+ @apply h-[28px] w-[28px] flex justify-center items-center bg-[#EFEFEF] rounded-md 
+}
+
+.fle{
+  @apply flex justify-center items-center gap-[10px]
+  
+}
+.arrow{
+  @apply flex  items-center gap-[2px]
+}
+
+.singleInput .iconDiv{
+
+  padding: 5px 1px ;
+  border-radius: 3rem;
+  margin-right: 1rem;
+    
+}
+ 
+.singleInput .iconDiv .icon{
+  opacity: .7;
+
+}
+
+.texts h4{
+  padding-top: 0;
+  color: black;
+  font-weight: 700;
+}
+
+header nav a {
+  @apply capitalize font-semibold cursor-pointer relative
+}
+
+header nav a:hover:before {
+  @apply w-full h-[3px] bg-primary content-[''] -bottom-5 absolute left-0 rounded-tl-xl rounded-tr-xl animate-bounce
 }
 /* .user .img.sm {
   @apply w-6 h-6 text-sm mr-3
@@ -297,4 +369,18 @@ p.link a{
     opacity: 0;
   }
 }
-
+.stars  img {
+  @apply w-4 h-5 ;
+}
+.owner_stars  img {
+  @apply w-7 h-7  absolute;
+}
+.inc_dec_button{
+  @apply w-8 h-8 rounded-full border  border-gray-300 text-center text-gray-300 hover:border-gray-600 hover:text-gray-600;
+}
+.guest_number{
+@apply flex justify-center items-center gap-8 ;
+}
+.elements{
+  @apply flex flex-col items-center mx-4;
+}

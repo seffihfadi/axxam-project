@@ -1,0 +1,6 @@
+const rules = [
+{
+    icon:
+    rule:
+}
+]
