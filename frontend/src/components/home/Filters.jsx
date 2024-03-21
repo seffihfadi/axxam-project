@@ -64,7 +64,7 @@ function Filters() {
   }
 
   return (
-    <div className="relative container" id="filters">
+    <div className="relative container mt-6" id="filters">
       <div
         className="w-full mx-auto py-2 md:py-3 rounded-3xl flex justify-between align-middle overflow-x-auto shadow-md scrollbar-hide gap-5 md:gap-1 scroll-smooth border-[1px] border-gray-200 font-light text-[14px] md:text-[16px]"
         ref={elementRef}

@@ -94,7 +94,7 @@ export const verifyOTP = async (req, res, next) => {
     if (user.isCompleted) {
       // create token
       const {_id, phone} = user
-      const token = generateToken({_id, phone})
+      const token = generateToken(_id)
       res.cookie('tigerToken', token, {
         httpOnly: true,
         expires: new Date(Date.now() + 864e5),
@@ -115,8 +115,8 @@ export const verifyOTP = async (req, res, next) => {
 }
 
 
-const generateToken = ({userID, phone}) => {
-  return jwt.sign({userID, phone}, process.env.JWT_SECRET, {expiresIn: '1d'})
+const generateToken = (userID) => {
+  return jwt.sign({userID}, process.env.JWT_SECRET, {expiresIn: '1d'})
 }
 
 export const signupUser = async (req, res, next) => {
@@ -153,11 +153,8 @@ export const signupUser = async (req, res, next) => {
       throw new Error('an error was accured, please try later.')
     }
 
-
-    const {_id, phone: phoneNumber} = newUser
-
     // create token
-    const token = generateToken({_id, phoneNumber})
+    const token = generateToken(newUser._id)
     res.cookie('tigerToken', token, {
       httpOnly: true,
       expires: new Date(Date.now() + 864e5),
@@ -185,6 +182,89 @@ export const signoutUser = async (req, res, next) => {
     next(err)
   }
 
+}
+
+
+
+
+/// update the main info:
+export const updateUserMain = async (req, res ,next) => {
+  const {newFullname, newBirthDate, newAvatar} = req.body
+  const {_id: sessionID} = req.user
+  const {userID} = req.params
+
+  try {
+    if( sessionID.toString() !== userID.toString()){
+      res.status(401)
+      throw new error('you can\'t update this account.')
+    }
+
+    const user = await User.findOne({sessionID})
+    if(!user){
+      res.status(400)
+      throw new error ('user not found')
+    }
+    const updatedDoc = {
+      fullName : newFullname || user.fullName,
+      birthDate : newBirthDate || user.birthDate
+    }   
+    if (newAvatar !== '') {
+      const {secure_url: url} = await cloudinary.uploader.upload(newAvatar, {
+        folder: "Zoquix",
+      })
+      updatedDoc.avatar = url
+    }
+    
+    const updatedUser = await User.findByIdAndUpdate(sessionID, updatedDoc)
+    if (!updatedUser) {
+      res.status(500)
+      throw new Error('failed to update profile')
+    }
+    return res.status(200).json({message: 'updated successfuly'})
+    }catch(err){
+      next(err)
+    }
+  }
+
+
+// update the secondary info :
+export const updateUserAdditional = async (req, res ,next) => {
+  const {newBio, newGender, newLivesIn} = req.body
+  const {_id: sessionID , extra : userDetailsID} = req.user
+  const {userID} = req.params
+
+  try {
+  const user = await User.findOne({sessionID})
+  if(!user){
+    res.status(400)
+    throw new error('user do not exist')
+  }
+
+  if(sessionID.toString() !== userID.toString()){
+    res.status(401)
+      throw new error('you can\'t update this account.')
+    }
+    let userDetails = await UserExtraDetails.findById(userDetailsID)
+    if(!userDetails){
+      res.status(400)
+      throw new error('details does not exist')
+    }
+
+    const updatedDoc = {
+      bio : newBio || userDetails.bio,
+      gender : newGender || userDetails.gender,
+      livesIn : newLivesIn || userDetails.livesIn 
+    }  
+
+    const updatedUser = await UserExtraDetails.findByIdAndUpdate(userDetailsID, updatedDoc)
+    if (!updatedUser) {
+      res.status(500)
+      throw new Error('failed to update profile')
+    }
+    return res.status(200).json({message: 'updated successfuly'})
+  }catch(err){
+    next(err)
+  }
 }
 
 
