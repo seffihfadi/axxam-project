@@ -34,40 +34,6 @@ body {
   padding-top: 100%;
 }
 
-#hero {
-  position: relative;
-}
-
-main {
-  overflow: hidden;
-}
-#hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  left: 50%;
-  transform: translatex(-50%);
-  height: inherit;
-  width: 100vw;
-  background-image: url("/bg2.jpg");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-#hero::after {
-  position: absolute;
-  content: "";
-  inset: 0;
-  left: 50%;
-  transform: translatex(-50%);
-  height: inherit;
-  width: 100vw;
-  background-color: #1d1d1dda;
-}
-
-
-
 .circular {
   -webkit-animation: rotate 2s linear infinite;
   animation: rotate 2s linear infinite;
@@ -137,15 +103,7 @@ button:disabled {
   @apply w-full flex-col absolute top-16 left-0 h-[calc(100vh-4rem)] z-10 bg-[#1d1d1dda] flex justify-center items-center;
 }
 
-.backdrop {
-  @apply w-full flex-col absolute top-16 left-0 h-[calc(100vh-4rem)] z-10 bg-[#1d1d1dda] flex justify-center items-center;
-}
-
 .backdrop * {
-  @apply text-white leading-normal;
-}
-
-.hero-content * {
   @apply text-white leading-normal;
 }
 
@@ -198,7 +156,8 @@ button.secondary {
 }
 
 .btn{
-  @apply w-[100px] h-[30px]     lg:w-[130px] lg:h-[40px]  element-center font-medium  rounded-[10px]  ;
+  @apply hover:transform  hover:scale-75
+  transition-all duration-150 ease-in-out  ;
  }
  
  .brd{
@@ -216,6 +175,11 @@ button.secondary {
  
 }
 
+.date {
+  position: absolute;
+  top: 50px;
+  z-index: 2;
+}
 .pd{
  @apply h-[28px] w-[28px] flex justify-center items-center bg-[#EFEFEF] rounded-md 
 }
@@ -228,28 +192,25 @@ button.secondary {
   @apply flex  items-center gap-[2px]
 }
 
-
-.iconDiv{
+.singleInput .iconDiv{
 
   padding: 5px 1px ;
   border-radius: 3rem;
- 
   margin-right: 1rem;
-  color: black;
-
-  
-}
-
-  .titre{
-    font-weight: 700;
-    color: black;
-    padding-top: 0px;
     
-  }
-  
-.select-slc {
-  @apply m-1.5 ml-[28px] whitespace-nowrap;
 }
+ 
+.singleInput .iconDiv .icon{
+  opacity: .7;
+
+}
+
+.texts h4{
+  padding-top: 0;
+  color: black;
+  font-weight: 700;
+}
+
 header nav a {
   @apply capitalize font-semibold cursor-pointer relative
 }
@@ -408,61 +369,4 @@ p.link a{
     opacity: 0;
   }
 }
-@media screen and (max-width: 420px) {
-  .date {
-    left: -1.5rem;
-  }
-}
-@media screen and (max-width: 360px) {
-  .date {
-    left: -2.5rem;
-    top: -6.5rem;
-    transform: scale(0.9);
-  }
-}
-@media screen and (max-width: 320px) {
-  .headerSearchText {
-    font-size: 0.9rem;
-  }
-  .container {
-    padding: 0 1rem !important;
-  }
-  .date {
-    left: -2.5rem;
-    top: -7.5rem;
-    transform: scale(0.8);
-  }
-}
-@media screen and (max-width: 300px) {
-  .headerSearchText {
-    font-size: 0.85rem;
-  }
-  .date {
-    left: -3rem;
-    top: -8.8rem;
-    transform: scale(0.7);
-  }
-}
-@media screen and (max-width: 280px) {
-  .headerSearchText {
-    font-size: 0.8rem;
-  }
-  .date {
-    left: -4rem;
-    top: -8.8rem;
-    transform: scale(0.7);
-  }
-}
-@media screen and (max-width: 250px) {
-  .headerSearchText {
-    font-size: 0.75rem;
-  }
-  .date {
-    left: -4.5rem;
-    top: -8.8rem;
-    transform: scale(0.7);
-  }
-}
-
-
 

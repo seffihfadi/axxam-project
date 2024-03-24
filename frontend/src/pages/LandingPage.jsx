@@ -2,7 +2,7 @@ import HeroSection from "../components/landing/HeroSection"
 import SectionOne from "../components/landing/SectionOne"
 import SectionTwo from "../components/landing/SectionTwo"
 import Testomonials from "../components/landing/Testomonials"
-import Features from "../components/landing/Features"
+
 const LandingPage = () => {
   const sectionOne = {
     imgUrl1: '/bg4.jpg',
@@ -41,7 +41,6 @@ const LandingPage = () => {
   return (
     <>
       <HeroSection />
-      <Features />
       <SectionOne data={sectionOne} />
       <SectionOne data={sectionTwo} rtl />
       <SectionTwo data={sectionThree} />
