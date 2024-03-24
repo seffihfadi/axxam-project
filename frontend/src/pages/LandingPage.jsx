@@ -1,3 +1,4 @@
+import Features from "../components/landing/Features"
 import HeroSection from "../components/landing/HeroSection"
 import SectionOne from "../components/landing/SectionOne"
 import SectionTwo from "../components/landing/SectionTwo"
@@ -41,6 +42,7 @@ const LandingPage = () => {
   return (
     <>
       <HeroSection />
+      <Features />  
       <SectionOne data={sectionOne} />
       <SectionOne data={sectionTwo} rtl />
       <SectionTwo data={sectionThree} />
