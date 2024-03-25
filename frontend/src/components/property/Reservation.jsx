@@ -85,7 +85,7 @@ function Reservation({rules}) {
         </div>
         {/*guests sect*/}
         {isChevronUp  && (  
-        <div className='border  border-gray-400 w-full lg:w-[85%] p-7 rounded-3xl absolute top-[100%] left-[50%] translate-x-[-50%] z-10 bg-whitemode flex flex-wrap gap-2 justify-end'>
+        <div className='border  border-gray-400 w-full p-7 rounded-3xl absolute top-[100%] left-[50%] translate-x-[-50%] z-10 bg-whitemode flex flex-wrap gap-2 justify-end'>
           <div className='grid grid-cols-[2fr,1fr]  overflow-hidden'>
             <div className='flex  flex-col gap-10 ' >
               {guests.map((Guest) => (

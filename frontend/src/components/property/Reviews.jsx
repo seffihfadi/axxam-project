@@ -30,8 +30,8 @@ export default function Reviews() {
   <div className='container'>
     <div className='border-t border-t-gray-300 py-10 my-5'>
       <div className='flex  justify-between'>
-       <h1 className='font-bold text-xl my-4'>Reviews</h1>
-       <button className='border border-gray-300 rounded-3xl shadow-md bg-whitemode  h-[35px] px-5'>Show All </button>
+        <h1 className='font-bold text-xl my-4'>Reviews</h1>
+        <button className='border border-gray-300 rounded-3xl shadow-md bg-whitemode  h-[35px] px-5'>Show All </button>
       </div>
       <Review users={users}/>
    </div>

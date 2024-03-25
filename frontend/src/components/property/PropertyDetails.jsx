@@ -4,7 +4,7 @@ import Host from './Host';
 import Reservation from "./Reservation";
 function PropertyDetails({data,rules,offers,owner}){
   return (
-  <div className='mb-10 mt-28  container'>
+  <div className='mb-5 mt-28 container'>
     <div className='flex justify-between my-5 gap-1'>
       <h1 className='text-xl md:text-2xl  font-bold'>{data.accommodation_title}</h1>
       <div className='flex  items-center text-lg md:text-xl hover:cursor-pointer '> 
@@ -44,11 +44,11 @@ function PropertyDetails({data,rules,offers,owner}){
         </div>
       </div>
       {/*rulessect*/}
-      <div className='my-10 w-[90%] border-b border-gray-300 pb-5 '>
+      <div className='my-10 w-[90%] border-b border-gray-300 pb-5 lg:pb-10 '>
         <h1 className='font-bold text-lg md:text-xl my-4'>House Rules:</h1>
         <div className='flex flex-wrap flex-col  max-h-[200px] gap-1'>
         {rules.map((rule) => ( 
-          <div className='flex gap-2 py-1 items-center md:text-lg'> 
+          <div className='flex gap-2 py-1 items-center md:text-[17px]'> 
             {Object.values(rule)} 
           </div> 
         ))}    
@@ -57,7 +57,7 @@ function PropertyDetails({data,rules,offers,owner}){
       {/*offersect*/}
       <div className='my-10  w-[90%] border-b lg:border-none border-gray-300 pb-5 lg:pb-0'>
       <h1 className='font-bold text-lg md:text-xl my-4'>What this place offers:</h1>
-      <div className='flex flex-wrap flex-col gap-1 max-h-[200px] md:text-lg'>
+      <div className='flex flex-wrap flex-col gap-1 max-h-[200px] md:text-[17px]'>
         {Object.entries(offers).map(([offerName, icon]) => ( 
           <div key={offerName} className='flex gap-2 py-1 items-center'> 
             {icon}

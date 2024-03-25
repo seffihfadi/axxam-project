@@ -3,7 +3,7 @@ import RatingDisplay from '../common/RaitingDisplay'
 function Host({owner}) {
   return (
     <div className='my-9 md:w-[85%] md:h-[90px] border border-gray-300 rounded-3xl'>
-        <div className=" py-4 px-5 flex justify-between items-start md:items-center flex-col md:flex-row gap-5">
+        <div className="h-full py-4 px-5 flex justify-between items-start md:items-center flex-col md:flex-row gap-5">
           <div className="user  ">
             <div className=" img">
               <img src={owner.picture} alt="owner" />

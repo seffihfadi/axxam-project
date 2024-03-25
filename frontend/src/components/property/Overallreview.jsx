@@ -6,8 +6,6 @@ import { MdOutlineCleaningServices } from 'react-icons/md';
 
 function Overallreview({owner, ratingPercentage}) {
 
-  const five = 50;
-
   return (
     <div className='container'>
       <div className='my-5 pt-8 w-full border-t  border-t-gray-300 flex flex-col justify-between items-center gap-4 lg:gap-8'>
@@ -41,7 +39,7 @@ function Overallreview({owner, ratingPercentage}) {
           </div>
           <div className='elements '>
             <div className='flex flex-col gap-4'>
-              <div className='flex flex-col gap-1 text-lg'>
+              <div className='flex flex-col gap-1 md:text-lg'>
                 <h1>Cleanliness</h1>
                 <p className='font-semibold'>{owner.cleanliness_rate}</p>
               </div>
@@ -50,7 +48,7 @@ function Overallreview({owner, ratingPercentage}) {
           </div>
           <div className='elements'>
             <div className='flex flex-col gap-4'>
-              <div className='flex flex-col gap-1 text-lg'>
+              <div className='flex flex-col gap-1 md:text-lg'>
                 <h1>Communication</h1>
                 <p className='font-semibold'>{owner.communication_rate}</p>
               </div>
@@ -59,7 +57,7 @@ function Overallreview({owner, ratingPercentage}) {
           </div>
           <div className='elements'>
             <div className='flex flex-col gap-4'>
-              <div className='flex flex-col gap-1 text-lg'>
+              <div className='flex flex-col gap-1 md:text-lg'>
                 <h1>Location</h1>
                 <p className='font-semibold'>{owner.location_rate}</p>
               </div>
