@@ -1,11 +1,10 @@
 import { IoMdTime } from "react-icons/io";
 import { GoPeople } from "react-icons/go";
 import { TbSmokingNo, TbBalloonOff } from "react-icons/tb";
-import { MdOutlinePets } from "react-icons/md";
 
 export const Rules = [
   {
-    icon: <GoPeople />,
+    icon: <IoMdTime />,
     check_in: "Check-in after 3 PM",
   },
   {
@@ -23,13 +22,5 @@ export const Rules = [
   {
     icon: <TbBalloonOff />,
     parties: "No parties or events",
-  },
-  {
-    icon: <MdOutlinePets/> ,
-    pets: "No pets & animals allowed"
-  },
-  {
-    icon: <MdOutlinePets/> ,
-    pets: "No pets & animals allowed"
   },
 ];
