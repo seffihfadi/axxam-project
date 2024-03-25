@@ -5,9 +5,10 @@ import {
   FaRegSnowflake,
   FaSkiing,
   FaCaravan,
+  FaDesktop
 } from "react-icons/fa";
 import { FaDumbbell, FaCampground } from "react-icons/fa6";
-import { GiBarbecue, GiDesk } from "react-icons/gi";
+import { GiBarbecue } from "react-icons/gi";
 import { PiCactusFill } from "react-icons/pi";
 
 function Filters() {
@@ -36,7 +37,7 @@ function Filters() {
     },
     {
       name: "Office",
-      icon: <GiDesk />,
+      icon: <FaDesktop />,
     },
     {
       name: "Camping",

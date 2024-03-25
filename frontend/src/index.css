@@ -470,5 +470,30 @@ main {
   }
 }
 
+.stars img {
+  @apply w-4 h-5;
+}
+.owner_stars img {
+  @apply w-7 h-7  absolute;
+}
+.inc_dec_button {
+  @apply w-8 h-8 rounded-full border  border-gray-300 text-center text-gray-300 hover:border-gray-600 hover:text-gray-600;
+}
+.guest_number {
+  @apply flex justify-center items-center gap-8;
+}
+.elements {
+  @apply flex flex-col px-8 md:text-lg lg:text-2xl;
+}
+.elements:not(:last-child) {
+  @apply border-r-[1px] border-gray-300;
+}
 
+/*property details page picture section*/
+.picture-section {
+  @apply flex gap-5 md:rounded-3xl md:overflow-hidden my-5 overflow-x-auto scrollbar-hide;
+}
 
+.picture-section .img {
+  @apply max-w-sm md:max-w-full rounded-lg md:rounded-none;
+}
