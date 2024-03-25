@@ -1,13 +1,14 @@
 import PropertyDetails from '../components/property/PropertyDetails'
-import { IoMdTime,IoIosSnow} from "react-icons/io";
-import { GiBarbecue } from "react-icons/gi";
-import { GoPeople} from "react-icons/go";
-import {FaCar,FaBath,FaWifi, FaSnowflake,FaDesktop} from "react-icons/fa";
-import {FaDumbbell} from "react-icons/fa6";
-import { TbSmokingNo,TbBalloonOff,TbPiano} from "react-icons/tb";
+
+
+import { Rules } from '../components/common/Rules';
+import { amenities } from '../components/common/Ameneties';
+
 import Reviews from '../components/property/Reviews';
 import Overallreview from '../components/property/Overallreview';
 import PropertyMap from '../components/property/PropertyMap'
+import Header from '../components/common/Header';
+import Footer from '../components/common/Footer';
 const PropertyPage = () => {
     {/*PropertDetails */}
     const card = 
@@ -34,59 +35,54 @@ const PropertyPage = () => {
       location_rate: "5.0",
       neighbours_rate: "5.0",
       cleanliness_rate: "5.0",
-      picture: "../../../public/bg4.jpg"
+      picture: "/public/bg4.jpg"
     };
-  
-    const rules= [
-      { icon:<IoMdTime/>,
-        check_in:"Check-in after 3 PM"
-      },
-      { icon:<IoMdTime/>,
-        check_out:"Check-out 12 PM"
-      },
-      { icon:<GoPeople/>,
-        max_guest:"10 Guests maximum "
-      },  
+    
+    const propertyPosition = [36.75694627456025, 2.8524488210678105]
+    
+    const propertyRules = [Rules[0], Rules[1], Rules[2], Rules[3],Rules[4]];
+
+    const propertyAmenities = {
+      Hot_tub: amenities.Hot_tub,
+      Air_conditioning: amenities.Air_conditioning,
+      Wifi: amenities.Wifi,
+      Gym: amenities.Gym,
+      Workspace: amenities.Workspace,
+      Parking: amenities.Parking,
+      Beach_Access: amenities.Beach_Access
+    }
+
+    const ratingPercentage = [
       {
-       icon:<TbSmokingNo/>,
-       smoking:"No smoking"
+        number : '5',
+        perc : 65
       },
       {
-      icon:<TbBalloonOff/>,
-      parties:"No parties or events"
+        number : '4',
+        perc : 20
       },
-     ]
-    const offers= [
-      {icon:<FaBath/>,
-       offer:"Hot tub" 
+      {
+        number : '3',
+        perc : 10
       },
-      { icon:<FaSnowflake/>,
-        offer:"Air conditioning"
+      {
+        number : '2',
+        perc : 5
       },
-      { icon:<FaWifi/>,
-        offer:"Wifi"
-      },
-      { icon:<TbPiano/>,
-        offer:"Piano"
-      },
-      {icon:<FaDumbbell/>,
-        offer:"Gym"  
-      },
-     {icon:<FaDesktop/>,
-      offer:"Workspace"
-      },
-     { icon:<FaCar/>,
-      offer:"Parking",
-     },
-     { icon:<GiBarbecue/>,
-     offer:"BBQ Grill"
-     }]
+      {
+        number : '1',
+        perc : 0
+      }
+    ]
+
   return (
     <>
-    <PropertyDetails data={card} rules={rules} offers={offers} owner={owner}/>
-    <Overallreview owner={owner}/>
+    <Header/>
+    <PropertyDetails data={card} rules={propertyRules} offers={propertyAmenities} owner={owner}/>
+    <Overallreview owner={owner} ratingPercentage={ratingPercentage}/>
     <Reviews />
-    <PropertyMap/>
+    <PropertyMap position = {propertyPosition}/>
+    <Footer/>
     </>
   )
 }

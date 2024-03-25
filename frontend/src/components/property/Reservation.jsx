@@ -9,7 +9,7 @@ function Reservation({rules}) {
   const [adults, setAdults] = useState(1);
   const [children, setChildren] = useState(0);
   const [infants, setInfants] = useState(0);
-  const [total, setTotal] = useState();
+  const [total, setTotal] = useState(1);
   const [date,setDate]=useState(false);
   const [calendar, setCalendar] = useState([
     {
@@ -29,9 +29,11 @@ function Reservation({rules}) {
   }, [adults, children, infants]);
 
   const incrementCounter = (type) => {
+    if (total < parseInt(rules[2].max_guest.replace(/\D/g, ""))) { 
     setAdults(type === 'adult' ? adults + 1 : adults);
     setChildren(type === 'child' ? children + 1 : children);
-    setInfants(type === 'infant' ? infants + 1 : infants);
+  }
+  setInfants(type === 'infant' ? infants + 1 : infants);
   };
   const decrementCounter = (type) => {
     setAdults(type === 'adult' ? (adults > 1 ? adults - 1 : adults) : adults);
@@ -52,80 +54,80 @@ function Reservation({rules}) {
       age:"Under 2"
     }]
   return (
-    <div className=' p-7 sticky top-10 my-3 border w-full h-[46%]  border-gray-200  rounded-3xl shadow-md shadow-gray-400 flex flex-col gap-3 '>
+    <div className='mx-auto lg:mx-0 p-7 lg:sticky lg:top-24 my-3 border w-full md:w-1/2 lg:w-full lg:h-[46%]  border-gray-200  rounded-3xl shadow-md shadow-gray-400 flex flex-col gap-3'>
       <div className='pb-4'>
         <span className='mr-2 font-semibold'>30000,00 DA</span>
         <span className='text-gray-600'>night</span>
       </div>
-      <div className='grid grid-cols-1  border  border-gray-400 h-[30%] rounded-2xl cursor-pointer'>
-         <div className='grid grid-cols-2' onClick={add_date}>
-        <div class=' border-r border-r-gray-400  relative'>
-          <p className='text-[12px] font-medium absolute top-3 left-5'>Check-in</p>
-          <p className='text-[14px] text-gray-600 absolute top-7 left-5'>{`${format(calendar[0].startDate, "dd/MM/yyyy ")}`}</p>
+      <div className='grid grid-cols-1  border  border-gray-400 h-full md:h-[30%] rounded-2xl cursor-pointer relative'>
+        <div className='grid grid-cols-2' onClick={add_date}>
+        <div class=' border-r border-r-gray-400 flex justify-center items-start flex-col pl-4 py-3 lg:py-2'>
+          <p className='text-xs font-medium'>Check-in</p>
+          <p className='text-sm text-gray-600'>{`${format(calendar[0].startDate, "dd/MM/yyyy ")}`}</p>
         </div>
-        <div class=' border-l  border-l-gray-400 relative '>
-          <p className='text-[12px] font-medium absolute top-3 left-5'>Checkout</p>
-          <p className='text-[14px] text-gray-600 absolute top-7 left-5'>{`${format(calendar[0].endDate, "dd/MM/yyyy ")}`}</p>
+        <div class=' border-l  border-l-gray-400 flex justify-center items-start flex-col pl-4 py-3 lg:py-2'>
+          <p className='text-xs font-medium'>Checkout</p>
+          <p className='text-sm text-gray-600'>{`${format(calendar[0].endDate, "dd/MM/yyyy ")}`}</p>
         </div>
         </div>
         {/*calendar sect */}
-        {date && <div className=' absolute  z-50 bottom-[-10%] left-[7%] '><DateRange
+        {date && <div className=' absolute z-50 bottom-[50%] left-[50%] translate-x-[-50%] h-0'><DateRange
             editableDateInputs={true}
             onChange={item => setCalendar([item.selection])}
             moveRangeOnFirstSelection={false}
-           ranges={calendar}
+            ranges={calendar}
         /> </div>}
-         <div class='col-span-2 w-full border-t  border-t-gray-400 relative  ' onClick={toggleChevron} >
-          <p className='text-[12px] font-medium absolute top-3 left-5'>Guests</p>
-          <p className='text-[14px] text-gray-600 absolute top-7 left-5'>{total} guest{total>1 && <span>s</span>}</p>
+        <div class='col-span-2 w-full border-t  border-t-gray-400 relative flex flex-col justify-center items-start pl-4 py-3 lg:py-2' onClick={toggleChevron} >
+          <p className='text-xs font-medium'>Guests</p>
+          <p className='text-sm text-gray-600'>{total} guest{total>1 && <span>s</span>}</p>
           <div className='absolute right-5 top-5'>
           {isChevronUp ? <FaChevronUp /> : <FaChevronDown />}</div>
         </div>
-       {/*guests sect*/}
+        {/*guests sect*/}
         {isChevronUp  && (  
-        <div className='border  border-gray-400 h-[75%] w-[85%]  p-7 rounded-3xl absolute top-[43%] - z-10 bg-whitemode flex flex-wrap gap-2 justify-end  '>
-          <div className='grid grid-cols-[2fr,1fr]  overflow-hidden  '>
+        <div className='border  border-gray-400 w-full lg:w-[85%] p-7 rounded-3xl absolute top-[100%] left-[50%] translate-x-[-50%] z-10 bg-whitemode flex flex-wrap gap-2 justify-end'>
+          <div className='grid grid-cols-[2fr,1fr]  overflow-hidden'>
             <div className='flex  flex-col gap-10 ' >
               {guests.map((Guest) => (
                 <div>
-                  <p className='font-semibold text-[16px]'>{Guest.guest}</p>
+                  <p className='font-semibold'>{Guest.guest}</p>
                   <p className=' text-gray-600 text-[13px]'>{Guest.age}</p>
                 </div>))}
             </div> 
-            <div className='flex flex-col gap-12  p-1 w-[100%]  '  >
+            <div className='flex flex-col gap-12 p-1 w-full'  >
               <div className=' guest_number  '>
                 <button onClick={()=>{decrementCounter("adult");Total()}} className='inc_dec_button '>-</button>
-                {adults}
+                <span className='w-2'>{adults}</span>
                 <button onClick={()=>{incrementCounter("adult") ;Total()}} className='inc_dec_button'>+</button>
               </div>
               <div className=' guest_number'>
                 <button onClick={()=>{decrementCounter("child");Total()}} className='inc_dec_button'>-</button>
-                 {children}
+                <span className='w-2'>{children}</span>
                 <button onClick={()=>{incrementCounter("child");Total()}} className='inc_dec_button'>+</button>
               </div>
               <div className='guest_number'>
                 <button onClick={()=>{decrementCounter("infant");Total()}} className='inc_dec_button'>-</button>
-                {infants}
+                <span className='w-2'>{infants}</span>
                 <button onClick={()=>{incrementCounter("infant");Total()}} className='inc_dec_button'>+</button>
               </div>
             </div>
           </div>
-          <div className='text-[13px] text-gray-600 py-3 '>This place has {rules[2].max_guest},  not including infants.</div>
-          <div onClick={toggleChevron} className='text-primary underline underline-offset-1 text-end  ' >Close </div>
-       </div>)}
-     </div>
-     <button className='flex  justify-center items-center border cursor-pointer h-[14%] rounded-2xl  text-white bg-primary font-semibold text-20'>Reserve</button>
-     <div className='flex justify-center  text-gray-600 pb-3'>You won't be charged yet</div>
-     <div className='flex justify-between font-medium  before:h-[1px] before:w-full before:bg-gray-300  before:absolute relative before:bottom-[-35px] '>
+          <div className='text-[13px] text-gray-600 py-3'>This place has {rules[2].max_guest},  not including infants.</div>
+          <div onClick={toggleChevron} className='text-primary underline underline-offset-1 text-end' >Close </div>
+        </div>)}
+      </div>
+      <button className='flex  justify-center items-center border cursor-pointer h-[14%] py-4 rounded-2xl  text-white bg-primary font-semibold'>Reserve</button>
+      <div className='flex justify-center  text-gray-600 pb-3'>You won't be charged yet</div>
+      <div className='flex justify-between font-medium  before:h-[1px] before:w-full before:bg-gray-300  before:absolute relative before:bottom-[-35px] '>
         <h2>30 000 DA X 5 nights</h2>
         <h2>150 000 DA</h2>
-     </div>
-   {/*totalsect*/}
-     <div className='flex justify-between pt-12 font-medium '>
-       <h1 className='font-semibold text-lg'>Total</h1>
-       <h2>150 000 DA</h2>
-     </div>
+      </div>
+    {/*totalsect*/}
+      <div className='flex justify-between items-center mt-12 font-medium'>
+        <h1 className='font-semibold text-lg'>Total</h1>
+        <h2>150 000 DA</h2>
+      </div>
 </div>
- );}
+);}
 
 export default Reservation;

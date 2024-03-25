@@ -1,6 +1,0 @@
-const rules = [
-{
-    icon:
-    rule:
-}
-]

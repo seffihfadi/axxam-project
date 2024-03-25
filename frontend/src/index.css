@@ -57,7 +57,7 @@ body {
 
 .container {
   @apply lg:max-w-[1250px];
-  @apply px-4
+  @apply px-4;
 }
 
 .container > div:not(.loading) {
@@ -89,8 +89,6 @@ body {
 button:disabled {
   @apply animate-pulse;
 }
-
-
 
 .popup {
   @apply w-screen h-screen flex justify-center items-center z-20 absolute top-0 left-0 backdrop-blur-sm;
@@ -135,7 +133,7 @@ button.secondary {
   @apply flex gap-4 justify-center items-center w-fit;
 }
 .user .img {
-  @apply flex-shrink-0 rounded-full w-12 h-12 flex overflow-hidden;
+  @apply flex-shrink-0 rounded-full w-14 h-14 flex overflow-hidden;
 }
 .user .img img {
   @apply object-cover;
@@ -155,24 +153,22 @@ button.secondary {
   @apply w-7 h-7;
 }
 
-.btn{
+.btn {
   @apply hover:transform  hover:scale-75
-  transition-all duration-150 ease-in-out  ;
- }
- 
- .brd{
-  @apply hover:border-b-2 hover:border-b-[#0051CB] hover:text-[#0051CB] active:text-[#0051CB] transition-colors duration-200 ;
- }
- @layer{
-  .element-center{
- @apply flex justify-center items-center 
+  transition-all duration-150 ease-in-out;
+}
+
+.brd {
+  @apply hover:border-b-2 hover:border-b-[#0051CB] hover:text-[#0051CB] active:text-[#0051CB] transition-colors duration-200;
+}
+@layer {
+  .element-center {
+    @apply flex justify-center items-center;
   }
 }
 
-
 .headerSearchText {
-  cursor : pointer;
- 
+  cursor: pointer;
 }
 
 .date {
@@ -180,43 +176,39 @@ button.secondary {
   top: 50px;
   z-index: 2;
 }
-.pd{
- @apply h-[28px] w-[28px] flex justify-center items-center bg-[#EFEFEF] rounded-md 
+.pd {
+  @apply h-[28px] w-[28px] flex justify-center items-center bg-[#EFEFEF] rounded-md;
 }
 
-.fle{
-  @apply flex justify-center items-center gap-[10px]
-  
+.fle {
+  @apply flex justify-center items-center gap-[10px];
 }
-.arrow{
-  @apply flex  items-center gap-[2px]
+.arrow {
+  @apply flex  items-center gap-[2px];
 }
 
-.singleInput .iconDiv{
-
-  padding: 5px 1px ;
+.singleInput .iconDiv {
+  padding: 5px 1px;
   border-radius: 3rem;
   margin-right: 1rem;
-    
-}
- 
-.singleInput .iconDiv .icon{
-  opacity: .7;
-
 }
 
-.texts h4{
+.singleInput .iconDiv .icon {
+  opacity: 0.7;
+}
+
+.texts h4 {
   padding-top: 0;
   color: black;
   font-weight: 700;
 }
 
 header nav a {
-  @apply capitalize font-semibold cursor-pointer relative
+  @apply capitalize font-semibold cursor-pointer relative;
 }
 
 header nav a:hover:before {
-  @apply w-full h-[3px] bg-primary content-[''] -bottom-5 absolute left-0 rounded-tl-xl rounded-tr-xl animate-bounce
+  @apply w-full h-[3px] bg-primary content-[''] -bottom-5 absolute left-0 rounded-tl-xl rounded-tr-xl animate-bounce;
 }
 /* .user .img.sm {
   @apply w-6 h-6 text-sm mr-3
@@ -369,18 +361,30 @@ p.link a{
     opacity: 0;
   }
 }
-.stars  img {
-  @apply w-4 h-5 ;
+.stars img {
+  @apply w-4 h-5;
 }
-.owner_stars  img {
+.owner_stars img {
   @apply w-7 h-7  absolute;
 }
-.inc_dec_button{
+.inc_dec_button {
   @apply w-8 h-8 rounded-full border  border-gray-300 text-center text-gray-300 hover:border-gray-600 hover:text-gray-600;
 }
-.guest_number{
-@apply flex justify-center items-center gap-8 ;
+.guest_number {
+  @apply flex justify-center items-center gap-8;
 }
-.elements{
-  @apply flex flex-col items-center mx-4;
+.elements {
+  @apply flex flex-col px-8 md:text-lg lg:text-2xl;
+}
+.elements:not(:last-child) {
+  @apply border-r-[1px] border-gray-300;
+}
+
+/*property details page picture section*/
+.picture-section {
+  @apply flex gap-5 md:rounded-3xl md:overflow-hidden my-5 overflow-x-auto scrollbar-hide;
+}
+
+.picture-section .img {
+  @apply max-w-sm md:max-w-full rounded-lg md:rounded-none;
 }
