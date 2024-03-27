@@ -9,7 +9,7 @@ import Testomonial from "./Testomonial"
 
 const Testomonials = () => {
   return (
-    <section className='landing grid grid-cols-12 gap-10'>
+    <section className='landing grid grid-cols-12 md:gap-10'>
       <div className='order-2 grid grid-cols-12 gap-4 col-span-12 md:col-span-6'>
         <div className='relative col-span-12'>
 
@@ -32,7 +32,7 @@ const Testomonials = () => {
 
         </div>
       </div>
-      <div className='col-span-12 md:col-span-6 flex flex-col gap-4 justify-center'>
+      <div className='col-span-12 md:col-span-6 flex flex-col gap-4 mb-10 md:mb-0 justify-center'>
         <div className="title">Clients Feedback</div>
         <h2 className='font-semibold text-3xl'>Look What Our Customers Say !</h2>
         <p className='text-secondary text-lg'>Check out our customer’s reviews and go to live an amazing renting  experience.</p>

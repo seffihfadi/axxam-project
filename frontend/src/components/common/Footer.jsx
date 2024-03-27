@@ -4,6 +4,7 @@ import {  FaLinkedin, FaInstagram, FaFacebook , } from "react-icons/fa";
 import { MdOutlineMailOutline } from "react-icons/md"; 
 import { LuMapPin } from "react-icons/lu";
 import { FiPhone } from "react-icons/fi";
+import ThemeToggle from "./ThemeToggle";
 const Footer = () => {
 
   const Menu = ["Home" ,"Our services","Properties", "Contact us"]
@@ -12,7 +13,7 @@ const Footer = () => {
 
   return (
   
-  <footer className="bg-[#EEEEEE] py-8">
+  <footer className="bg-[#EEEEEE] dark:bg-darkmode py-8 dark:border-t-[1px] border-secondary">
     <div className=" mx-auto container">
              <div className="grid md:grid-cols-4 gap-[10px] grid-cols-1 sm:gap-[15px] sm:grid-cols-2   ">
                               <div  className=" flex-col items-start gap-[15px]   ">
@@ -24,6 +25,7 @@ const Footer = () => {
                                             /> 
                                       </a>
                                       <p className=" font-medium text-black mt-[8px] ">Renting real estate <br/> platform.</p>
+                                      <ThemeToggle />
                               </div>
                               <ul className="flex flex-col gap-[15px] w-full md:w-auto  ">
                                       <li className=" font-semibold mb-[22px]  ">Menu</li> 
@@ -69,6 +71,7 @@ const Footer = () => {
                   <Link to='https://www.linkedin.com/'><FaLinkedin size={20} /></Link>
             </li>
            </ul>
+           
       </div>
   </div>
 </footer>);}

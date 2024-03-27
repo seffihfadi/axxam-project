@@ -8,13 +8,18 @@
   font-variation-settings: "FILL" 0, "wght" 200, "GRAD" 0, "opsz" 24;
 }
 
+/* * {
+  @apply text-gray-800 dark:text-white ;
+} */
+
 * {
-  @apply text-gray-800 dark:text-white;
+  @apply text-gray-800 dark:text-white
 }
+
 
 body {
   font-family: "Poppins", sans-serif;
-  @apply dark:text-white dark:bg-darkmode bg-whitemode transition-colors;
+  @apply dark:bg-darkmode transition-colors;
 }
 
 .btn-switch {
@@ -111,7 +116,7 @@ button:disabled {
   @apply text-white leading-normal;
 }
 
-.hero-content * {
+.hero-content h1, .hero-content p{
   @apply text-white leading-normal;
 }
 
