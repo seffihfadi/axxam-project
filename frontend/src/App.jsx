@@ -4,6 +4,7 @@ import ROLES from "./utils/roles";
 
 import PrivateRoute from "./components/common/PrivateRoute";
 import PaymentIntegration from "./components/reservation/PaymentIntegration";
+import OurServices from "./pages/OurServices";
 
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 const LesseeLayout = lazy(() => import("./components/common/LesseeLayout"));
@@ -22,7 +23,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           {/* public routes */}
-          <Route index element={<LandingPage />} />
+          <Route index element={<LandingPage/>} />
           <Route path="/success" element={<SuccessPayment />} />
           <Route path="/canceled" element={<CanceledPayment />} />
           <Route path="/checkout" element={<PaymentIntegration><CheckoutPage /></PaymentIntegration>} />

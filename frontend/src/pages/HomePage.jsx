@@ -16,7 +16,6 @@ const HomePage = () => {
   
   return (
     <>
-    <SearchBar/>
     <Filters/>
     <Properties/>
     </>
