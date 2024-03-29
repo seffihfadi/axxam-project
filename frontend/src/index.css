@@ -121,10 +121,10 @@ button:disabled {
 }
 
 button.primary {
-  @apply px-6 py-2 rounded-lg bg-primary text-white font-semibold w-fit;
+  @apply   rounded-lg bg-primary text-white font-semibold px-2 py-2 w-fit  ;
 }
 button.secondary-sq {
-  @apply px-6 py-2 rounded-lg bg-white text-black font-semibold border-[1px] w-fit border-black;
+  @apply   rounded-lg bg-white text-black font-semibold border-[1px] px-2 py-2 w-fit border-black;
 }
 
 section.landing {
@@ -141,7 +141,7 @@ img {
   @apply text-secondary w-full px-4 py-2 border-l-4 border-primary my-4;
 }
 button.secondary {
-  @apply rounded-full border-[1px] border-black px-7 py-2 w-fit;
+  @apply rounded-full border-[1px] border-black px-7 py-2 w-fit ;
 }
 
 .user {
