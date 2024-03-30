@@ -5,6 +5,7 @@ import {
     createAnnouncement,
     updateAnnouncement,
     getAnnouncement,
+    getAnnouncementForSearch,
     deleteAnnouncement
 } from '../controllers/announcement.js';
 
@@ -13,8 +14,8 @@ const announcementRoutes = express.Router();
 announcementRoutes.post('/create',access(ROLES.lessor), createAnnouncement);
 announcementRoutes.patch('/update/:announcementID',access(ROLES.lessor), updateAnnouncement);
 announcementRoutes.get('/get/:announcementID',access(ROLES.all), getAnnouncement);
+announcementRoutes.get('/search', access(ROLES.all), getAnnouncementForSearch);
 announcementRoutes.delete('/delete/:announcementID',access(ROLES.lessor), deleteAnnouncement);
-
 
 
 export default announcementRoutes

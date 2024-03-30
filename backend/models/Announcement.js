@@ -5,7 +5,6 @@ const announcementSchema = new Schema({
     type: Types.ObjectId,
     ref: 'User'
   },
-
   title: {
     type: String,
     required: true,
@@ -38,22 +37,18 @@ const announcementSchema = new Schema({
     enum: ['small','long'],
     required: true,
   },
-  
   isAvailable: {
     type: Boolean,
     default: true
   },
-
   isVisible: {
     type: Boolean,
     default: true
   },
-
   isColocation: {
     type: Boolean,
     default: false
   },
-
   rules: {
     type: [String],
     validate: {
@@ -68,7 +63,6 @@ const announcementSchema = new Schema({
     required: true,
     min: 1 
   },
-
   tags: {
     type: [String],
     required: true,
@@ -79,9 +73,8 @@ const announcementSchema = new Schema({
       message: props => `The number of tags must be more than 5 and less than 10.`
     },
   },
-
   images: {
-    type: [String],
+    type: [{secure_url: String, public_id: String}],
     required: true,
     validate: {
       validator: function(v) {
@@ -90,7 +83,6 @@ const announcementSchema = new Schema({
       message: props => `The number of images must be more than 5 and less than 15.`
     },
   },
-
   reductions: { /// % persentage
     adults: {
       type: Number,
@@ -111,7 +103,6 @@ const announcementSchema = new Schema({
       max: 100
     }
   }
-
 }, {
   timestamps: true
 })

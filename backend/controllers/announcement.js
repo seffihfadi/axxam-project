@@ -1,53 +1,87 @@
-
 import Announcement from '../models/Announcement.js'
 import cloudinary from '../utils/cloudinary.js'
-import { getPublicIDFromUrl } from '../utils/func.js'
 
 
-export const createAnnouncement = async (req, res) => {
+export const createAnnouncement = async (req, res ,next) => {
   try {
     const {_id: owner} = req.user
-    const { title,
-            desc,
-            price,
-            location,
-            periode,
-            isAvailable,
-            isVisible,
-            isColocation,
-            rules,
-            maxPersons,
-            tags,
-            images,
-            reductions } = req.body
-    const avatars = []
+    // const {userID} = req.params
+    const { title ,
+            desc ,
+            price ,
+            location ,
+            periode ,
+            rules ,
+            maxPersons ,
+            tags , 
+            images , 
+            ...otherData
+            } = req.body
 
-    for (const image of images){
-      const {secure_url: url} = await cloudinary.uploader.upload(image, {
-        folder: "Zoquix"
-    })
-    avatars.push(url)
+
+// verification of properties 
+if(typeof title !== 'string' || title === '' || typeof desc !== 'string' || desc === '' || price === 0 || typeof price !== 'number' || typeof location.name !=='string' || location.name === '' || location.coordinates.length != 2 || !['small','long'].includes(periode) || tags.length > 10  || tags.length < 5 || maxPersons < 1){
+  res.status(400)
+  throw new Error('enter the required information.')
+}
+if(rules !== undefined && rules !== null){
+  if(rules.length > 6){
+    res.status(400)
+    throw new Error('rules must be less than 6')
+  }
+}
+
+const avatars = []
+// verification of images 
+    const imagesFiltered = images.filter((image)=> !['' , null , undefined].includes(image))
+    if(imagesFiltered.length >15 || imagesFiltered.length < 5){
+    // if(imagesFiltered.length >5 || imagesFiltered.length < 3){
+      res.status(400)
+      throw new Error('The number of images must be more than 5 and less than 15.')
     }
 
+// uploading the images 
+    for (const image of imagesFiltered){
+        try{
+          const {secure_url , public_id  } = await cloudinary.uploader.upload(image, {
+          folder: "Zoquix"
+          })
+          avatars.push({secure_url  , public_id})
+        }catch(err){
+          for (const image of avatars){
+            try{
+              await cloudinary.uploader.destroy(image.public_id , {folder : "Zoquix"})
+            }catch(err){
+              next(err)
+            }
+          }
+          const error = new Error ('verify your images')
+          res.status(400)
+          next(error)
+        } 
+    }
+
+// creating an announcement
     const announcement = await Announcement.create({
-      owner,
-      title,
-      desc,
-      price,
-      location,
-      periode,
-      isAvailable,
-      isVisible,
-      isColocation,
-      rules,
-      maxPersons,
-      tags,
-      avatars,
-      reductions
-    })
-    return res.status(200).json({
-      announcement,
-    })
+          // owner : userID,
+          owner,
+          title ,
+          desc ,
+          price ,
+          location ,
+          periode ,
+          rules ,
+          maxPersons ,
+          tags ,
+          ...otherData,
+          images: avatars
+        })
+      
+      
+    if(!announcement){
+      res.status(500).json({error : 'A problem has occurred. Please try again.'})
+    }
+    res.status(201).json({message : 'announcement created'})
   } catch (err) {
     next(err)
   }
@@ -55,68 +89,136 @@ export const createAnnouncement = async (req, res) => {
 
 
 export const updateAnnouncement = async (req, res, next)=>{
+  const {_id: sessionID} = req.user
+  const { newTitle ,
+          newDesc ,
+          newPrice ,
+          newLocation ,
+          newPeriode ,
+          newIsAvailable ,
+          newIsVisible ,
+          newIsColocation , 
+          newRules ,
+          newMaxPersons ,
+          newTags , 
+          newReductions , 
+          newImages // array (can be void)
+        } = req.body
+  const {announcementID} = req.params
 
   try {
-    const {_id: sessionID} = req.user
-    const { newTitle,
-            newDesc,
-            newPrice,
-            newLocation,
-            newPeriode,
-            newIsAvailable,
-            newIsVisible,
-            newIsColocation,
-            newRules,
-            newMaxPersons,
-            newTags,
-            newImages,
-            newReductions } = req.body
-    const {announcementID} = req.params
+    const announcement = await Announcement.findById(announcementID)
+    if(!announcement){
+      res.status(404)
+      throw new Error('not found')
+    }
     
-    if (sessionID.toString() !== announcementID.owner.toString()){
+    if (sessionID.toString() !== announcement.owner.toString()){
       res.status(401)
-      throw error ('Unauthorized')
+      throw new Error ('Unauthorized')
     }
-    const announcement = Announcement.findById({announcementID})
+
+// verification of undefined and null 
+if ([newLocation, newTags, newRules, newImages].some(val => val === undefined || val === null)){
+  res.status(400)
+  throw new Error('enter all informations.')
+}
+// verification of properties 
+if(typeof (newTitle) != 'string' || newTitle == '' ){
+  res.status(400)
+  throw new Error('verify your title.')
+}
+if(  typeof newDesc !== 'string' || newDesc == '' ){
+  res.status(400)
+  throw new Error('verify your description.')
+}
+if( typeof newPrice !== 'number' || newPrice == 0){
+  res.status(400)
+  throw new Error('verify your price.')
+}
+if(typeof newLocation.name !=='string' || newLocation.name == '' || newLocation.coordinates.length != 2 ){
+  res.status(400)
+  throw new Error('verify your location')
+}
+if(!['small','long'].includes(newPeriode) ){
+  res.status(400)
+  throw new Error('verify your periode')
+}
+if(newTags.length > 10  || newTags.length <= 5 ){
+  res.status(400)
+  throw new Error('verify your tags')
+}
+if(typeof newMaxPersons != 'number' || newMaxPersons < 1){
+  res.status(400)
+  throw new Error('verify your max persons')
+}
+if(newRules.length > 6){
+  res.status(400)
+  throw new Error('rules must be less than 6')
+}
+
+    
     const avatars = []
+// this removes the empty strings ,null,undefined images from the newImages array
+    const newImagesFiltered = newImages.filter((image)=> !['' , null , undefined].includes(image))
 
-    if (!!newImages){
+    if ( newImagesFiltered.length > 15 || newImagesFiltered.length < 5 && newImagesFiltered.length !== 0){
+      // if ( newImagesFiltered.length > 6 || newImagesFiltered.length < 3 && newImagesFiltered.length !== 0){
+      res.status(400)
+      throw new Error('The number of images must be more than 5 and less than 15.')
+    }
+      
+    for (const image of newImagesFiltered){
+        try{
+          const {secure_url, public_id } = await cloudinary.uploader.upload(image, {folder: "Zoquix"})
+          avatars.push({secure_url, public_id })
+        }catch(err){
+          for (const avatar of avatars){
+            try{
+              await cloudinary.uploader.destroy(avatar.public_id , {folder : "Zoquix"})
+            }catch(err){
+              next(err)
+            }
+          }
+          const error = new Error ('verify your images')
+          res.status(400)
+          next(error)
+        }
+    }
+
+    if(newImagesFiltered.length !== 0){
       for (const image of announcement.images){
-        const publicIP = getPublicIDFromUrl(image)
-        await cloudinary.uploader.destroy(publicIP , {folder : "Zoquix"})
-      }
-      for (const image of newImages){
-          const {secure_url: url} = await cloudinary.uploader.upload(image, {
-          folder: "Zoquix"
-          })
-          avatars.push(url)
+        try{
+          await cloudinary.uploader.destroy(image.public_id , {folder : "Zoquix"})
+        }catch(err){
+          next(err)
+        }
       }
     }
 
+    
     const updatedAnnouncement = {
-      title : newTitle || announcement.title,
-      desc : newDesc || announcement.desc,
-      price : newPrice || announcement.price,
-      location : newLocation || announcement.location,
-      periode : newPeriode || announcement.periode,
-      isAvailable : newIsAvailable || announcement.isAvailable,
-      isVisible : newIsVisible || announcement.isVisible,
-      isColocation : newIsColocation || announcement.isColocation,
-      rules : newRules || announcement.rules,
-      maxPersons : newMaxPersons || announcement.maxPersons,
-      tags : newTags || announcement.tags,
-      images : avatars || announcement.images,
-      reductions : newReductions || announcement.reductions
+      title : newTitle ,
+      desc : newDesc ,
+      price : newPrice ,
+      location :  newLocation,
+      periode : newPeriode ,
+      isAvailable : newIsAvailable ,
+      isVisible : newIsVisible ,
+      isColocation : newIsColocation ,
+      rules : newRules ,
+      maxPersons : newMaxPersons ,
+      tags : newTags ,
+      images : avatars.length ? avatars : announcement.images ,
+      reductions : newReductions 
     }
 
-    const theAnnouncement = await Announcement.findByIdAndUpdate(announcementID, updatedAnnouncement)
+    const theAnnouncement = await Announcement.findByIdAndUpdate(announcementID, updatedAnnouncement, { new: true})
     if (!theAnnouncement) {
       res.status(500)
       throw new Error('failed to update announcement')
     }
-    return res.status(200).json({
-        theAnnouncement,
-    })
+    return res.status(200).json({message : 'announcement updated'})
   }catch(err){
     next(err)
   }
@@ -124,25 +226,33 @@ export const updateAnnouncement = async (req, res, next)=>{
 
 
 export const deleteAnnouncement = async (req, res, next) =>{
-    const {_id : sessionID} = req.user
-    const {announcementId} = req.params
+  const {_id : sessionID} = req.user
+  const {announcementID} = req.params
 
-  try{
-    const theAnnouncement = await Announcement.findById(announcementId)
-    if (!theAnnouncement) {
-      res.status(404)
-      throw new error('Announcement not found')
-    }
-
-    if (TheAnnouncement.owner.toString() !== sessionID.toString()){
-      res.status(401)
-      throw new error("you can\'t delete this announcement !")
-    }
-    await TheAnnouncement.deleteOne()
-    return res.status(200).json({message: 'announcement deleted'})
-  }catch (err){
-    next(err)
+try{
+  const theAnnouncement = await Announcement.findById(announcementID)
+  if (!theAnnouncement) {
+    res.status(404)
+    throw new Error('Announcement not found')
   }
+
+  if (theAnnouncement.owner.toString() !== sessionID.toString()){
+    res.status(401)
+    throw new Error("Unauthorized")
+  }
+
+  for (const image of theAnnouncement.images){
+    try{
+      await cloudinary.uploader.destroy(image.public_id , {folder : "Zoquix"})
+    }catch(err){
+      next(err)
+    }
+  }
+  await theAnnouncement.deleteOne()
+  return res.status(200).json({message: 'announcement deleted'})
+}catch (err){
+  next(err)
+}
 }
 
 
@@ -152,11 +262,56 @@ export const getAnnouncement = async (req, res, next) => {
   try {
     const announcement = await Announcement.findById(announcementID)
     if (!announcement){
-        res.status(400)
-        throw new error('announcement not found')
+        res.status(404)
+        throw new Error('announcement not found')
     }
-    return res.status(200).json(announcement)
-  } catch (error) {
-    next(error)
+    return res.status(200).json({announcement})
+  } catch (err) {
+    next(err)
+  }
+}
+
+
+export const getAnnouncementForSearch = async (req, res, next) =>{
+  try {
+    const { tags, // string seperated by comas
+            location, // the name of the location
+            lowerPrice, // number
+            higherPrice, // number 
+            periode, // 'small' or 'long'
+            maxPersons, 
+            title, 
+            desc } = req.query
+
+// verfications :
+    if (periode !== 'small' && periode !== 'long') {
+      periode = '';
+    }
+    
+
+
+// building the searchQuery :
+    const searchQuery = { isVisible: true }
+
+    if (tags) searchQuery.tags = { $in: tags.split(',') }
+    if (location) searchQuery.location.name = new RegExp(location, 'i')
+    if (lowerPrice && higherPrice) {
+      searchQuery.price = { $gte: lowerPrice, $lte: higherPrice }
+    } else if (lowerPrice) {
+      searchQuery.price = { $gte: lowerPrice }
+    } else if (higherPrice) {
+      searchQuery.price = { $lte: higherPrice }
+    }
+    if (periode) searchQuery.periode = periode
+    if (maxPersons) searchQuery.maxPersons = maxPersons
+    if (title) searchQuery.title = new RegExp(title, 'i')
+    if (desc) searchQuery.desc = new RegExp(desc, 'i')
+    
+    const resultsCount = await Announcement.countDocuments(searchQuery) 
+    const announcements = await Announcement.find(searchQuery)
+    return res.status(200).json({ announcements, resultsCount})
+  
+  } catch (err) {
+    next(err)
   }
 }

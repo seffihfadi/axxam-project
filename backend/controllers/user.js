@@ -184,79 +184,88 @@ export const signoutUser = async (req, res, next) => {
 
 }
 
-
-
-
-/// update the main info:
 export const updateUserMain = async (req, res ,next) => {
-  const {newFullname, newBirthDate, newAvatar} = req.body
-  const {_id: sessionID} = req.user
-  const {userID} = req.params
+  const {newFullname, newBirthDate, newImage} = req.body
+  const {_id : sessionID} = req.user
+  // const {userID} = req.params
 
   try {
-    if( sessionID.toString() !== userID.toString()){
-      res.status(401)
-      throw new error('you can\'t update this account.')
+    const user = await User.findOne({sessionID})
+    // const user = await User.findById(userID)
+    const userID = user._id
+    if(!user){
+      res.status(404)
+      throw new Error('user not found')
     }
 
-    const user = await User.findOne({sessionID})
-    if(!user){
-      res.status(400)
-      throw new error ('user not found')
+    if( sessionID.toString() !== userID.toString()){
+      res.status(401)
+      throw new Error('UNAUTHORIZED')
     }
+
     const updatedDoc = {
-      fullName : newFullname || user.fullName,
-      birthDate : newBirthDate || user.birthDate
+      fullname : newFullname || user.fullname,
+      birthDate : newBirthDate || user.birthDate,
+      avatar : user.avatar
     }   
-    if (newAvatar !== '') {
-      const {secure_url: url} = await cloudinary.uploader.upload(newAvatar, {
-        folder: "Zoquix",
-      })
+    if (!!newImage) {
+      const {secure_url: url} = await cloudinary.uploader.upload(newImage, {folder: "Zoquix"})
       updatedDoc.avatar = url
     }
     
-    const updatedUser = await User.findByIdAndUpdate(sessionID, updatedDoc)
+    // const updatedUser = await User.findByIdAndUpdate(sessionID, updatedDoc)
+        const updatedUser = await User.findByIdAndUpdate(userID, updatedDoc , { runValidators: true , new: true})
     if (!updatedUser) {
       res.status(500)
       throw new Error('failed to update profile')
     }
-    return res.status(200).json({message: 'updated successfuly'})
+    return res.status(200).json({updatedUser})
     }catch(err){
       next(err)
     }
   }
 
-
-// update the secondary info :
 export const updateUserAdditional = async (req, res ,next) => {
   const {newBio, newGender, newLivesIn} = req.body
   const {_id: sessionID , extra : userDetailsID} = req.user
-  const {userID} = req.params
-
+  // const {userID} = req.params
+  
   try {
-  const user = await User.findOne({sessionID})
-  if(!user){
-    res.status(400)
-    throw new error('user do not exist')
-  }
 
-  if(sessionID.toString() !== userID.toString()){
-    res.status(401)
-      throw new error('you can\'t update this account.')
-    }
-    let userDetails = await UserExtraDetails.findById(userDetailsID)
-    if(!userDetails){
-      res.status(400)
-      throw new error('details does not exist')
+    const user = await User.findById(sessionID)
+
+    if(!user){
+      res.status(404)
+      throw new Error('user not found')
     }
 
-    const updatedDoc = {
-      bio : newBio || userDetails.bio,
-      gender : newGender || userDetails.gender,
-      livesIn : newLivesIn || userDetails.livesIn 
-    }  
+    const userID = user._id
+    if(sessionID.toString() !== userID.toString()){
+      res.status(401)
+      throw new Error('UNAUTHORIZED')
+    }
 
-    const updatedUser = await UserExtraDetails.findByIdAndUpdate(userDetailsID, updatedDoc)
+    // const user = await User.findById(userID)
+    // const userDetailsID = user.extra
+
+    if(!userDetailsID){
+      var updatedUser = await UserExtraDetails.create({bio : newBio, gender : newGender, livesIn : newLivesIn})
+      user.extra = updatedUser._id
+      await User.findByIdAndUpdate(userID , user , {new: true})
+    }else{
+      const userDetailed = await UserExtraDetails.findById(userDetailsID)
+      if(!userDetailed){
+        res.status(404)
+        throw new Error('details not found')
+      }
+      const updatedDoc = {
+        bio : newBio || userDetailed.bio ,
+        gender : newGender || userDetailed.gender ,
+        livesIn : newLivesIn || userDetailed.livesIn 
+      }  
+      var updatedUser = await UserExtraDetails.findByIdAndUpdate(userDetailsID, updatedDoc, {new: true})
+    }
+
     if (!updatedUser) {
       res.status(500)
       throw new Error('failed to update profile')
