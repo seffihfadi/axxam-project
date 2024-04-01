@@ -1,15 +1,16 @@
 import { useRef } from "react";
 import {
-  FaSwimmingPool,
-  FaUmbrellaBeach,
-  FaRegSnowflake,
-  FaSkiing,
-  FaCaravan,
-  FaDesktop
-} from "react-icons/fa";
-import { FaDumbbell, FaCampground } from "react-icons/fa6";
-import { GiBarbecue } from "react-icons/gi";
-import { PiCactusFill } from "react-icons/pi";
+  PiPlantLight,
+  PiPianoKeysLight,
+  PiSwimmingPoolLight,
+  PiTentLight,
+} from "react-icons/pi";
+import { CiDumbbell } from "react-icons/ci";
+import { LiaWaterSolid, LiaSkiingSolid } from "react-icons/lia";
+import { IoSnowOutline } from "react-icons/io5";
+import { TbGrill } from "react-icons/tb";
+import { SlScreenDesktop } from "react-icons/sl";
+import { RiCaravanLine } from "react-icons/ri";
 
 function Filters() {
   const elementRef = useRef();
@@ -17,43 +18,47 @@ function Filters() {
   const filters = [
     {
       name: "Pool",
-      icon: <FaSwimmingPool />,
+      icon: <PiSwimmingPoolLight />,
     },
     {
       name: "Gym",
-      icon: <FaDumbbell />,
+      icon: <CiDumbbell />,
     },
     {
       name: "Beach View",
-      icon: <FaUmbrellaBeach />,
+      icon: <LiaWaterSolid />,
     },
     {
       name: "Arctic",
-      icon: <FaRegSnowflake />,
+      icon: <IoSnowOutline />,
     },
     {
       name: "Barbecue",
-      icon: <GiBarbecue />,
+      icon: <TbGrill />,
     },
     {
       name: "Office",
-      icon: <FaDesktop />,
+      icon: <SlScreenDesktop />,
     },
     {
       name: "Camping",
-      icon: <FaCampground />,
+      icon: <PiTentLight />,
     },
     {
       name: "Ski",
-      icon: <FaSkiing />,
+      icon: <LiaSkiingSolid />,
     },
     {
       name: "Caravan",
-      icon: <FaCaravan />,
+      icon: <RiCaravanLine />,
     },
     {
-      name: "Desert",
-      icon: <PiCactusFill />,
+      name: "Piano",
+      icon: <PiPianoKeysLight />,
+    },
+    {
+      name: "Nature",
+      icon: <PiPlantLight />,
     },
   ];
 
@@ -65,31 +70,31 @@ function Filters() {
   }
 
   return (
-    <div className="relative container mt-6" id="filters">
+    <div className="relative container mt-24" id="filters">
       <div
-        className="w-full mx-auto py-2 md:py-3 rounded-3xl flex justify-between align-middle overflow-x-auto shadow-md scrollbar-hide gap-5 md:gap-1 scroll-smooth border-[1px] border-gray-200 font-light text-[14px] md:text-[16px]"
+        className="w-full mx-auto py-2 md:py-3 rounded-3xl flex justify-between align-middle overflow-x-auto shadow-md scrollbar-hide gap-5 md:gap-1 scroll-smooth border-[1px] border-gray-200 dark:border-gray-600 font-light text-[14px] md:text-[16px]"
         ref={elementRef}
       >
         {filters.map((element, index) => (
           <div
             key={index}
-            className="min-w-[15%] lg:min-w-[12%] flex justify-center flex-col items-center gap-1 cursor-pointer group"
+            className="min-w-[15%] lg:min-w-[12%] flex justify-center flex-col items-center gap-1 cursor-pointer group text-lg"
           >
             {element.icon}
-            <div className="relative before:opacity-0 before:w-full before:h-[2px] before:bg-[#6D6D6D] before:absolute before:bottom-[-12px] group-hover:before:opacity-70 text-nowrap">
+            <div className="relative text-sm md:text-base before:opacity-0 before:w-full before:h-[2px] before:bg-[#6D6D6D] before:absolute before:bottom-[-12px] group-hover:before:opacity-70 text-nowrap">
               {element.name}
             </div>
           </div>
         ))}
       </div>
       <span
-        className="material-symbols-outlined hidden lg:block text-[25px] absolute top-[50%] translate-y-[-50%] bg-white right-9 rounded-full cursor-pointer border-[1px] border-gray-300 hover:shadow-md"
+        className="material-symbols-outlined hidden lg:block text-[25px] absolute top-[50%] translate-y-[-50%] bg-white dark:bg-gray-700 right-9 rounded-full cursor-pointer border-[1px] border-gray-300 dark:border-gray-500 hover:shadow-md"
         onClick={() => slideRight(elementRef.current)}
       >
         chevron_right
       </span>
       <span
-        className="material-symbols-outlined hidden lg:block text-[25px] absolute top-[50%] translate-y-[-50%] left-9 rounded-full cursor-pointer bg-white border-[1px] border-gray-300 hover:shadow-md"
+        className="material-symbols-outlined hidden lg:block text-[25px] absolute top-[50%] translate-y-[-50%] left-9 rounded-full cursor-pointer bg-white dark:bg-gray-700 border-[1px] border-gray-300 dark:border-gray-500 hover:shadow-md"
         onClick={() => slideLeft(elementRef.current)}
       >
         chevron_left

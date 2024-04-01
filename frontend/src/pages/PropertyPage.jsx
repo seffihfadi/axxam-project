@@ -77,12 +77,10 @@ const PropertyPage = () => {
 
   return (
     <>
-    <Header/>
     <PropertyDetails data={card} rules={propertyRules} offers={propertyAmenities} owner={owner}/>
     <Overallreview owner={owner} ratingPercentage={ratingPercentage}/>
     <Reviews />
     <PropertyMap position = {propertyPosition}/>
-    <Footer/>
     </>
   )
 }
