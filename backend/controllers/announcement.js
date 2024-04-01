@@ -1,11 +1,13 @@
 import Announcement from '../models/Announcement.js'
 import cloudinary from '../utils/cloudinary.js'
+import User from '../models/User.js'
+import UserExtraDetails from '../models/UserExtraDetails.js'
 
 
 export const createAnnouncement = async (req, res ,next) => {
   try {
     const {_id: owner} = req.user
-    // const {userID} = req.params
+    // const {owner} = req.params
     const { title ,
             desc ,
             price ,
@@ -18,20 +20,27 @@ export const createAnnouncement = async (req, res ,next) => {
             ...otherData
             } = req.body
 
+// verification of the user             
+    const user = await User.findById(owner)
+    if (!user){
+      res.status(404)
+      throw new Error('USER NOT FOUND.')
+    }
+
 
 // verification of properties 
-if(typeof title !== 'string' || title === '' || typeof desc !== 'string' || desc === '' || price === 0 || typeof price !== 'number' || typeof location.name !=='string' || location.name === '' || location.coordinates.length != 2 || !['small','long'].includes(periode) || tags.length > 10  || tags.length < 5 || maxPersons < 1){
-  res.status(400)
-  throw new Error('enter the required information.')
-}
-if(rules !== undefined && rules !== null){
-  if(rules.length > 6){
-    res.status(400)
-    throw new Error('rules must be less than 6')
-  }
-}
+    if(typeof title !== 'string' || title === '' || typeof desc !== 'string' || desc === '' || price === 0 || typeof price !== 'number' || typeof location.name !=='string' || location.name === '' || location.coordinates.length != 2 || !['small','long'].includes(periode) || tags.length > 10  || tags.length < 5 || maxPersons < 1){
+      res.status(400)
+      throw new Error('enter the required information.')
+    }
+    if(rules !== undefined && rules !== null){
+      if(rules.length > 6){
+        res.status(400)
+        throw new Error('rules must be less than 6')
+      }
+    }
 
-const avatars = []
+    const avatars = []
 // verification of images 
     const imagesFiltered = images.filter((image)=> !['' , null , undefined].includes(image))
     if(imagesFiltered.length >15 || imagesFiltered.length < 5){
@@ -63,7 +72,6 @@ const avatars = []
 
 // creating an announcement
     const announcement = await Announcement.create({
-          // owner : userID,
           owner,
           title ,
           desc ,
@@ -77,11 +85,10 @@ const avatars = []
           images: avatars
         })
       
-      
     if(!announcement){
       res.status(500).json({error : 'A problem has occurred. Please try again.'})
     }
-    res.status(201).json({message : 'announcement created'})
+    return res.status(201).json({message : 'announcement created', announcement})
   } catch (err) {
     next(err)
   }
@@ -228,7 +235,7 @@ if(newRules.length > 6){
 export const deleteAnnouncement = async (req, res, next) =>{
   const {_id : sessionID} = req.user
   const {announcementID} = req.params
-
+  
 try{
   const theAnnouncement = await Announcement.findById(announcementID)
   if (!theAnnouncement) {
@@ -312,6 +319,45 @@ export const getAnnouncementForSearch = async (req, res, next) =>{
     return res.status(200).json({ announcements, resultsCount})
   
   } catch (err) {
+    next(err)
+  }
+}
+
+export const saveAnnouncement = async (req, res, next)=>{
+  try {
+    const {_id : sessionID} = req.user
+    // const {sessionID} = req.body
+    const {announcementID} = req.params
+
+// checking if the user and the announcement exists 
+    const user = await User.findById(sessionID)
+    if(!user){
+      res.status(404)
+      throw new Error('USER NOT FOUND.')
+    }
+    const announcement = await Announcement.findById(announcementID)
+    if(!announcement){
+      res.status(404)
+      throw new Error('ANNOUNCEMENT NOT FOUND.')
+    }
+
+    const userDetailsID = user.extra
+    const userDetails = await UserExtraDetails.findById(userDetailsID)
+    const isAlreadySaved = userDetails.saved.includes(announcementID)
+    if(isAlreadySaved){
+      userDetails.saved.pull(announcementID)
+      var msg = 'announcement saved.'
+    }else{
+      userDetails.saved.push(announcementID)
+      var msg = 'announcement removed from saved list.'
+    }
+    const updatedUserDetails = await UserExtraDetails.findByIdAndUpdate(userDetailsID, userDetails)
+    if(!updatedUserDetails){
+      res.status(500)
+      throw new Error('INTERNAL ERROR.')
+    }
+    return res.status(200).json({message : msg})
+  }catch(err){
     next(err)
   }
 }

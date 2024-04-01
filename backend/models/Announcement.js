@@ -107,8 +107,5 @@ const announcementSchema = new Schema({
   timestamps: true
 })
 
-
-
-
 const Announcement = model('Announcement', announcementSchema)
 export default Announcement

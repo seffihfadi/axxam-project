@@ -9,6 +9,7 @@ import userRoutes from "./routes/user.js"
 import reviewRoutes from './routes/review.js'
 import reservationRoutes from './routes/reservation.js'
 import announcementRoutes from './routes/announcement.js'
+import notificationsRoutes from './routes/notifications.js'
 
 // init
 dotenv.config()
@@ -28,6 +29,7 @@ app.use('/api/user', userRoutes)
 app.use('/api/review', reviewRoutes)
 app.use('/api/reservation', reservationRoutes)
 app.use('/api/announcement', announcementRoutes)
+app.use('/api/notification', notificationsRoutes)
 
 // error middlewares
 app.use(errorHandler)
@@ -36,6 +38,7 @@ app.use(errorHandler)
 // connect to db and start server
 try {
   await mongoose.connect(process.env.MONGODB_URI, {
+    // dbName: 'test'
     dbName: 'axxam'
   })
   app.listen(port, () => {

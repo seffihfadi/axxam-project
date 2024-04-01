@@ -10,15 +10,6 @@ export const isPhone = (str) => {
   return /^0[5-7]\d{8}$/.test(str)
 }
 
-export const getPublicIDFromUrl = (url) => {
-  const parts = url.split('/')
-  const filename = parts[parts.length - 1]
-  const publicId = filename.split('.')[0] 
-  return publicId
-}
-
-
-
 const calculateTotalPrice = (checkinDate, checkoutDate, announcement, guests) => {
    
   const days = checkoutDate.diff(checkinDate, 'days')

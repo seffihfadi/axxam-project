@@ -6,13 +6,16 @@ import {
     updateAnnouncement,
     getAnnouncement,
     getAnnouncementForSearch,
+    saveAnnouncement,
     deleteAnnouncement
 } from '../controllers/announcement.js';
 
 const announcementRoutes = express.Router();
 
 announcementRoutes.post('/create',access(ROLES.lessor), createAnnouncement);
+// announcementRoutes.post('/create/:owner', createAnnouncement);
 announcementRoutes.patch('/update/:announcementID',access(ROLES.lessor), updateAnnouncement);
+announcementRoutes.patch('/save/:announcementID', access(ROLES.all), saveAnnouncement);
 announcementRoutes.get('/get/:announcementID',access(ROLES.all), getAnnouncement);
 announcementRoutes.get('/search', access(ROLES.all), getAnnouncementForSearch);
 announcementRoutes.delete('/delete/:announcementID',access(ROLES.lessor), deleteAnnouncement);
