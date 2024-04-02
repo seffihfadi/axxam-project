@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useRef } from "react";
+import Signup from "./signup/Signup";
 const Header = () => {
  
       const headerRef = useRef();
@@ -18,10 +19,7 @@ const Header = () => {
         </ul>
         <ul className=" flex items-center  gap-[15px] md:max-w-full md:gap-[15px] ">
             <li>
-            <a href="/" className=" text-[#0051CB] btn ">
-                   SIGN UP   
-                  </a>
-             
+            <Signup/>
             </li>
             <li>
             <a href="/" className=" btn  text-white bg-[#0051CB] ">

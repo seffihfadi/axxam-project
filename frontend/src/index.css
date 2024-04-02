@@ -538,3 +538,16 @@ form .group select:focus {
   @apply border-blue-500;
 }
 
+.group .phone {
+  @apply relative;
+}
+
+.group.phone::before {
+  @apply absolute bottom-3 left-8 w-full h-min  text-gray-400;
+  content: "+213 | XXXXXXXXX";
+  word-spacing: 1rem;
+}
+
+.group.phone.has-input::before {
+  display: none;
+}
