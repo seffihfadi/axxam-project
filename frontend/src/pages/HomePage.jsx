@@ -9,7 +9,7 @@ import SearchBar from "../components/landing/SearchBar";
 import Filters from "../components/home/Filters";
 import PropertyCard from "../components/home/PropertyCard";
 import Properties from "../components/home/Properties";
-import Signup from "../components/common/Signup";
+import Signup from "../components/common/signup/Signup";
 
 const HomePage = () => {
   return (

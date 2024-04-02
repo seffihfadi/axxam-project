@@ -10,6 +10,7 @@ function Properties() {
       date: "Mar 1-6",
       price: "25000,00",
       rating: "5.0",
+      status: "confirmed"
     },
     {
       image: "public/card2.jpg",
