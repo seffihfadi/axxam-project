@@ -1,5 +1,5 @@
 
-export const CalculateTotalPrice = (days, announcement, guests) => {
+export const CalculateTotalPrice = ({days, announcement, guests}) => {
    
   const longStayDiscounts = {
     15: 0.05,
@@ -7,6 +7,7 @@ export const CalculateTotalPrice = (days, announcement, guests) => {
     90: 0.15, 
     180: 0.20,
   }
+  
   let discountRate = 0;
   Object.keys(longStayDiscounts).forEach((threshold) => {
     if (days > parseInt(threshold)) {

@@ -563,12 +563,12 @@ form .main select:focus {
 }
 
 form .main{
-  @apply  md:w-[68%] mb-12 flex justify-center  ;
+  @apply  lg:w-[68%] md:w-[80%]  mb-12   ;
 }
 
 form .main input,
 form .main select {
-  @apply px-2 pt-10 pb-3 appearance-none bg-transparent  text-gray-400 text-sm outline-none border-b-[1.5px] border-b-gray-400   ;
+  @apply  px-2 pt-10 pb-3 appearance-none bg-transparent  text-gray-400 text-sm outline-none border-b-[1.5px] border-b-gray-400   ;
 }
 
 form .main label {
@@ -582,11 +582,10 @@ form .main select:focus ~ label {
   @apply top-1  p-0;
 }
 
-form .main input:valid,
-form .main select:valid:not(:placeholder-shown) {
+ form .main input:valid,
+ form .main select:valid:not(:placeholder-shown) {
   @apply border-gray-300;
 }
-
 button.info{
-  @apply px-10  my-12 font-normal text-base;
+  @apply px-10  md:my-10  mx-auto flex justify-center   md:mx-0 font-normal text-base ;
 }

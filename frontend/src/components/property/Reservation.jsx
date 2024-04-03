@@ -64,11 +64,15 @@ function Reservation({rules,data}) {
       guest:"Infants",
       age:"Under 2"
     }]
-
+    const Guests = {
+      Adults: adults,
+      Children: children,
+      Infants: infants
+    };
   return (
     <div className='mx-auto lg:mx-0 p-7 lg:sticky lg:top-24 my-3 border w-full md:w-1/2 lg:w-full lg:h-[46%]  border-gray-200  rounded-3xl shadow-md shadow-gray-400 flex flex-col gap-3 dark:border-gray-600 dark:shadow-gray-700'>
       <div className='pb-4'>
-        <span className='mr-2 font-semibold'>{data.price}</span>
+        <span className='mr-2 font-semibold'>{data.price} DZD </span>
         <span className='text-gray-600'>night</span>
       </div>
       <div className='grid grid-cols-1  border  border-gray-400 dark:border-gray-600 h-full md:h-[30%] rounded-2xl cursor-pointer relative'>
@@ -132,12 +136,12 @@ function Reservation({rules,data}) {
       <div className='flex justify-center  text-gray-600 pb-3'>You won't be charged yet</div>
       <div className='flex justify-between font-medium  before:h-[1px] before:w-full before:bg-gray-300 dark:before:bg-gray-600   before:absolute relative before:bottom-[-35px] '>
         <h2>{data.price} X {numberOfDays} nights</h2>
-        <h2>{data.price}</h2>
+        <h2>{data.price} DZD</h2>
       </div>
     {/*totalsect*/}
       <div className='flex justify-between items-center mt-12 font-medium'>
         <h1 className='font-semibold text-lg'>Total</h1>
-        <h2>{data.price}</h2>
+        <h2><CalculateTotalPrice days={numberOfDays} announcement={data}  guests={Guests}/> DZD</h2>
       </div>
 </div>
 );}
