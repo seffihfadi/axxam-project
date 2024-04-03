@@ -1,14 +1,10 @@
 import PropertyDetails from '../components/property/PropertyDetails'
-
-
 import { Rules } from '../components/common/Rules';
 import { amenities } from '../components/common/Ameneties';
-
 import Reviews from '../components/property/Reviews';
 import Overallreview from '../components/property/Overallreview';
 import PropertyMap from '../components/property/PropertyMap'
-import Header from '../components/common/Header';
-import Footer from '../components/common/Footer';
+
 const PropertyPage = () => {
     {/*PropertDetails */}
     const card = 
@@ -23,7 +19,7 @@ const PropertyPage = () => {
       accommodation_config: "4 guests,  3 badrooms,  3 bads,  1 bath ",
       description:"Discover urban living at its best in our chic downtown retreat. Located steps fro cafes, shops, and attractions, our cozy home offers a serene escape amidst city life. Relax in stylish comfort, cook in our fully equipped kitchen, and enjoy modern amenities including WiFi and AC. With pet-friendly options and flexible check-in,it s the perfect base for your city adventure. Book now and experience the downtown living!",
       date: "Mar 1-6",
-      price: "25000,00",
+      price: "25000,00  DA",
       rating: "5.0",
     }
     const owner = {

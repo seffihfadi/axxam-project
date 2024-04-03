@@ -4,7 +4,7 @@ import Host from './Host';
 import Reservation from "./Reservation";
 function PropertyDetails({data,rules,offers,owner}){
   return (
-  <div className='mb-5 mt-28 container'>
+  <div className='mb-5 mt-28  container'>
     <div className='flex justify-between my-5 gap-1'>
       <h1 className='text-xl md:text-2xl  font-bold'>{data.accommodation_title}</h1>
       <div className='flex  items-center text-lg md:text-xl hover:cursor-pointer '> 
@@ -37,14 +37,14 @@ function PropertyDetails({data,rules,offers,owner}){
       <Host owner={owner}/>
 
       {/*descriptionsect */}
-      <div className='my-5 w-full md:w-[90%] border border-gray-300 rounded-3xl text-sm md:text-base'>
+      <div className='my-5 w-full md:w-[90%] border border-gray-300 dark:border-gray-600 rounded-3xl text-sm md:text-base'>
         <div className='p-5'> 
         <h2 className='font-bold py-1 '>Description</h2>
         {data.description}
         </div>
       </div>
       {/*rulessect*/}
-      <div className='my-10 w-[90%] border-b border-gray-300 pb-5 lg:pb-10 '>
+      <div className='my-10 w-[90%] border-b border-gray-300 dark:border-gray-600 pb-5 lg:pb-10 '>
         <h1 className='font-bold text-lg md:text-xl my-4'>House Rules:</h1>
         <div className='flex flex-wrap flex-col  max-h-[200px] gap-1'>
         {rules.map((rule) => ( 
@@ -55,7 +55,7 @@ function PropertyDetails({data,rules,offers,owner}){
         </div>
       </div>
       {/*offersect*/}
-      <div className='my-10  w-[90%] border-b lg:border-none border-gray-300 pb-5 lg:pb-0'>
+      <div className='my-10  w-[90%] border-b lg:border-none border-gray-300 dark:border-gray-600 pb-5 lg:pb-0'>
       <h1 className='font-bold text-lg md:text-xl my-4'>What this place offers:</h1>
       <div className='flex flex-wrap flex-col gap-1 max-h-[200px] md:text-[17px]'>
         {Object.entries(offers).map(([offerName, icon]) => ( 
@@ -67,7 +67,7 @@ function PropertyDetails({data,rules,offers,owner}){
         </div>    
       </div>
       </div>
-      <Reservation rules={rules}/>
+      <Reservation rules={rules} data={data}/>
     </div>
   </div>   
     

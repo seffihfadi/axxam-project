@@ -8,14 +8,14 @@ function Overallreview({owner, ratingPercentage}) {
 
   return (
     <div className='container'>
-      <div className='my-5 pt-8 w-full border-t  border-t-gray-300 flex flex-col justify-between items-center gap-4 lg:gap-8'>
+      <div className='my-5 pt-8 w-full border-t  border-t-gray-300 dark:border-t-gray-600 flex flex-col justify-between items-center gap-4 lg:gap-8'>
         <div className="flex flex-col items-center gap-2">
           <div className="rounded-full w-12 h-12 flex overflow-hidden">
             <img src={owner.picture} alt="owner" />
           </div>
           <div className='font-bold text-xs mt-2'>Hosted by {owner.name} </div>
           <div className='flex gap-6 md:text-lg'>
-            <div className='flex gap-1 items-center after:h-[80%] after:w-[1px] after:bg-gray-400 after:right-[-15px] after:absolute relative'>
+            <div className='flex gap-1 items-center after:h-[80%] after:w-[1px] after:bg-gray-400  dark:after:bg-gray-600 after:right-[-15px] after:absolute relative'>
               <img src="../../../public/star.svg" alt="star" />
               <span className='font-bold'>{owner.rate}</span>
             </div>

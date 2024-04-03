@@ -28,10 +28,10 @@ export default function Reviews() {
   ]
   return (
   <div className='container'>
-    <div className='border-t border-t-gray-300 py-10 my-5'>
+    <div className='border-t border-t-gray-300 dark:border-t-gray-600 py-10 my-5'>
       <div className='flex  justify-between'>
         <h1 className='font-bold text-xl my-4'>Reviews</h1>
-        <button className='border border-gray-300 rounded-3xl shadow-md bg-whitemode  h-[35px] px-5'>Show All </button>
+        <button className='border border-gray-300 dark:border-gray-600 rounded-3xl shadow-md   h-[35px] px-5'>Show All </button>
       </div>
       <Review users={users}/>
    </div>
