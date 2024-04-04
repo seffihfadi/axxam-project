@@ -3,9 +3,12 @@
 
 import jwt from 'jsonwebtoken'
 import User from "../models/User.js"
+import UserDetails from '../models/UserExtraDetails.js'
 import { isPhone } from '../utils/func.js'
 import cloudinary from '../utils/cloudinary.js'
-
+import { stripe } from '../utils/stripe.js'
+import ROLES from '../utils/roles.js'
+import mongoose from 'mongoose'
 
 
 export const sendOTPSignup = async (req, res, next) => {
@@ -116,7 +119,7 @@ export const verifyOTP = async (req, res, next) => {
 
 
 const generateToken = (userID) => {
-  return jwt.sign({userID}, process.env.JWT_SECRET, {expiresIn: '1d'})
+  return jwt.sign({userID}, process.env.JWT_SECRET, {expiresIn: '50d'})
 }
 
 export const signupUser = async (req, res, next) => {
@@ -267,61 +270,115 @@ export const updateUserAdditional = async (req, res ,next) => {
   }
 }
 
+export const joinUs = async (req, res, next) => {
+  const {_id: sessionID, extra} = req.user
+  const {idCard, email, bio, gender} = req.body
+  try {
+    // const userDetailsID = extra?._id || new mongoose.Types.ObjectId()
+    // console.log('req.ip', req.ip)
 
-// export const sendOTP = async (req, res, next) => {
-//   const { phone, isSignup } = req.body
-//   const otp = Math.floor(100000 + Math.random() * 900000).toString() // 6 digit
-//   const otpExpiry = new Date(Date.now() + 12e4) // 2 minutes from now
-//   const OTPCode = 147852
+    if (!idCard || !email || !bio || !gender) {
+      res.status(400)
+      throw new Error('please fill in all requered fields')
+    }
 
+    // if (role === ROLES.lessor[0]){
+    //   res.status(400)
+    //   throw new Error('you are already a lessor')
+    // }
 
-//   try {
-//     if (!isPhone(phone) || !isSignup) {
-//       res.status(400)
-//       throw new Error('phone number is invalid')
-//     }
+    const account = await stripe.accounts.create({
+      type: 'custom',
+      country: 'DZ',
+      email,
+      default_currency: 'dzd',
+      capabilities: {
+        card_payments: {
+          requested: false,
+        },
+        transfers: {
+          requested: true,
+        },
+      },
+     
+      business_type: 'company',
+      company: {
+        name: 'Axxam',
+        tax_id: '123456789',
+        address: {
+          city: 'Algiers',
+          country: 'DZ',
+          line1: '123 Business St',
+          postal_code: '12345',
+          state: 'State',
+        },
+      },
+      tos_acceptance: {
+        service_agreement: 'recipient',
+        date: Math.floor(Date.now() / 1000),
+        ip: req.ip,
+        
+      },
+      metadata: {
+        lessorID: sessionID.toString()
+      }
+    })
     
-//     const user = await User.updateOne(
-//       { phone }, 
-//       { phone, OTPCode, otpExpiry }, 
-//       { upsert: strToBool(isSignup) }
-//     )
+    if (!account) {
+      res.status(500)
+      throw new Error('somthing went wrong with Stripe account creation!')
+    }
 
-//     if (!user.upsertedId && !strToBool(isSignup)) {
-//       res.status(400)
-//       throw new Error('user not found, create another account')
-//     }
+    // const externalAccount = await stripe.accounts.createExternalAccount(
+    //   account.id,
+    //   {
+    //     external_account: 'btok_1NAiJy2eZvKYlo2Cnh6bIs9c',
+    //   }
+    // );
+
     
-//     // const accountSid = process.env.TWILIO_ACCOUNT_SID
-//     // const authToken = process.env.TWILIO_AUTH_TOKEN
-//     // const twilioClient = new twilio(accountSid, authToken)
+    const userDetails = await UserDetails.findOneAndUpdate(
+      { _id: extra?._id || new mongoose.Types.ObjectId() },
+      {
+        bio,
+        gender,
+        idCard,
+        stripeAccountId: account.id,
+      },
+      {
+        new: true, 
+        upsert: true,
+        setDefaultsOnInsert: true,
+      }
+    );
 
-//     // await twilioClient.messages.create({
-//     //   body: `Your OTP is ${otp}`,
-//     //   to: phone,
-//     //   from: process.env.TWILIO_PHONE_NUMBER, //1CP4K88XWS82BF94K7JHGQSF
-//     // })
+    if (!extra?._id) {
+      await User.findByIdAndUpdate(sessionID, { extra: userDetails._id, role: ROLES.lessor[0] })
+    }
+    await User.findByIdAndUpdate(sessionID, {role: ROLES.lessor[0]})
 
-//     return res.json({ message: 'OTP sent successfully' }) 
+    res.status(200).json({ message: 'Join us process successful' })
+  } catch (err) {
+    next(err)
+  }
 
-//   } catch (error) {
-//     next(error)
-//   }
-// }
+}
 
-// export const getUser = async (req, res, next) => {
-  
-//   try {
-//     if(!req.user) {
-//       res.status(500)
-//       throw new Error('server error !')
-//     }
 
-//     const userSession = req.user
-//     userSession.password = undefined
-//     res.status(200).json({user: userSession})
-    
-//   } catch (error) {
-//     next(error)
-//   }
-// }
+export const addCard = async (req, res, next) => {
+  const user = req.user;
+  const {token} = req.body;
+  try {
+      const card = await stripe.accounts.createExternalAccount(
+          user.extra.stripeAccountId,
+          {
+              external_account: token.id,
+              
+            //  currency: 'dzd'
+          }
+      )
+      res.json(card)
+  } catch (error) {
+    next(error)
+  }
+}

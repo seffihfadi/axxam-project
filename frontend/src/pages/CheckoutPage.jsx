@@ -1,7 +1,8 @@
-import { useStripe } from "@stripe/react-stripe-js";
+import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
 
 const CheckoutPage = () => {
   const stripe = useStripe()
+  const elements = useElements();
 
   const API = 'http://localhost:4000/api';
 
@@ -22,24 +23,21 @@ const CheckoutPage = () => {
       throw new Error(res.statusText);
     }
   }
-  const lineItems = [
-    {
-      quantity: 1,
-      price_data: {
-        unit_amount: 120000,
-        currency: "usd",
-        product_data: {
-          name: "Charming Countryside House",
-          description: "4 nights stay at a beautiful countryside house with 3 bedrooms, 2 bathrooms, and a pool.",
-          images: ["https://images.unsplash.com/photo-1568605114967-8130f3a36994?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"]
-        }
-      }
+  const reservationDetails = {
+    checkin: "2024/04/10",
+    checkout: "2024/04/11",
+    guests: {
+      adults: 1,
+      children: 0,
+      infants: 0
     }
-  ];
-//reservation/create-checkout-session line_items: lineItems
+  };
+  // {phone: '0561019597', otp: '147852'}
+  // reservation/create-checkout-session/65f5b85f45220b24fff7d222
+  // reservationDetails
   const handleCheckout = async (e) => {
-    const response = await fetchFromAPI('reservation/create-checkout-session', {
-      body: { line_items: lineItems },
+    const response = await fetchFromAPI('reservation/create-checkout-session/65f5b85f45220b24fff7d223', {
+      body: reservationDetails,
     });
 
     const { sessionId } = response;
@@ -52,22 +50,72 @@ const CheckoutPage = () => {
     }
   }
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (!stripe || !elements) {
+      return;
+    }
+
+    const cardElement = elements.getElement(CardElement);
+
+    const {token, error} = await stripe.createToken(cardElement, { 'currency': 'dzd' });
+
+    if (error) {
+      console.log('[error]', error);
+    } else {
+      const response = await fetchFromAPI('user/add-card', {
+        body: {token, idCard: 'url-img', email: 'karim@gmail.com', bio: 'hodisl sldki', gender: 'Male'},
+      });
+  console.log('response', response)
+      
+      // Here you would send the token to your server for use
+      // sendTokenToServer(token);
+    }
+  }
+
 
   return (
     <div className="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
-      {lineItems.map((item, index) => (
-        <div key={index} className="md:flex">
+    
+        <div className="md:flex border-b-2 border-red">
           <div className="md:flex-shrink-0">
-            <img className="h-48 w-full object-cover md:w-48" src={item.price_data.product_data.images[0]} alt={item.price_data.product_data.name} />
+            {/* <img className="h-48 w-full object-cover md:w-48" src={item.price_data.product_data.images[0]} alt={item.price_data.product_data.name} /> */}
           </div>
           <div className="p-8">
-            <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{item.price_data.product_data.name}</div>
+            {/* <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{item.price_data.product_data.name}</div>
             <p className="block mt-1 text-lg leading-tight font-medium text-black">{`$${(item.price_data.unit_amount / 100).toFixed(2)} ${item.price_data.currency.toUpperCase()}`}</p>
-            <p className="mt-2 text-gray-500">{item.price_data.product_data.description}</p>
+            <p className="mt-2 text-gray-500">{item.price_data.product_data.description}</p> */}
             <button onClick={handleCheckout} className="px-4 py-1 rounded-md bg-indigo-500 text-white mt-4">Checkout</button>
           </div>
         </div>
-      ))}
+
+        <div className="h-screen w-full bg-white shadow-xl p-5">
+
+          <form onSubmit={handleSubmit}>
+            <CardElement options={{
+  style: {
+    base: {
+      color: "#32325d",
+      fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+      fontSmoothing: "antialiased",
+      fontSize: "16px",
+      "::placeholder": {
+        color: "#aab7c4"
+      }
+    },
+    invalid: {
+      color: "#fa755a",
+      iconColor: "#fa755a"
+    }
+  }
+}} />
+            <button type="submit" disabled={!stripe}>
+              Add Card
+            </button>
+          </form>
+        </div>
+      
     </div>
   )
 }

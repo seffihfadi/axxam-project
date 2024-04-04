@@ -19,14 +19,13 @@ export const getPublicIDFromUrl = (url) => {
 
 
 
-const calculateTotalPrice = (checkinDate, checkoutDate, announcement, guests) => {
+export const calculateTotalPrice = (days, announcement, guests) => {
    
-  const days = checkoutDate.diff(checkinDate, 'days')
   const longStayDiscounts = {
-    30: 0.05, 
-    90: 0.10, 
-    180: 0.15,
-    360: 0.20 
+    15: 0.05,
+    30: 0.10, 
+    90: 0.15, 
+    180: 0.20,
   }
   let discountRate = 0;
   Object.keys(longStayDiscounts).forEach((threshold) => {
@@ -39,6 +38,6 @@ const calculateTotalPrice = (checkinDate, checkoutDate, announcement, guests) =>
   const totalAdultPrice = basePrice * guests.adults * (1 - (announcement.reductions.adults / 100))
   const totalChildrenPrice = basePrice * guests.children * (1 - (announcement.reductions.children / 100))
   const totalInfantsPrice = basePrice * guests.infants * (1 - (announcement.reductions.infants / 100))
-  
+  // console.log('totalInfantsPrice', totalAdultPrice, guests.adults)
   return totalAdultPrice + totalChildrenPrice + totalInfantsPrice
 }
