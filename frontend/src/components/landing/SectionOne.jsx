@@ -1,4 +1,4 @@
-const SectionOne = ({ rtl = false, data, showButton = true }) => {
+const SectionOne = ({ rtl = false, data }) => {
   return (
     <section className='landing grid grid-cols-12 md:gap-10'>
       <div className={`${rtl ? 'order-2' : ''} grid grid-cols-12 gap-4 col-span-12 md:col-span-6 lg:col-span-5`}>
@@ -14,7 +14,7 @@ const SectionOne = ({ rtl = false, data, showButton = true }) => {
         <div className="title">{data.span}</div>
         <h2 className='font-semibold text-xl md:text-2xl lg:text-3xl'>{data.title}</h2>
         <p className='text-secondary text-base md:text-lg'>{data.desc}</p>
-        {showButton && <button className={`${rtl ? 'primary' : 'secondary'}`}>{data.btntext}</button>}
+        { <button className={`${rtl ? 'primary' : 'secondary'}`}>{data.btntext}</button>}
       </div>
     </section>
   );

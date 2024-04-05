@@ -24,10 +24,13 @@ body {
 body.popup-open {
   @apply h-screen overflow-hidden;
 }
-
+/*
 .btn-switch {
-  @apply bg-primary rounded-full px-4 py-2 flex justify-center items-center dark:bg-slate-600 shadow-lg;
-}
+  @apply bg-primary rounded-full px-4  py-2 flex justify-center items-center dark:bg-slate-600 shadow-lg;
+} */
+.btn-switch {
+  @apply bg-primary rounded-lg  w-fit h-[40px] font-medium md:font-semibold text-sm px-1 py-0  flex justify-center items-center dark:bg-slate-600 shadow-lg;
+} 
 /* loader  */
 .loading {
   @apply h-full w-full flex justify-center flex-col items-center absolute z-10 left-0 top-0;
@@ -123,10 +126,10 @@ button:disabled {
 }
 
 button.primary {
-  @apply px-6 py-2 rounded-lg bg-primary text-white font-semibold w-fit;
+  @apply px-6 py-2 rounded-lg bg-primary text-white w-fit  ;
 }
 button.secondary-sq {
-  @apply px-6 py-2 rounded-lg bg-white text-black font-semibold border-[1px] w-fit border-black;
+  @apply px-6 py-2 rounded-lg bg-white text-black  border-[1px] w-fit   border-black;
 }
 
 section.landing {
@@ -330,7 +333,7 @@ p.link a{
 }
 
 .btn {
-  @apply w-[100px] h-[30px]     lg:w-[130px] lg:h-[40px]  element-center font-medium  rounded-[10px];
+  @apply   w-[100px] h-[30px]   lg:w-[130px] lg:h-[40px]  element-center font-medium  rounded-[10px];
 }
 
 .brd {
@@ -550,4 +553,87 @@ form .group select:focus {
 
 .group.phone.has-input::before {
   display: none;
+}
+.mobile {
+  display: none;
+}
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media screen and (max-width: 769px) {
+  .navbar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    position: fixed;
+    top: 60px;
+    right: -300px;
+    width: 200px;
+    height:100vh  ;        /*250px ;*/
+    padding: 40px 0 0 10px;
+    transition: 0.3s ease-in-out;
+  }
+
+  .navbar.active {
+    right: 0px;
+  }
+
+  .navbar a {
+    margin-bottom: 25px;
+  }
+
+  .mobile {
+    display: block;
+    
+  }
+
+  
+}
+button.hed {
+  @apply  rounded-lg bg-primary text-black w-fit  h-[40px] element-center font-medium md:font-semibold text-sm px-1 py-0 ;
+}
+button.hed2 {
+  @apply  rounded-lg bg-white text-black  border-[1px] w-fit  border-black h-[40px] element-center md:font-semibold font-medium text-sm px-1 py-0;
+}
+/*/////////////////////////////////////////////////////////////////////////*/
+
+.dropdown-menu{
+  position: absolute;
+  top: 60px;
+  right: 8px;
+  background-color: #fff;
+  border-radius: 0px 0px 10px 10px;
+  padding: 10px 20px;
+  width: 250px;
+  box-shadow: 0px 10px 15px 0px #6D6D6D;
+}
+
+.dropdown-menu::before{
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: 20px;
+  height: 20px;
+  width: 20px;
+  transform: rotate(45deg);
+}
+
+.dropdown-menu.active{
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: var(--speed) ease;
+}
+
+.dropdown-menu.inactive{
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px);
+  transition: var(--speed) ease;
+}
+.dropdownItem{
+  @apply flex gap-2 items-center py-2 border-t-[#6D6D6D]/50 border-t-[1px]  text-black hover:text-[#0051CB]
 }

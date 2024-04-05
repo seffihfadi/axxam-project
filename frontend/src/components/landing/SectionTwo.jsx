@@ -13,8 +13,8 @@ const SectionTwo = ({data}) => {
       </div>
       <div className='col-span-12 md:order-2 md:col-span-6 lg:col-span-7 flex flex-col gap-4 mb-10 md:mb-0 justify-center'>
         <div className="title">{data.span}</div>
-        <h2 className='font-semibold text-3xl'>{data.title}</h2>
-        <p className='text-secondary text-lg'>{data.desc}</p>
+        <h2 className=' font-semibold text-3xl '>{data.title}</h2>
+        <p className='text-secondary text-lg '>{data.desc}</p>
         <ul>
           {data.points.map((point, i) => 
           <div key={i} className="flex items-center">

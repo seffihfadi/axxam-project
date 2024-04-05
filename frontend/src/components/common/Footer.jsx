@@ -25,7 +25,7 @@ const Footer = () => {
                                             /> 
                                       </a>
                                       <p className=" font-medium text-black mt-[8px] ">Renting real estate <br/> platform.</p>
-                                      <ThemeToggle />
+                                      
                               </div>
                               <ul className="flex flex-col gap-[15px] w-full md:w-auto  ">
                                       <li className=" font-semibold mb-[22px]  ">Menu</li> 
