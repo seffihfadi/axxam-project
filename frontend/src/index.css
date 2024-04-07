@@ -571,8 +571,10 @@ form .group select:focus {
     position: fixed;
     top: 60px;
     right: -300px;
-    width: 200px;
-    height:100vh  ;        /*250px ;*/
+    width: 240px;
+    height:300px ;        /* 100vh;*/
+   
+  
     padding: 40px 0 0 10px;
     transition: 0.3s ease-in-out;
   }
