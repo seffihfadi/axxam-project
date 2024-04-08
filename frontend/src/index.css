@@ -479,7 +479,7 @@ main {
   @apply flex flex-col px-8 md:text-lg lg:text-2xl;
 }
 .elements:not(:last-child) {
-  @apply border-r-[1px] border-gray-300;
+  @apply border-r-[1px] border-gray-300 dark:border-gray-500 ;
 }
 
 /*property details page picture section*/
@@ -491,7 +491,8 @@ main {
   @apply max-w-sm md:max-w-full rounded-lg md:rounded-none;
 }
 
-form .group {
+form .group ,
+form .main{
   @apply flex flex-col relative mb-8;
 }
 
@@ -534,7 +535,9 @@ form .group select:valid {
 
 form .group input:focus,
 form .group textarea:focus,
-form .group select:focus {
+form .group select:focus,
+form .main input:focus,
+form .main select:focus {
   @apply border-blue-500;
 }
 
@@ -550,4 +553,39 @@ form .group select:focus {
 
 .group.phone.has-input::before {
   display: none;
+}
+
+.BookingButton {
+  @apply flex gap-2 items-center justify-center px-4 py-2 rounded-lg font-semibold text-sm lg:w-fit w-[138px];
+}
+.darktxt{
+  @apply dark:text-gray-200;
+}
+
+form .main{
+  @apply  lg:w-[68%] md:w-[80%]  mb-12   ;
+}
+
+form .main input,
+form .main select {
+  @apply  px-2 pt-10 pb-3 appearance-none bg-transparent  text-gray-400 text-sm outline-none border-b-[1.5px] border-b-gray-400   ;
+}
+
+form .main label {
+  @apply  absolute top-[10px] w-[calc(100%-3rem)]  left-1
+ font-semibold text-base transition-all cursor-text select-none ;
+}
+form .main input:valid ~ label,
+form .main input:focus ~ label,
+form .main select:valid ~ label,
+form .main select:focus ~ label {
+  @apply top-1  p-0;
+}
+
+ form .main input:valid,
+ form .main select:valid:not(:placeholder-shown) {
+  @apply border-gray-300;
+}
+button.info{
+  @apply px-10  md:my-10  mx-auto flex justify-center   md:mx-0 font-normal text-base ;
 }
