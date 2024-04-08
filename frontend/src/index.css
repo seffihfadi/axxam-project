@@ -99,10 +99,10 @@ button:disabled {
 }
 
 .popup {
-  @apply w-screen h-screen flex justify-center items-center z-50 absolute top-0 left-0 backdrop-blur-sm;
+  @apply w-screen h-screen flex justify-center items-center z-50 fixed top-0 left-0 backdrop-blur-sm;
 }
 .popup .window {
-  @apply max-w-xl bg-white rounded-xl max-h-[75%] overflow-y-auto shadow-xl py-6 px-0 relative;
+  @apply w-[672px] bg-white rounded-xl max-h-[75%] overflow-y-auto shadow-xl py-6 px-0 relative;
 }
 
 .backdrop {
@@ -479,7 +479,7 @@ main {
   @apply flex flex-col px-8 md:text-lg lg:text-2xl;
 }
 .elements:not(:last-child) {
-  @apply border-r-[1px] border-gray-300 dark:border-gray-500 ;
+  @apply border-r-[1px] border-gray-300;
 }
 
 /*property details page picture section*/
@@ -491,8 +491,8 @@ main {
   @apply max-w-sm md:max-w-full rounded-lg md:rounded-none;
 }
 
-form .group ,
-form .main{
+form .group,
+form .main {
   @apply flex flex-col relative mb-8;
 }
 
@@ -573,7 +573,7 @@ form .main select {
 
 form .main label {
   @apply  absolute top-[10px] w-[calc(100%-3rem)]  left-1
- font-semibold text-base transition-all cursor-text select-none ;
+  font-semibold text-base transition-all cursor-text select-none ;
 }
 form .main input:valid ~ label,
 form .main input:focus ~ label,
@@ -582,10 +582,14 @@ form .main select:focus ~ label {
   @apply top-1  p-0;
 }
 
- form .main input:valid,
- form .main select:valid:not(:placeholder-shown) {
+form .main input:valid,
+form .main select:valid:not(:placeholder-shown) {
   @apply border-gray-300;
 }
 button.info{
   @apply px-10  md:my-10  mx-auto flex justify-center   md:mx-0 font-normal text-base ;
+}
+
+.group.signup {
+  @apply mb-0;
 }

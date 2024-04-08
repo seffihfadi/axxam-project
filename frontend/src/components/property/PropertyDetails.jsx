@@ -2,7 +2,7 @@ import React from 'react'
 import { CiHeart } from "react-icons/ci";
 import Host from './Host';
 import Reservation from "./Reservation";
-function PropertyDetails({data,rules,offers,owner}){
+function PropertyDetails({data,rules,offers,owner,handleOpen}){
   return (
   <div className='mb-5 mt-28  container'>
     <div className='flex justify-between my-5 gap-1'>
@@ -34,7 +34,7 @@ function PropertyDetails({data,rules,offers,owner}){
       </div>
 
      {/*hostsect */}
-      <Host owner={owner}/>
+      <Host owner={owner} handleOpen={handleOpen}/>
 
       {/*descriptionsect */}
       <div className='my-5 w-full md:w-[90%] border border-gray-300 dark:border-gray-600 rounded-3xl text-sm md:text-base'>
