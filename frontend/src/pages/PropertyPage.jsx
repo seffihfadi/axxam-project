@@ -4,6 +4,8 @@ import { amenities } from '../components/common/Ameneties';
 import Reviews from '../components/property/Reviews';
 import Overallreview from '../components/property/Overallreview';
 import PropertyMap from '../components/property/PropertyMap'
+import { useState } from 'react';
+import Comments from '../components/property/Comments';
 
 const PropertyPage = () => {
     {/*PropertDetails */}
@@ -76,12 +78,25 @@ const PropertyPage = () => {
       }
     ]
 
+    const [isOpen, setIsOpen] = useState(false);
+
+    function handleOpen() {
+      setIsOpen(true);
+      document.body.classList.add("popup-open");
+    }
+
+    function handleClose() {
+      setIsOpen(false);
+      document.body.classList.remove("popup-open");
+    }
+
   return (
     <>
-    <PropertyDetails data={card} rules={propertyRules} offers={propertyAmenities} owner={owner}/>
+    <PropertyDetails data={card} rules={propertyRules} offers={propertyAmenities} owner={owner} handleOpen={handleOpen}/>
     <Overallreview owner={owner} ratingPercentage={ratingPercentage}/>
-    <Reviews />
+    <Reviews handleOpen={handleOpen}/>
     <PropertyMap position = {propertyPosition}/>
+    {isOpen && <Comments handleClose={handleClose}/>}
     </>
   )
 }

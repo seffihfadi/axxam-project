@@ -4,7 +4,7 @@ const MainInfosPage = () => {
   
   return (
     <>
-     <Form/>
+    <Form/>
     </>
   )
 }
