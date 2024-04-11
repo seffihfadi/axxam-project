@@ -39,9 +39,8 @@ const reservationSchema = new Schema({
       default: 0
     }
   }, 
-  paymentDetails: {
-    type: Types.ObjectId,
-    ref: 'Payment'
+  paymentIntentId: {
+    type: String
   }
 
 }, {

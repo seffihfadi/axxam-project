@@ -30,6 +30,9 @@ const userDetailsSchema = new Schema({
     type: String,
     default: ''
 
+  }, 
+  stripeAccountId: {
+    type: String
   }
 
 })

@@ -1,162 +1,272 @@
-
 import Announcement from '../models/Announcement.js'
 import cloudinary from '../utils/cloudinary.js'
-import { getPublicIDFromUrl } from '../utils/func.js'
+import User from '../models/User.js'
+import UserExtraDetails from '../models/UserExtraDetails.js'
 
-
-export const createAnnouncement = async (req, res) => {
+// done 
+export const createAnnouncement = async (req, res ,next) => {
   try {
     const {_id: owner} = req.user
-    const { title,
-            desc,
-            price,
-            location,
-            periode,
-            isAvailable,
-            isVisible,
-            isColocation,
-            rules,
-            maxPersons,
-            tags,
-            images,
-            reductions } = req.body
-    const avatars = []
+    const announcement = req.body
 
-    for (const image of images){
-      const {secure_url: url} = await cloudinary.uploader.upload(image, {
-        folder: "Zoquix"
-    })
-    avatars.push(url)
+// verification of properties 
+    if( ! (announcement.title && announcement.desc && announcement.price && announcement.location.name && ['small','long'].includes(announcement.periode)) || announcement.location.coordinates.length != 2  || announcement.tags.length > 10  || announcement.tags.length < 5 || announcement.maxPersons < 1){
+      res.status(400)
+      throw new Error('enter the required information.')
+    }
+    if(announcement.rules){
+      if(announcement.rules.length > 6){
+        res.status(400)
+        throw new Error('rules must be less than 6')
+      }
     }
 
-    const announcement = await Announcement.create({
-      owner,
-      title,
-      desc,
-      price,
-      location,
-      periode,
-      isAvailable,
-      isVisible,
-      isColocation,
-      rules,
-      maxPersons,
-      tags,
-      avatars,
-      reductions
-    })
-    return res.status(200).json({
-      announcement,
-    })
+// verification of images 
+    const imagesFiltered = announcement.images.filter((image)=> !['' , null , undefined].includes(image))
+    if(imagesFiltered.length >= 15 || imagesFiltered.length <= 5){
+      res.status(400)
+      throw new Error('The number of images must be more than 5 and less than 15.')
+    }
+
+    const avatars = []
+// uploading the images 
+    for (const image of imagesFiltered){
+        try{
+          const { secure_url, public_id } = await cloudinary.uploader.upload(image, {folder: "Zoquix"})
+          avatars.push({ secure_url, public_id })
+        }catch(err){
+          for (const image of avatars){
+              await cloudinary.uploader.destroy(image.public_id , {folder : "Zoquix"})
+          }
+          const error = new Error ('verify your images')
+          res.status(400)
+          next(error)
+        } 
+    }
+
+    announcement.images = avatars
+
+// creating an announcement
+    const createdAnnouncement = await Announcement.create({
+          owner : owner,
+          ...announcement
+        })
+    if(!createdAnnouncement){
+      res.status(500)
+      throw new Error('INTERNAL SERVER ERROR. TRY LATER.')
+    }
+
+    return res.status(201).json({message : 'announcement created'})
   } catch (err) {
     next(err)
   }
 }
 
-
+// done 
 export const updateAnnouncement = async (req, res, next)=>{
+  const {_id: sessionID} = req.user
+
+  const {newAnnouncement} = req.body
+  // the images will be the older ones if newAnnouncement.images is empty 
+
+  const {announcementID} = req.params
 
   try {
-    const {_id: sessionID} = req.user
-    const { newTitle,
-            newDesc,
-            newPrice,
-            newLocation,
-            newPeriode,
-            newIsAvailable,
-            newIsVisible,
-            newIsColocation,
-            newRules,
-            newMaxPersons,
-            newTags,
-            newImages,
-            newReductions } = req.body
-    const {announcementID} = req.params
-    
-    if (sessionID.toString() !== announcementID.owner.toString()){
+
+    const announcement = await Announcement.findById(announcementID)
+    if(!announcement){
+      res.status(404)
+      throw new Error('ANNOUNCEMENT NOT FOUND.')
+    }
+    if (sessionID.toString() != announcement.owner.toString()){
       res.status(401)
-      throw error ('Unauthorized')
+      throw new Error ('USER UNAUTHORIZED.')
     }
-    const announcement = Announcement.findById({announcementID})
-    const avatars = []
+// verification of undefined and null 
+if ([newAnnouncement.location, newAnnouncement.tags, newAnnouncement.rules].some(val => !val )){
+  res.status(400)
+  throw new Error('enter all informations.')
+}
 
-    if (!!newImages){
+// verification of properties 
+if( ! (newAnnouncement.title && newAnnouncement.desc && newAnnouncement.price && newAnnouncement.location.name && ['small','long'].includes(newAnnouncement.periode)) 
+    || newAnnouncement.location.coordinates.length != 2  || newAnnouncement.tags.length >= 15  || newAnnouncement.tags.length <= 5 || newAnnouncement.maxPersons < 1){
+  res.status(400)
+  throw new Error('verify your information.')
+}
+if(newAnnouncement.rules){
+  if(newAnnouncement.rules.length >= 6){
+    res.status(400)
+    throw new Error('rules must be less than 6')
+  }
+}
+
+// this removes the empty strings ,null,undefined images from the newImages array
+    const newImagesFiltered = newAnnouncement.images.filter((image)=> !['' , null , undefined].includes(image))
+
+    if ( newImagesFiltered.length >= 15 || newImagesFiltered.length <= 5 && newImagesFiltered.length !== 0){
+        res.status(400)
+        throw new Error('The number of images must be more than 5 and less than 15.')
+      }
+  
+    const avatars = []  
+    for (const image of newImagesFiltered){
+        try{
+          const {secure_url, public_id } = await cloudinary.uploader.upload(image, {folder: "Zoquix"})
+          avatars.push({secure_url, public_id })
+        }catch(err){
+          for (const avatar of avatars){
+              await cloudinary.uploader.destroy(avatar.public_id , {folder : "Zoquix"})
+          }
+          const error = new Error ('verify your images')
+          res.status(400)
+          next(error)
+        }
+    }
+
+    if(!newImagesFiltered.length){
       for (const image of announcement.images){
-        const publicIP = getPublicIDFromUrl(image)
-        await cloudinary.uploader.destroy(publicIP , {folder : "Zoquix"})
+          await cloudinary.uploader.destroy(image.public_id , {folder : "Zoquix"})
       }
-      for (const image of newImages){
-          const {secure_url: url} = await cloudinary.uploader.upload(image, {
-          folder: "Zoquix"
-          })
-          avatars.push(url)
-      }
+      newAnnouncement.images = announcement.images
+    }else{
+      newAnnouncement.images = avatars
     }
-
-    const updatedAnnouncement = {
-      title : newTitle || announcement.title,
-      desc : newDesc || announcement.desc,
-      price : newPrice || announcement.price,
-      location : newLocation || announcement.location,
-      periode : newPeriode || announcement.periode,
-      isAvailable : newIsAvailable || announcement.isAvailable,
-      isVisible : newIsVisible || announcement.isVisible,
-      isColocation : newIsColocation || announcement.isColocation,
-      rules : newRules || announcement.rules,
-      maxPersons : newMaxPersons || announcement.maxPersons,
-      tags : newTags || announcement.tags,
-      images : avatars || announcement.images,
-      reductions : newReductions || announcement.reductions
-    }
-
-    const theAnnouncement = await Announcement.findByIdAndUpdate(announcementID, updatedAnnouncement)
+    const theAnnouncement = await Announcement.findByIdAndUpdate(announcementID, newAnnouncement, { new: true })
     if (!theAnnouncement) {
       res.status(500)
       throw new Error('failed to update announcement')
     }
-    return res.status(200).json({
-        theAnnouncement,
-    })
+    return res.status(200).json({message : 'announcement updated'})
   }catch(err){
     next(err)
   }
 }
 
-
+// done 
 export const deleteAnnouncement = async (req, res, next) =>{
-    const {_id : sessionID} = req.user
-    const {announcementId} = req.params
-
-  try{
-    const theAnnouncement = await Announcement.findById(announcementId)
-    if (!theAnnouncement) {
-      res.status(404)
-      throw new error('Announcement not found')
-    }
-
-    if (TheAnnouncement.owner.toString() !== sessionID.toString()){
-      res.status(401)
-      throw new error("you can\'t delete this announcement !")
-    }
-    await TheAnnouncement.deleteOne()
-    return res.status(200).json({message: 'announcement deleted'})
-  }catch (err){
-    next(err)
+  const {_id : sessionID} = req.user
+  const {announcementID} = req.params
+  
+try{
+  const theAnnouncement = await Announcement.findById(announcementID)
+  if (!theAnnouncement) {
+    res.status(404)
+    throw new Error('Announcement not found')
   }
+
+  if (theAnnouncement.owner.toString() != sessionID.toString()){
+    res.status(401)
+    throw new Error("Unauthorized")
+  }
+
+  for (const image of theAnnouncement.images){
+    try{
+      await cloudinary.uploader.destroy(image.public_id , {folder : "Zoquix"})
+    }catch(err){
+      next(err)
+    }
+  }
+  await theAnnouncement.deleteOne()
+  return res.status(200).json({message: 'announcement deleted'})
+}catch (err){
+  next(err)
+}
 }
 
-
+// done
 export const getAnnouncement = async (req, res, next) => {
   const {announcementID} = req.params
 
   try {
     const announcement = await Announcement.findById(announcementID)
     if (!announcement){
-        res.status(400)
-        throw new error('announcement not found')
+        res.status(404)
+        throw new Error('announcement not found')
     }
-    return res.status(200).json(announcement)
-  } catch (error) {
-    next(error)
+    return res.status(200).json({announcement})
+  } catch (err) {
+    next(err)
+  }
+}
+
+// done
+export const getAnnouncementForSearch = async (req, res, next) =>{
+  try {
+    var { tags, // string seperated by comas
+            location, // the name of the location
+            lowerPrice, // number
+            higherPrice, // number 
+            periode, // 'small' or 'long'
+            maxPersons, 
+            title, 
+            desc } = req.query
+
+// verfications :
+    if (periode !== 'small' && periode !== 'long') {
+      periode = '';
+    }
+    
+// building the searchQuery :
+    const searchQuery = { isVisible: true }
+
+    if (tags) searchQuery.tags = { $in: tags.split(',') }
+    if (location) searchQuery.location.name = new RegExp(location, 'i')
+    if (lowerPrice && higherPrice) {
+      searchQuery.price = { $gte: lowerPrice, $lte: higherPrice }
+    } else if (lowerPrice) {
+      searchQuery.price = { $gte: lowerPrice }
+    } else if (higherPrice) {
+      searchQuery.price = { $lte: higherPrice }
+    }
+    if (periode) searchQuery.periode = periode
+    if (maxPersons) searchQuery.maxPersons = maxPersons
+    if (title) searchQuery.title = new RegExp(title, 'i')
+    if (desc) searchQuery.desc = new RegExp(desc, 'i')
+    
+    const resultsCount = await Announcement.countDocuments(searchQuery) 
+    const announcements = await Announcement.find(searchQuery)
+    return res.status(200).json({ announcements, resultsCount})
+  
+  } catch (err) {
+    next(err)
+  }
+}
+
+// done
+export const saveAnnouncement = async (req, res, next)=>{
+  try {
+    const user = req.user
+    let {extra : userDetails} = user
+    const {announcementID} = req.params
+
+// checking if the announcement exists 
+    const announcement = await Announcement.findById(announcementID)
+    if(!announcement){
+      res.status(404)
+      throw new Error('ANNOUNCEMENT NOT FOUND.')
+    }
+// creating extra if it does not exist 
+    if(!userDetails){
+      userDetails = await UserExtraDetails.create({})
+      await User.findByIdAndUpdate(user._id,{ extra : userDetails._id})
+    }
+    const isAlreadySaved = userDetails.saved.includes(announcementID)
+    if(isAlreadySaved){
+      userDetails.saved.pull(announcementID)
+      var msg = 'announcement removed from saved list.'
+    }else{
+      userDetails.saved.push(announcementID)
+      var msg = 'announcement saved.'
+    }
+
+    const updatedUserDetails = await UserExtraDetails.findByIdAndUpdate(userDetails._id, { saved : userDetails.saved }, {new :true})
+    if(!updatedUserDetails){
+      res.status(500)
+      throw new Error('INTERNAL ERROR.')
+    }
+    return res.status(200).json({message : msg})
+  }catch(err){
+    next(err)
   }
 }
