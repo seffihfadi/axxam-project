@@ -1,14 +1,12 @@
 import PropertyDetails from '../components/property/PropertyDetails'
-
-
 import { Rules } from '../components/common/Rules';
 import { amenities } from '../components/common/Ameneties';
-
 import Reviews from '../components/property/Reviews';
 import Overallreview from '../components/property/Overallreview';
 import PropertyMap from '../components/property/PropertyMap'
-import Header from '../components/common/Header';
-import Footer from '../components/common/Footer';
+import { useState } from 'react';
+import Comments from '../components/property/Comments';
+
 const PropertyPage = () => {
     {/*PropertDetails */}
     const card = 
@@ -23,8 +21,13 @@ const PropertyPage = () => {
       accommodation_config: "4 guests,  3 badrooms,  3 bads,  1 bath ",
       description:"Discover urban living at its best in our chic downtown retreat. Located steps fro cafes, shops, and attractions, our cozy home offers a serene escape amidst city life. Relax in stylish comfort, cook in our fully equipped kitchen, and enjoy modern amenities including WiFi and AC. With pet-friendly options and flexible check-in,it s the perfect base for your city adventure. Book now and experience the downtown living!",
       date: "Mar 1-6",
-      price: "25000,00",
       rating: "5.0",
+      reductions:{
+        adultes:0.5,
+        infants:0.5,
+        children:0.5,
+      },
+      price:25000,
     }
     const owner = {
       name: "Ahmed",
@@ -75,14 +78,25 @@ const PropertyPage = () => {
       }
     ]
 
+    const [isOpen, setIsOpen] = useState(false);
+
+    function handleOpen() {
+      setIsOpen(true);
+      document.body.classList.add("popup-open");
+    }
+
+    function handleClose() {
+      setIsOpen(false);
+      document.body.classList.remove("popup-open");
+    }
+
   return (
     <>
-    <Header/>
-    <PropertyDetails data={card} rules={propertyRules} offers={propertyAmenities} owner={owner}/>
+    <PropertyDetails data={card} rules={propertyRules} offers={propertyAmenities} owner={owner} handleOpen={handleOpen}/>
     <Overallreview owner={owner} ratingPercentage={ratingPercentage}/>
-    <Reviews />
+    <Reviews handleOpen={handleOpen}/>
     <PropertyMap position = {propertyPosition}/>
-    <Footer/>
+    {isOpen && <Comments handleClose={handleClose}/>}
     </>
   )
 }

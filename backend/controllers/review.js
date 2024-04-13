@@ -1,5 +1,6 @@
 import Review from '../models/Review.js'
 import Announcement from '../models/Announcement.js'
+import { sendNotification, unsendNotification} from '../controllers/notifications.js'
 
 export const getAnnouncementReviews = async (req, res, next) => {
   const {announcementID} = req.params
@@ -11,7 +12,7 @@ export const getAnnouncementReviews = async (req, res, next) => {
   }
 }
 
-
+// done notification
 export const addReview = async (req, res, next) => {
   const {announcementID} = req.params
   const {_id: userID} = req.user
@@ -19,7 +20,7 @@ export const addReview = async (req, res, next) => {
 
   try {
 
-    if (Object.values(rating).every(v => v >= 0 && v <= 5)) {
+    if (!Object.values(rating).every(v => v >= 0 && v <= 5)) {
       res.status(400)
       throw new Error('invalid rating: all ratings must be between 1 and 5 stars')
     }
@@ -54,7 +55,7 @@ export const addReview = async (req, res, next) => {
       res.status(500)
       throw new Error('review not created, try again later')
     }
-
+    await sendNotification(userID, announcement.owner, 'has rated your property with #num# stars.', `/profile/?announcement=${announcementID}`)
     return res.status(201).json({message: 'your review has been successfully stored'})
 
 
@@ -99,14 +100,14 @@ export const updateReview = async (req, res, next) => {
   }
 }
 
-
+// done notification
 export const deleteReview = async (req, res, next) => {
   const {reviewID} = req.params
-  const {userID} = req.user
+  const {_id : userID} = req.user
 
 
   try {
-    const review = await Review.findById(reviewID)
+    const review = await Review.findById(reviewID).populate('announcement')
     if (!review) {
       res.status(404)
       throw new Error('this review does not exist')
@@ -117,8 +118,8 @@ export const deleteReview = async (req, res, next) => {
       throw new Error('this review in not yours !')
     }
 
-
     await review.deleteOne()
+    await unsendNotification(userID, review.announcement.owner, 'has rated your property with #num# stars.')
     return res.status(200).json({message: 'review has been deleted'})
     
   } catch (error) {

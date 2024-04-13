@@ -9,6 +9,8 @@ import userRoutes from "./routes/user.js"
 import reviewRoutes from './routes/review.js'
 import reservationRoutes from './routes/reservation.js'
 import announcementRoutes from './routes/announcement.js'
+import notificationRoutes from './routes/notifications.js'
+import { webhook } from './api/webhook.js'
 
 import { webhook } from './api/webhook.js'
 
@@ -31,6 +33,10 @@ app.use('/api/user', userRoutes)
 app.use('/api/review', reviewRoutes)
 app.use('/api/reservation', reservationRoutes)
 app.use('/api/announcement', announcementRoutes)
+app.use('/api/notification', notificationRoutes)
+
+// webhooks
+app.post('/webhook', express.json({type: 'application/json'}), webhook)
 
 // webhooks
 app.post('/webhook', express.json({type: 'application/json'}), webhook)
@@ -43,6 +49,7 @@ app.use(errorHandler)
 try {
   await mongoose.connect(process.env.MONGODB_URI, {
     dbName: 'axxam'
+    // dbName:'test'
   })
   app.listen(port, () => {
     console.log('server runing on port ' + port)

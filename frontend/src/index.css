@@ -13,13 +13,16 @@
 } */
 
 * {
-  @apply text-gray-800 dark:text-white
+  @apply text-gray-800 dark:text-white;
 }
-
 
 body {
   font-family: "Poppins", sans-serif;
   @apply dark:bg-darkmode transition-colors;
+}
+
+body.popup-open {
+  @apply h-screen overflow-hidden;
 }
 
 .btn-switch {
@@ -62,7 +65,7 @@ body {
 
 .container {
   @apply lg:max-w-[1250px];
-  @apply px-4
+  @apply px-4;
 }
 
 .container > div:not(.loading) {
@@ -95,13 +98,11 @@ button:disabled {
   @apply animate-pulse;
 }
 
-
-
 .popup {
-  @apply w-screen h-screen flex justify-center items-center z-20 absolute top-0 left-0 backdrop-blur-sm;
+  @apply w-screen h-screen flex justify-center items-center z-50 fixed top-0 left-0 backdrop-blur-sm;
 }
 .popup .window {
-  @apply max-w-xl bg-white rounded-xl max-h-[75%] overflow-y-auto shadow-xl p-6;
+  @apply w-[672px] bg-white rounded-xl max-h-[75%] overflow-y-auto shadow-xl py-6 px-0 relative;
 }
 
 .backdrop {
@@ -116,7 +117,8 @@ button:disabled {
   @apply text-white leading-normal;
 }
 
-.hero-content h1, .hero-content p{
+.hero-content h1,
+.hero-content p {
   @apply text-white leading-normal;
 }
 
@@ -169,11 +171,11 @@ button.secondary {
 }
 
 header nav a {
-  @apply capitalize font-semibold cursor-pointer relative
+  @apply capitalize font-semibold cursor-pointer relative;
 }
 
 header nav a:hover:before {
-  @apply w-full h-[3px] bg-primary content-[''] -bottom-5 absolute left-0 rounded-tl-xl rounded-tr-xl animate-bounce
+  @apply w-full h-[3px] bg-primary content-[''] -bottom-5 absolute left-0 rounded-tl-xl rounded-tr-xl animate-bounce;
 }
 /* .user .img.sm {
   @apply w-6 h-6 text-sm mr-3
@@ -327,62 +329,51 @@ p.link a{
   }
 }
 
+.btn {
+  @apply w-[100px] h-[30px]     lg:w-[130px] lg:h-[40px]  element-center font-medium  rounded-[10px];
+}
 
-.btn{
-  @apply w-[100px] h-[30px]     lg:w-[130px] lg:h-[40px]  element-center font-medium  rounded-[10px]  ;
- }
- 
- .brd{
-  @apply hover:border-b-2 hover:border-b-[#0051CB] hover:text-[#0051CB] active:text-[#0051CB] transition-colors duration-200 ;
- }
- @layer{
-  .element-center{
- @apply flex justify-center items-center 
+.brd {
+  @apply hover:border-b-2 hover:border-b-[#0051CB] hover:text-[#0051CB] active:text-[#0051CB] transition-colors duration-200;
+}
+@layer {
+  .element-center {
+    @apply flex justify-center items-center;
   }
 }
 
-
 .headerSearchText {
-  cursor : pointer;
- 
+  cursor: pointer;
 }
 
-.pd{
- @apply h-[28px] w-[28px] flex justify-center items-center bg-[#EFEFEF] rounded-md 
+.pd {
+  @apply h-[28px] w-[28px] flex justify-center items-center bg-[#EFEFEF] rounded-md;
 }
 
-.fle{
-  @apply flex justify-center items-center gap-[10px]
-  
+.fle {
+  @apply flex justify-center items-center gap-[10px];
 }
-.arrow{
-  @apply flex  items-center gap-[2px]
+.arrow {
+  @apply flex  items-center gap-[2px];
 }
 
-
-.iconDiv{
-
-  padding: 5px 1px ;
+.iconDiv {
+  padding: 5px 1px;
   border-radius: 3rem;
- 
+
   margin-right: 1rem;
   color: black;
-
-  
 }
 
-.titre{
-  
-    font-weight: 700;
-    color: black;
-    padding-top: 0px;
-    
+.titre {
+  font-weight: 700;
+  color: black;
+  padding-top: 0px;
 }
-  
+
 .select-slc {
   @apply m-1.5 ml-[28px] whitespace-nowrap;
 }
-
 
 #hero {
   position: relative;
@@ -415,9 +406,6 @@ main {
   width: 100vw;
   background-color: #1d1d1dda;
 }
-
-
-
 
 @media screen and (max-width: 420px) {
   .date {
@@ -501,4 +489,107 @@ main {
 
 .picture-section .img {
   @apply max-w-sm md:max-w-full rounded-lg md:rounded-none;
+}
+
+form .group,
+form .main {
+  @apply flex flex-col relative mb-8;
+}
+
+form .group input,
+form .group textarea,
+form .group select {
+  @apply px-8 pt-7 pb-3 rounded-lg outline-none border-[1.5px] border-gray-400;
+}
+
+form .group label {
+  @apply text-sm absolute top-[23px] bg-white w-[calc(100%-3rem)] pl-1 pb-4 left-8
+  text-gray-400 transition-all cursor-text select-none;
+}
+form .group input:valid ~ label,
+form .group input:focus ~ label,
+form .group textarea:valid ~ label,
+form .group textarea:focus ~ label,
+form .group select:valid ~ label,
+form .group select:focus ~ label {
+  @apply top-2.5 text-xs left-8 p-0;
+}
+
+/* form .group input:valid ~ label,
+form .group textarea:valid ~ label,
+form .group select:valid ~ label {
+  @apply text-green-500
+}
+
+form .group input:focus ~ label,
+form .group textarea:focus ~ label,
+form .group select:focus ~ label{
+  @apply text-blue-500 
+} */
+
+form .group input:valid,
+form .group textarea:valid,
+form .group select:valid {
+  @apply border-green-500;
+}
+
+form .group input:focus,
+form .group textarea:focus,
+form .group select:focus,
+form .main input:focus,
+form .main select:focus {
+  @apply border-blue-500;
+}
+
+.group .phone {
+  @apply relative;
+}
+
+.group.phone::before {
+  @apply absolute bottom-3 left-8 w-full h-min  text-gray-400;
+  content: "+213 | XXXXXXXXX";
+  word-spacing: 1rem;
+}
+
+.group.phone.has-input::before {
+  display: none;
+}
+
+.BookingButton {
+  @apply flex gap-2 items-center justify-center px-4 py-2 rounded-lg font-semibold text-sm lg:w-fit w-[138px];
+}
+.darktxt{
+  @apply dark:text-gray-200;
+}
+
+form .main{
+  @apply  lg:w-[68%] md:w-[80%]  mb-12   ;
+}
+
+form .main input,
+form .main select {
+  @apply  px-2 pt-10 pb-3 appearance-none bg-transparent  text-gray-400 text-sm outline-none border-b-[1.5px] border-b-gray-400   ;
+}
+
+form .main label {
+  @apply  absolute top-[10px] w-[calc(100%-3rem)]  left-1
+  font-semibold text-base transition-all cursor-text select-none ;
+}
+form .main input:valid ~ label,
+form .main input:focus ~ label,
+form .main select:valid ~ label,
+form .main select:focus ~ label {
+  @apply top-1  p-0;
+}
+
+form .main input:valid,
+form .main select:valid:not(:placeholder-shown) {
+  @apply border-gray-300;
+}
+button.info{
+  @apply px-10  md:my-10  mx-auto flex justify-center   md:mx-0 font-normal text-base ;
+}
+
+.group.signup {
+  @apply mb-0;
 }

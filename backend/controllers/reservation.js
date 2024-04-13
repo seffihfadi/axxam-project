@@ -5,10 +5,10 @@ import moment from 'moment'
 import { isValidObjectId } from "mongoose"
 import { validateGuests } from "../utils/validation.js"
 import { stripe } from "../utils/stripe.js"
-
+import { sendNotification } from "../controllers/notifications.js"
 import { calculateTotalPrice } from "../utils/func.js"
 
-
+// done notification 
 export const createCheckoutSession = async (req, res, next) => {
 
   const { _id: clientID } = req.user
@@ -19,13 +19,12 @@ export const createCheckoutSession = async (req, res, next) => {
   
 
   try {
-
     // Inputs Validation
     if (!isValidObjectId(announcementID)) {
       res.status(400)
       throw new Error('enter a valid data !')
     }
-
+    
     const announcement = await Announcement.findById(announcementID)
     .populate({
       path: 'owner',
@@ -35,7 +34,6 @@ export const createCheckoutSession = async (req, res, next) => {
         select: 'stripeAccountId'
       }
     })
-
     if (!announcement || !announcement?.isVisible) {
       res.status(400)
       throw new Error('announcement not found !')
@@ -43,20 +41,20 @@ export const createCheckoutSession = async (req, res, next) => {
     
     const lessorStripeAccountId = announcement.owner.extra.stripeAccountId
     
-
+    
     const validGuests = validateGuests(guests, announcement.maxPersons)
     if (!validGuests.isValid) {
       res.status(400)
       throw new Error(validGuests.message)
     }
-
+    
     const checkinDate = moment(checkin)
     const checkoutDate = moment(checkout)
     if (!checkinDate.isValid() || !checkoutDate.isValid() || !checkoutDate.isAfter(checkinDate)) {
       res.status(400)
       throw new Error('invalid check-in or check-out dates.')
     }
-
+    
     // Check overlapping reservations
     const overlappingReservations = await Reservation.find({
       announcement: announcementID,
@@ -65,13 +63,13 @@ export const createCheckoutSession = async (req, res, next) => {
         { checkin: { $lt: checkout }, checkout: { $gt: checkin } },
       ],
     })
-
+    
     if (overlappingReservations.length > 0) {
       res.status(400)
       throw new Error('the announcement is not available for the selected dates.')
     }
-
-
+    
+    
     // Calculata total price
     const days = checkoutDate.diff(checkinDate, 'days')
     const totalPrice = calculateTotalPrice(
@@ -82,7 +80,7 @@ export const createCheckoutSession = async (req, res, next) => {
       }, 
       guests
     )
-
+    
     // Create payment session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -117,6 +115,8 @@ export const createCheckoutSession = async (req, res, next) => {
         },
       },
     })
+    // send notification 
+    await sendNotification(clientID, announcement.owner._id, 'has booked your property.', `/profile/?announcement=${announcementID}`)
 
     return res.status(200).json({sessionId: session.id})
     
@@ -125,6 +125,7 @@ export const createCheckoutSession = async (req, res, next) => {
   }
 }
 
+// done notification
 export const cancelReservation = async (req, res, next) => {
   const { _id: clientID } = req.user
   const { reservationID } = req.params
@@ -134,7 +135,7 @@ export const cancelReservation = async (req, res, next) => {
       res.status(400)
       throw new Error('invalid data provided !')
     }
-
+    
     const reservation = await Reservation.findById(reservationID).populate({
       path: 'announcement',
       select: 'owner',
@@ -151,41 +152,41 @@ export const cancelReservation = async (req, res, next) => {
       res.status(400)
       throw new Error('reservation not found !')
     }
-
+    
     if (clientID.toString() !== reservation.client.toString()) {
       res.status(403)
       throw new Error('you do not have access to this reservation')
     }
-
+    
     const nowMoment = moment()
     const isCompleted = nowMoment.isAfter(reservation.checkout)
     const CANCEL_FEE_PERCENTAGE = 1 // 0.95 (95%)
-
+    
     // console.log('reservation.status', reservation.status)
     if (!['pending', 'accepted'].includes(reservation.status) || isCompleted) {
       res.status(400)
       throw new Error('reservation cannot be cancelled at its current state')
     }
-
+    
     const paymentIntent = await stripe.paymentIntents.retrieve(reservation.paymentIntentId)
     const totalAmountPaid = paymentIntent.amount
-
+    
     let refundAmount = 0
-
+    
     const checkInDate = moment(reservation.checkin)
     const checkOutDate = moment(reservation.checkout)
     const daysReserved = checkOutDate.diff(checkInDate, 'days')
-
+    
     // pending reservation - full refund
     if (reservation.status === 'pending') {
       refundAmount = totalAmountPaid;
     }
-
+    
     // accepted reservation and current time is before check-in - 95% refund
     if (reservation.status === 'accepted' && nowMoment.isBefore(checkInDate)) {
       refundAmount = totalAmountPaid * CANCEL_FEE_PERCENTAGE
     }
-
+    
     // accepted reservation and current time is after check-in but before check-out
     if (reservation.status === 'accepted' && nowMoment.isAfter(checkInDate)) {
       const daysStayed = nowMoment.diff(checkInDate, 'days')
@@ -193,7 +194,7 @@ export const cancelReservation = async (req, res, next) => {
       const dailyRate = totalAmountPaid / daysReserved
       refundAmount = daysNotStayed * dailyRate * CANCEL_FEE_PERCENTAGE
     }
-// console.log('reservation.announcement.owner.extra.stripeAccountId', reservation.announcement.owner.extra.stripeAccountId)
+    // console.log('reservation.announcement.owner.extra.stripeAccountId', reservation.announcement.owner.extra.stripeAccountId)
     // proceed with the refund logic only if there's an amount to refund
     if (refundAmount > 0) {
       await stripe.refunds.create({
@@ -203,28 +204,31 @@ export const cancelReservation = async (req, res, next) => {
         // refund_application_fee: true
       }
       //  ,{stripeAccount: reservation.announcement.owner.extra.stripeAccountId}
-      )
-    }
-
-    // update the reservation status
-    reservation.status = 'cancelled'
-    await reservation.save()
-
-    return res.status(200).json({ message: 'reservation cancelled and refund processed successfully.' })
-
-  } catch (error) {
-    next(error)
+    )
   }
+  
+  // update the reservation status
+  reservation.status = 'cancelled'
+  await reservation.save()
+  
+  // sending notification
+  await sendNotification(clientID, reservation.announcement.owner._id, 'had canceled reservation.', `/profile/?announcement=${reservation.announcement._id}`)
+  
+  return res.status(200).json({ message: 'reservation cancelled and refund processed successfully.' })
+  
+} catch (error) {
+  next(error)
+}
 }
 
 const modifyReservationObject = async (reservation) => {
-
+  
   const paymentIntent = await stripe.paymentIntents.retrieve(reservation.paymentIntentId)
-
+  
   const nowMoment = moment()
   const checkInDate = moment(reservation.checkin)
   const checkOutDate = moment(reservation.checkout)
-
+  
   let status = reservation.status
   if (reservation.status === 'accepted') {
     if (nowMoment.isAfter(checkInDate) && nowMoment.isBefore(checkOutDate)) {
@@ -234,18 +238,18 @@ const modifyReservationObject = async (reservation) => {
     }
   }
   return {...reservation.toObject(), status, amount: paymentIntent.amount}
-
+  
 }
 
 export const getReservation = async (req, res, next) => {
   const { reservationID } = req.params
   try {
-
+    
     if(!isValidObjectId(reservationID)){
       res.status(400)
       throw new Error('invalid data provided !')
     }
-
+    
     const reservation = await Reservation.findById(reservationID)
     if (!reservation) {
       res.status(400)
@@ -307,6 +311,7 @@ export const getLessorReservations = async (req, res, next) => {
   }
 }
 
+// done notification
 export const handleReservation = async (req, res, next) => {
   let { decision } = req.body
   const { _id: lessorID } = req.user
@@ -342,11 +347,15 @@ export const handleReservation = async (req, res, next) => {
         payment_intent: reservation.paymentIntentId,
         amount: totalAmountPaid
       })
+      var msg = 'has rejected your reservation.'
+    }else{
+      var msg = 'has accepted your reservation.'
     }
+    await sendNotification(lessorID, reservation.client, msg, `/profile/?announcement=${reservation.announcement._id}`)
 
     reservation.status = decision
     await reservation.save()
-
+  
     return res.status(200).json({message: `the reservation is ${decision}`})
 
   } catch (error) {
