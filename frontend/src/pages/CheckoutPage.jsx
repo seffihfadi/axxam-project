@@ -1,10 +1,59 @@
 import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+import { useState } from "react";
 
 const CheckoutPage = () => {
   const stripe = useStripe()
   const elements = useElements();
 
   const API = 'http://localhost:4000/api';
+
+
+  const [accountHolderName, setAccountHolderName] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
+  const [routingNumber, setRoutingNumber] = useState('');
+  const [accountHolderType, setAccountHolderType] = useState('individual');
+
+  const handleBank = async (event) => {
+    event.preventDefault();
+
+    const bankAccountDetails = {
+        country: 'DZ',
+        currency: 'dzd',
+        account_holder_name: accountHolderName,
+        account_holder_type: accountHolderType,
+        routing_number: routingNumber,
+        account_number: accountNumber,
+    };
+
+    // Use Stripe.js to create a bank account token
+    stripe.createToken('bank_account', bankAccountDetails).then(({token, error}) => {
+        if (error) {
+            console.error('Error:', error);
+        } else {
+            console.log('Bank account token:', token.id);
+            // Send the token to your server
+            submitBankAccountToken(token.id);
+        }
+    });
+  };
+
+  const submitBankAccountToken = async (tokenId) => {
+    try {
+        const response = await fetch(`${API}/user/join-us`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token: tokenId, idCard: 'url-img', email: 'ness@gmail.com', bio: 'hodisl nessiel sko', gender: 'Male'})
+        });
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error('Error submitting token:', error);
+    }
+  };
+
 
   async function fetchFromAPI(endpoint, opts) {
     const { method, body } = { method: 'POST', body: null, ...opts };
@@ -24,8 +73,8 @@ const CheckoutPage = () => {
     }
   }
   const reservationDetails = {
-    checkin: "2024/04/10",
-    checkout: "2024/04/11",
+    checkin: new Date("2024/04/15"),
+    checkout: new Date("2024/04/17"),
     guests: {
       adults: 1,
       children: 0,
@@ -89,6 +138,18 @@ const CheckoutPage = () => {
             <button onClick={handleCheckout} className="px-4 py-1 rounded-md bg-indigo-500 text-white mt-4">Checkout</button>
           </div>
         </div>
+        <div className=" bg-red-500">
+        <form className="flex flex-col" onSubmit={handleBank}>
+            <input type="text" value={accountHolderName} onChange={(e) => setAccountHolderName(e.target.value)} placeholder="Account Holder Name" required />
+            <input type="text" value={accountNumber} onChange={(e) => setAccountNumber(e.target.value)} placeholder="Account Number" required />
+            <input type="text" value={routingNumber} onChange={(e) => setRoutingNumber(e.target.value)} placeholder="Routing Number" required />
+            <select value={accountHolderType} onChange={(e) => setAccountHolderType(e.target.value)}>
+                <option value="individual">Individual</option>
+                <option value="company">Company</option>
+            </select>
+            <button type="submit">Add Bank Account</button>
+        </form>
+        </div>
 
         <div className="h-screen w-full bg-white shadow-xl p-5">
 
@@ -115,6 +176,9 @@ const CheckoutPage = () => {
             </button>
           </form>
         </div>
+
+
+        
       
     </div>
   )

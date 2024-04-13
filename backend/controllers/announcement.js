@@ -1,5 +1,5 @@
 import Announcement from '../models/Announcement.js'
-import cloudinary from '../utils/cloudinary.js'
+import cloudinary from '../api/cloudinary.js'
 import User from '../models/User.js'
 import UserExtraDetails from '../models/UserExtraDetails.js'
 
