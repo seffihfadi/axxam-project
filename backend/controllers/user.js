@@ -274,18 +274,11 @@ export const joinUs = async (req, res, next) => {
   const {_id: sessionID, extra} = req.user
   const {idCard, email, bio, gender} = req.body
   try {
-    // const userDetailsID = extra?._id || new mongoose.Types.ObjectId()
-    // console.log('req.ip', req.ip)
 
     if (!idCard || !email || !bio || !gender) {
       res.status(400)
       throw new Error('please fill in all requered fields')
     }
-
-    // if (role === ROLES.lessor[0]){
-    //   res.status(400)
-    //   throw new Error('you are already a lessor')
-    // }
 
     const account = await stripe.accounts.create({
       type: 'custom',
@@ -301,18 +294,18 @@ export const joinUs = async (req, res, next) => {
         },
       },
      
-      business_type: 'company',
-      company: {
-        name: 'Axxam',
-        tax_id: '123456789',
-        address: {
-          city: 'Algiers',
-          country: 'DZ',
-          line1: '123 Business St',
-          postal_code: '12345',
-          state: 'State',
-        },
-      },
+      business_type: 'individual',
+      // company: {
+      //   name: 'Axxam',
+      //   tax_id: '123456789',
+      //   address: {
+      //     city: 'Algiers',
+      //     country: 'DZ',
+      //     line1: '123 Business St',
+      //     postal_code: '12345',
+      //     state: 'State',
+      //   },
+      // },
       tos_acceptance: {
         service_agreement: 'recipient',
         date: Math.floor(Date.now() / 1000),
@@ -329,14 +322,19 @@ export const joinUs = async (req, res, next) => {
       throw new Error('somthing went wrong with Stripe account creation!')
     }
 
-    // const externalAccount = await stripe.accounts.createExternalAccount(
-    //   account.id,
-    //   {
-    //     external_account: 'btok_1NAiJy2eZvKYlo2Cnh6bIs9c',
-    //   }
-    // );
+    await stripe.accounts.update(
+      account.id,
+      {
+        settings: {
+          payouts: {
+            schedule: {
+              interval: 'manual',
+            },
+          },
+        },
+      }
+    )
 
-    
     const userDetails = await UserDetails.findOneAndUpdate(
       { _id: extra?._id || new mongoose.Types.ObjectId() },
       {
@@ -364,21 +362,115 @@ export const joinUs = async (req, res, next) => {
 
 }
 
+// export const joinUs = async (req, res, next) => {
+//   const {_id: sessionID, extra} = req.user
+//   const {idCard, email, bio, gender} = req.body
+//   try {
+//     // const userDetailsID = extra?._id || new mongoose.Types.ObjectId()
+//     // console.log('req.ip', req.ip)
 
-export const addCard = async (req, res, next) => {
-  const user = req.user;
-  const {token} = req.body;
-  try {
-      const card = await stripe.accounts.createExternalAccount(
-          user.extra.stripeAccountId,
-          {
-              external_account: token.id,
+//     if (!idCard || !email || !bio || !gender) {
+//       res.status(400)
+//       throw new Error('please fill in all requered fields')
+//     }
+
+//     // if (role === ROLES.lessor[0]){
+//     //   res.status(400)
+//     //   throw new Error('you are already a lessor')
+//     // }
+
+//     const account = await stripe.accounts.create({
+//       type: 'custom',
+//       country: 'DZ',
+//       email,
+//       default_currency: 'dzd',
+//       capabilities: {
+//         card_payments: {
+//           requested: false,
+//         },
+//         transfers: {
+//           requested: true,
+//         },
+//       },
+     
+//       business_type: 'company',
+//       company: {
+//         name: 'Axxam',
+//         tax_id: '123456789',
+//         address: {
+//           city: 'Algiers',
+//           country: 'DZ',
+//           line1: '123 Business St',
+//           postal_code: '12345',
+//           state: 'State',
+//         },
+//       },
+//       tos_acceptance: {
+//         service_agreement: 'recipient',
+//         date: Math.floor(Date.now() / 1000),
+//         ip: req.ip,
+        
+//       },
+//       metadata: {
+//         lessorID: sessionID.toString()
+//       }
+//     })
+    
+//     if (!account) {
+//       res.status(500)
+//       throw new Error('somthing went wrong with Stripe account creation!')
+//     }
+
+//     // const externalAccount = await stripe.accounts.createExternalAccount(
+//     //   account.id,
+//     //   {
+//     //     external_account: 'btok_1NAiJy2eZvKYlo2Cnh6bIs9c',
+//     //   }
+//     // );
+
+    
+//     const userDetails = await UserDetails.findOneAndUpdate(
+//       { _id: extra?._id || new mongoose.Types.ObjectId() },
+//       {
+//         bio,
+//         gender,
+//         idCard,
+//         stripeAccountId: account.id,
+//       },
+//       {
+//         new: true, 
+//         upsert: true,
+//         setDefaultsOnInsert: true,
+//       }
+//     );
+
+//     if (!extra?._id) {
+//       await User.findByIdAndUpdate(sessionID, { extra: userDetails._id, role: ROLES.lessor[0] })
+//     }
+//     await User.findByIdAndUpdate(sessionID, {role: ROLES.lessor[0]})
+
+//     res.status(200).json({ message: 'Join us process successful' })
+//   } catch (err) {
+//     next(err)
+//   }
+
+// }
+
+
+// export const addCard = async (req, res, next) => {
+//   const user = req.user;
+//   const {token} = req.body;
+//   try {
+//       const card = await stripe.accounts.createExternalAccount(
+//           user.extra.stripeAccountId,
+//           {
+//               external_account: token.id,
               
-            //  currency: 'dzd'
-          }
-      )
-      res.json(card)
-  } catch (error) {
-    next(error)
-  }
-}
+//             //  currency: 'dzd'
+//           }
+//       )
+//       res.json(card)
+//   } catch (error) {
+//     next(error)
+//   }
+// }

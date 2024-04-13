@@ -8,7 +8,7 @@ import {
   signoutUser,
   signupUser,
   joinUs,
-  addCard
+  // addCard
 } from '../controllers/user.js';
 
 const userRoutes = express.Router();
@@ -16,7 +16,7 @@ const userRoutes = express.Router();
 userRoutes.post('/signin/send-otp', sendOTPSignin);
 userRoutes.post('/signup/send-otp', sendOTPSignup);
 userRoutes.post('/join-us', access(ROLES.all), joinUs);
-userRoutes.post('/add-card', access(ROLES.all), addCard);
+// userRoutes.post('/add-card', access(ROLES.all), addCard);
 userRoutes.post('/verify-otp', verifyOTP);
 userRoutes.patch('/signup', signupUser);
 userRoutes.get('/signout', signoutUser);
