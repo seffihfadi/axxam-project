@@ -81,7 +81,7 @@ const announcementSchema = new Schema({
   },
 
   images: {
-    type: [String],
+    type: [{secure_url: String, public_id: String}],
     required: true,
     validate: {
       validator: function(v) {
