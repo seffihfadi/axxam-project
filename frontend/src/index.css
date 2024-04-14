@@ -12,7 +12,7 @@
   @apply text-gray-800 dark:text-white ;
 } */
 
-* {
+body, span, p, button, div {
   @apply text-gray-800 dark:text-white;
 }
 
@@ -102,7 +102,7 @@ button:disabled {
   @apply w-screen h-screen flex justify-center items-center z-50 fixed top-0 left-0 backdrop-blur-sm;
 }
 .popup .window {
-  @apply w-[672px] bg-white rounded-xl max-h-[75%] overflow-y-auto shadow-xl py-6 px-0 relative;
+  @apply max-w-[calc(100%-4rem)] w-[672px] bg-white dark:bg-darkmode rounded-xl max-h-[75%] overflow-y-auto shadow-xl py-6 px-0 relative dark:border-[1px] dark:border-gray-600;
 }
 
 .backdrop {
@@ -499,11 +499,11 @@ form .main {
 form .group input,
 form .group textarea,
 form .group select {
-  @apply px-8 pt-7 pb-3 rounded-lg outline-none border-[1.5px] border-gray-400;
+  @apply px-8 pt-7 pb-3 rounded-lg appearance-none outline-none border-[1.5px] border-gray-400 dark:bg-gray-100 dark:text-gray-500;
 }
 
 form .group label {
-  @apply text-sm absolute top-[23px] bg-white w-[calc(100%-3rem)] pl-1 pb-4 left-8
+  @apply text-sm absolute top-[23px] bg-white dark:bg-gray-100 w-[calc(100%-3rem)] pl-1 pb-4 left-8
   text-gray-400 transition-all cursor-text select-none;
 }
 form .group input:valid ~ label,
@@ -558,38 +558,42 @@ form .main select:focus {
 .BookingButton {
   @apply flex gap-2 items-center justify-center px-4 py-2 rounded-lg font-semibold text-sm lg:w-fit w-[138px];
 }
-.darktxt{
+.darktxt {
   @apply dark:text-gray-200;
 }
 
-form .main{
-  @apply  lg:w-[68%] md:w-[80%]  mb-12   ;
+form .main {
+  @apply lg:w-[68%] md:w-[80%]  mb-12;
 }
 
 form .main input,
 form .main select {
-  @apply  px-2 pt-10 pb-3 appearance-none bg-transparent  text-gray-400 text-sm outline-none border-b-[1.5px] border-b-gray-400   ;
+  @apply px-2 pt-10 pb-3 appearance-none bg-transparent  text-gray-400 text-sm outline-none border-b-[1.5px] border-b-gray-400;
 }
 
 form .main label {
-  @apply  absolute top-[10px] w-[calc(100%-3rem)]  left-1
-  font-semibold text-base transition-all cursor-text select-none ;
+  @apply absolute top-[10px] w-[calc(100%-3rem)]  left-1
+  font-semibold text-base transition-all cursor-text select-none;
 }
-form .main input:valid ~ label,
+/* form .main input:valid ~ label,
 form .main input:focus ~ label,
 form .main select:valid ~ label,
 form .main select:focus ~ label {
   @apply top-1  p-0;
-}
+} */
 
 form .main input:valid,
 form .main select:valid:not(:placeholder-shown) {
   @apply border-gray-300;
 }
-button.info{
-  @apply px-10  md:my-10  mx-auto flex justify-center   md:mx-0 font-normal text-base ;
+button.info {
+  @apply px-10  md:my-10  mx-auto flex justify-center   md:mx-0 font-normal text-base;
 }
 
 .group.signup {
   @apply mb-0;
+}
+
+.signup-1 {
+  animation: fadeInUp 0.3s ease-in-out
 }

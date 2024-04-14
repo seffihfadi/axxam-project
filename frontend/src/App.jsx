@@ -17,6 +17,7 @@ const CanceledPayment = lazy(() => import("./components/reservation/CanceledPaym
 const FavoritePropertiesPage = lazy(() => import("./pages/FavoritePropertiesPage"));
 const BookingHistoryPage = lazy(() => import("./pages/BookingHistoryPage"));
 const MainInfosPage = lazy(() => import("./pages/MainInfospage"));
+const PointSystemPage = lazy(() => import("./pages/PointSystemPage"));
 
 const App = () => {
   return (
@@ -34,7 +35,7 @@ const App = () => {
           <Route path="/favourite" element={<FavoritePropertiesPage/>}/>
           <Route path="/history" element={<BookingHistoryPage/>}/>
           <Route path="/info" element={<MainInfosPage/>}/>
-
+          
           {/* lessee routes */}
           <Route
             path="lessee"
