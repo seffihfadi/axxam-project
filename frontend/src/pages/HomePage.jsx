@@ -9,8 +9,8 @@ import SearchBar from "../components/landing/SearchBar";
 import Filters from "../components/home/Filters";
 import PropertyCard from "../components/home/PropertyCard";
 import Properties from "../components/home/Properties";
-import Signup from "../components/common/signup/Signup";
-import Signup3 from "../components/common/signup/Signup3";
+import Signup from "../components/auth/signup/Signup";
+import Signup3 from "../components/auth/signup/Signup3";
 
 const HomePage = () => {
   return (

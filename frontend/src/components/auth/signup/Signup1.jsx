@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import Popup from "../Popup";
+import Popup from "../../common/Popup";
+import { IoClose } from "react-icons/io5";
 
 function Signup1({
   isOpen,
-  setIsOpen,
   handleClose,
   openPopup2,
+  openPopup1Signin,
   inputValue,
   setInputValue,
+  title,
 }) {
   const [hasInput, setHasInput] = useState(false);
 
@@ -22,24 +24,24 @@ function Signup1({
       {isOpen && (
         <Popup
           children={
-            <div className="window">
-              <div className="w-[65%] mx-auto h-[60vh]">
+            <div className="window signup-1">
+              <div className="w-[80%] md:w-[65%] mx-auto h-[400px] md:h-[450px] lg:h-[480px]">
                 <button
                   onClick={handleClose}
-                  className="absolute left-4 top-6 text-lg"
+                  className="absolute left-5 top-7 md:text-xl"
                 >
-                  X
+                  <IoClose/>
                 </button>
                 <div
-                  className="text-center mb-6  before:absolute before:w-full before:h-px before:bg-gray-300 before:top-16 
+                  className="text-center mb-6  before:absolute before:w-full before:h-px before:bg-gray-300 dark:before:bg-gray-600 before:top-16 
                                 before:left-0 font-semibold"
                 >
-                  Signup
+                  {title}
                 </div>
-                <h1 className="text-center font-semibold text-2xl mt-14">
+                <h1 className="text-center font-semibold text-xl md:text-2xl mt-14">
                   Welcome To AXXAM
                 </h1>
-                <form className="pt-14">
+                <form className="pt-10 md:pt-14 text-sm md:text-base">
                   <div className={`group phone ${hasInput && "has-input"}`}>
                     <input
                       id="phonenumber"
@@ -55,19 +57,26 @@ function Signup1({
                     <label htmlFor="phonenumber">Phone Number</label>
                   </div>
                 </form>
-                <p className="text-center">
-                  <span className="font-semibold">Note:</span> We will send an OTP
-                  Code to the provided number for verification perposes
+                <p className="text-center text-sm md:text-base">
+                  <span className="font-semibold">Note:</span> We will send an
+                  OTP Code to the provided number for verification perposes
                 </p>
-                <div className="flex justify-center items-center mt-12 ">
+                <div className="flex justify-center items-center mt-8 md:mt-12 ">
                   <button
-                    className="rounded-lg bg-primary text-white font-semibold w-fit px-10 py-4"
+                    className="rounded-md md:rounded-lg bg-primary text-white font-semibold w-fit px-6 md:px-10 py-4 text-sm md:text-base"
                     onClick={inputValue != "" && openPopup2}
                   >
                     Send Code
                   </button>
                 </div>
               </div>
+              { title === 'Signup' &&
+              <button
+                  className="text-gray-500 text-xs md:text-sm relative bottom-4 left-8 underline underline-offset-2"
+                  onClick={openPopup1Signin}
+                  >
+                    Already signed up?
+              </button>}
             </div>
           }
         />

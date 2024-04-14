@@ -103,7 +103,7 @@ function FavProperties(){
     <div className="container my-24">
       {cards.length > 1 ? (
         <>
-         <h1 className="pb-12 pt-3 md:pb-20 font-bold text-xl">Favorite properties</h1>
+        <h1 className="pb-12 pt-3 md:pb-20 font-bold text-xl">Favorite properties</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">  
             {cards.map((element) => (
               <FavPropertiesCard key={element.id} props={element} />
