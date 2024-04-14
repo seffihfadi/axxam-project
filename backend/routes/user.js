@@ -6,16 +6,24 @@ import {
   sendOTPSignin, 
   verifyOTP,
   signoutUser,
-  signupUser
+  signupUser,
+  joinUs,
+  addCard,
+  updateUserAdditional,
+  updateUserMain
 } from '../controllers/user.js';
 
 const userRoutes = express.Router();
 
-userRoutes.post('/send-otp-signin', sendOTPSignin);
-userRoutes.post('/send-otp-signup', sendOTPSignup);
+userRoutes.post('/signin/send-otp', sendOTPSignin);
+userRoutes.post('/signup/send-otp', sendOTPSignup);
+userRoutes.post('/join-us', access(ROLES.all), joinUs);
+userRoutes.post('/add-card', access(ROLES.all), addCard);
 userRoutes.post('/verify-otp', verifyOTP);
-userRoutes.patch('/signup', signupUser);
 userRoutes.get('/signout', signoutUser);
+userRoutes.patch('/signup', signupUser);
+userRoutes.patch('/update-main', access(ROLES.all), updateUserMain);
+userRoutes.patch('/update-additional', access(ROLES.all), updateUserAdditional);
 // userRoutes.get('/get-users', access(ROLES.all), getAllUsers);
 
 // userRoutes.get('/get-user', access(ROLES.all), getUser);
