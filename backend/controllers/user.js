@@ -308,7 +308,7 @@ export const joinUs = async (req, res, next) => {
     
     if (!account) {
       res.status(500)
-      throw new Error('somthing went wrong with Stripe account creation!')
+      throw new Error('something went wrong with Stripe account creation!')
     }
 
     const bankAccount = await stripe.accounts.createExternalAccount(account.id, {
