@@ -60,10 +60,10 @@ function SearchBar() {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex gap-4 border rounded-xl lg:rounded-full w-full sm:w-[unset] max-w-[25rem] sm:max-w-full bg-white p-3 sm:p-5 sm:py-3 lg:px-8 mt-10 -mx-20 -px-20">
+    <div className="grid grid-cols-1  sm:grid-cols-2 lg:flex gap-4 border rounded-xl lg:rounded-full w-full sm:w-[unset] max-w-[25rem] sm:max-w-full bg-white p-3 sm:p-5 sm:py-3 lg:px-8 mt-10 -mx-20 -px-20">
       <div className="">
         <div className=" iconDiv flex gap-3">
-          <div className="pd">
+          <div className="pd ">
             <HiOutlineLocationMarker className=" " />
           </div>
           <h4 className="font-semibold titre arrow flex items-center gap-2">

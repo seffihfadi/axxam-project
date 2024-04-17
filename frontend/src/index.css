@@ -598,88 +598,23 @@ button.info{
   @apply mb-0;
 }
 
-.mobile {
-  display: none;
-}
 .navbar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @apply flex items-center justify-center ;
 }
-@media screen and (max-width: 769px) {
+@media screen and (max-width: 768px) {
   .navbar {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    position: fixed;
-    top: 60px;
-    right: -300px;
-    width: 240px;
-    height:300px ;        /* 100vh;*/
-   
-  
-    padding: 40px 0 0 10px;
-    transition: 0.3s ease-in-out;
+    @apply  flex flex-col items-start justify-start fixed top-[60px] right-[-300px] w-[240px] h-[300px]  pt-[40px] pb-0 pr-0 pl-[10px] transition ease-in-out duration-300 ;
   }
-
   .navbar.active {
-    right: 0px;
+    @apply right-0 ;
+  }}
+.navbarOwner {
+  @apply flex items-center justify-center ;
+}
+@media screen and (max-width: 1024px) {
+  .navbarOwner {
+    @apply  flex flex-col items-start justify-start fixed top-[60px] right-[-300px] w-[240px] h-[300px]  pt-[40px] pb-0 pr-0 pl-[10px] transition ease-in-out duration-300 ;
   }
-
-  .navbar a {
-    margin-bottom: 25px;
-  }
-
-  .mobile {
-    display: block;
-    
-  }
-
-  
-}
-button.hed {
-  @apply  rounded-lg bg-primary text-black w-fit  h-[40px] element-center font-medium md:font-semibold text-sm px-1 py-0 ;
-}
-button.hed2 {
-  @apply  rounded-lg bg-white text-black  border-[1px] w-fit  border-black h-[40px] element-center md:font-semibold font-medium text-sm px-1 py-0;
-}
-/*/////////////////////////////////////////////////////////////////////////*/
-
-.dropdown-menu{
-  position: absolute;
-  top: 60px;
-  right: 8px;
-  background-color: #fff;
-  border-radius: 0px 0px 10px 10px;
-  padding: 10px 20px;
-  width: 250px;
-  box-shadow: 0px 10px 15px 0px #6D6D6D;
-}
-
-.dropdown-menu::before{
-  content: '';
-  position: absolute;
-  top: -5px;
-  right: 20px;
-  height: 20px;
-  width: 20px;
-  transform: rotate(45deg);
-}
-
-.dropdown-menu.active{
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  transition: var(--speed) ease;
-}
-
-.dropdown-menu.inactive{
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-20px);
-  transition: var(--speed) ease;
-}
-.dropdownItem{
-  @apply flex gap-2 items-center py-2 border-t-[#6D6D6D]/50 border-t-[1px]  text-black hover:text-[#0051CB]
-}
+  .navbarOwner.activee {
+    @apply right-0 ;
+  }}

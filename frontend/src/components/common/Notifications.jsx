@@ -35,12 +35,12 @@ function Notifications() {
           <img src={user} alt="user " className="object-contain w-9 "></img>
         </div>
 
-        <div className={`dropdown-menu dark:bg-darkmode ${open? 'active' : 'inactive'}`} >
+        <div className={`absolute top-[60px] shadow-md shadow-[#6D6D6D] rounded-b-lg p-4 bg-[#fff] w-[250px] right-2 before:absolute before:top-[-5px] before:right-[20px] before:transform before:rotate-45 before:h-[20px] before:w-[20px] before: dark:bg-darkmode ${open? 'opacity-100 visible translate-y-0 ' : 'opacity-0 invisible -translate-y-20 '}`} >
         <ul>
-            <li className = 'dropdownItem border-none '><GoPerson className="text-lg"/> <a href="">Personal informations</a> </li>
-            <li className = 'dropdownItem'> <LuCalendarClock className="text-lg"/><a href="">Booking history</a></li>
-            <li className = 'dropdownItem'><MdBookmarkBorder className="text-lg"/><a href="">Favorite properties</a></li>
-            <li className = 'dropdownItem'><IoLogOutOutline className="text-lg"/><a href="">Log out</a></li>
+            <li className = 'flex gap-2 items-center py-2 border-t-[#6D6D6D]/50 border-t-[1px]  text-black hover:text-[#0051CB] border-none '><GoPerson className="text-lg"/> <a href="">Personal informations</a> </li>
+            <li className = 'flex gap-2 items-center py-2 border-t-[#6D6D6D]/50 border-t-[1px]  text-black hover:text-[#0051CB]'> <LuCalendarClock className="text-lg"/><a href="">Booking history</a></li>
+            <li className = 'flex gap-2 items-center py-2 border-t-[#6D6D6D]/50 border-t-[1px]  text-black hover:text-[#0051CB]'><MdBookmarkBorder className="text-lg"/><a href="">Favorite properties</a></li>
+            <li className = 'flex gap-2 items-center py-2 border-t-[#6D6D6D]/50 border-t-[1px]  text-black hover:text-[#0051CB]'><IoLogOutOutline className="text-lg"/><a href="">Log out</a></li>
         </ul>
         </div>
       
