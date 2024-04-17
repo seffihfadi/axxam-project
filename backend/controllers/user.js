@@ -1,28 +1,32 @@
-// import bcrypt from 'bcrypt'
-// import twilio from 'twilio'
-
 import jwt from 'jsonwebtoken'
 import User from "../models/User.js"
 import UserExtraDetails from '../models/UserExtraDetails.js'
 import { isPhone } from '../utils/func.js'
-import cloudinary from '../utils/cloudinary.js'
-import { stripe } from '../utils/stripe.js'
+import cloudinary from '../api/cloudinary.js'
+import { stripe } from '../api/stripe.js'
 import ROLES from '../utils/roles.js'
 import mongoose from 'mongoose'
+import { sendSMS } from '../api/twilio.js'
 
 // done
 export const sendOTPSignup = async (req, res, next) => {
   const { phone } = req.body
-  const otpExpiry = new Date(Date.now() + 12e4) // 2 minutes from now
-  const OTPCode = 147852
-
+  
   try {
 
     if (!isPhone(phone)) {
       res.status(400)
       throw new Error('phone number is invalid')
     }
-    
+
+    const otpExpiry = new Date(Date.now() + 12e4) // 2 minutes from now
+    const OTPCode = 147852
+
+    // we must pay to send an sms
+
+    // let OTPCode = Math.floor(100000 + Math.random() * 900000)
+    // sendSMS(phone, `Axxam verification code is: ${OTPCode}`)
+
     const user = await User.findOne({phone})
     if (!!user) {
       if (user.isCompleted) {
@@ -31,7 +35,7 @@ export const sendOTPSignup = async (req, res, next) => {
       }
       await User.updateOne({ phone }, { OTPCode, otpExpiry }, { runValidators: false });
     } else {
-      await User.updateOne({phone},{ phone, OTPCode, otpExpiry }, {upsert: true, runValidators: false}); // create did not work with the validators
+      await User.updateOne({phone},{ phone, OTPCode, otpExpiry }, {upsert: true, runValidators: false})
     }
 
     return res.json({ message: 'OTP sent successfully' }) 
@@ -44,15 +48,20 @@ export const sendOTPSignup = async (req, res, next) => {
 
 export const sendOTPSignin = async (req, res, next) => {
   const { phone } = req.body
-  const otpExpiry = new Date(Date.now() + 12e4) // 2 minutes from now
-  const OTPCode = 147852
-
+  
   try {
     if (!isPhone(phone)) {
       res.status(400)
       throw new Error('phone number is invalid')
     }
+
+    const otpExpiry = new Date(Date.now() + 12e4) // 2 minutes from now
+    const OTPCode = 147852
     
+    // we must pay to send an sms
+
+    // let OTPCode = Math.floor(100000 + Math.random() * 900000)
+    // sendSMS(phone, `Axxam verification code is: ${OTPCode}`)
     
     const user = await User.findOne({phone})
     
@@ -251,20 +260,14 @@ export const updateUserAdditional = async (req, res ,next) => {
 
 export const joinUs = async (req, res, next) => {
   const {_id: sessionID, extra} = req.user
-  const {idCard, email, bio, gender} = req.body
+  console.log('first', req.body)
+  const {idCard, email, bio, gender, token} = req.body
   try {
-    // const userDetailsID = extra?._id || new mongoose.Types.ObjectId()
-    // console.log('req.ip', req.ip)
 
-    if (!idCard || !email || !bio || !gender) {
+    if (!idCard || !email || !bio || !gender|| !token) {
       res.status(400)
       throw new Error('please fill in all requered fields')
     }
-
-    // if (role === ROLES.lessor[0]){
-    //   res.status(400)
-    //   throw new Error('you are already a lessor')
-    // }
 
     const account = await stripe.accounts.create({
       type: 'custom',
@@ -305,17 +308,18 @@ export const joinUs = async (req, res, next) => {
     
     if (!account) {
       res.status(500)
-      throw new Error('somthing went wrong with Stripe account creation!')
+      throw new Error('something went wrong with Stripe account creation!')
     }
 
-    // const externalAccount = await stripe.accounts.createExternalAccount(
-    //   account.id,
-    //   {
-    //     external_account: 'btok_1NAiJy2eZvKYlo2Cnh6bIs9c',
-    //   }
-    // );
+    const bankAccount = await stripe.accounts.createExternalAccount(account.id, {
+      external_account: token,
+    });
 
-    
+    if (!bankAccount) {
+      res.status(500)
+      throw new Error('you can not accept payouts, contact us to solve you problem')
+    }
+
     const userDetails = await UserExtraDetails.findOneAndUpdate(
       { _id: extra?._id || new mongoose.Types.ObjectId() },
       {
@@ -345,19 +349,19 @@ export const joinUs = async (req, res, next) => {
 
 
 export const addCard = async (req, res, next) => {
-  const user = req.user;
-  const {token} = req.body;
-  try {
-      const card = await stripe.accounts.createExternalAccount(
-          user.extra.stripeAccountId,
-          {
-              external_account: token.id,
+  // const user = req.user;
+  // const {token} = req.body;
+  // try {
+  //     const card = await stripe.accounts.createExternalAccount(
+  //         user.extra.stripeAccountId,
+  //         {
+  //             external_account: token.id,
               
-            //  currency: 'dzd'
-          }
-      )
-      res.json(card)
-  } catch (error) {
-    next(error)
-  }
+  //           //  currency: 'dzd'
+  //         }
+  //     )
+  //     res.json(card)
+  // } catch (error) {
+  //   next(error)
+  // }
 }

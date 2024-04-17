@@ -4,7 +4,7 @@ import moment from 'moment'
 
 import { isValidObjectId } from "mongoose"
 import { validateGuests } from "../utils/validation.js"
-import { stripe } from "../utils/stripe.js"
+import { stripe } from "../api/stripe.js"
 import { sendNotification } from "../controllers/notifications.js"
 import { calculateTotalPrice } from "../utils/func.js"
 
@@ -40,7 +40,6 @@ export const createCheckoutSession = async (req, res, next) => {
     }
     
     const lessorStripeAccountId = announcement.owner.extra.stripeAccountId
-    
     
     const validGuests = validateGuests(guests, announcement.maxPersons)
     if (!validGuests.isValid) {
@@ -94,7 +93,7 @@ export const createCheckoutSession = async (req, res, next) => {
             product_data: {
               name: announcement.title,
               description: announcement.desc,
-              images: announcement.images.slice(0, 4)
+              images: announcement.images[0].secure_url
             }
           }
         }
@@ -115,10 +114,13 @@ export const createCheckoutSession = async (req, res, next) => {
         },
       },
     })
+
+    console.log('session', session)
     // send notification 
     await sendNotification(clientID, announcement.owner._id, 'has booked your property.', `/profile/?announcement=${announcementID}`)
 
     return res.status(200).json({sessionId: session.id})
+    // return res.status(200).json({message: 'it works '+ totalPrice + JSON.stringify(guests) + clientID.toString()})
     
   } catch (error) {
     next(error)
@@ -194,16 +196,16 @@ export const cancelReservation = async (req, res, next) => {
       const dailyRate = totalAmountPaid / daysReserved
       refundAmount = daysNotStayed * dailyRate * CANCEL_FEE_PERCENTAGE
     }
-    // console.log('reservation.announcement.owner.extra.stripeAccountId', reservation.announcement.owner.extra.stripeAccountId)
     // proceed with the refund logic only if there's an amount to refund
     if (refundAmount > 0) {
       await stripe.refunds.create({
+        
         payment_intent: reservation.paymentIntentId,
-        // charge: reservation.latest_charge,
         amount: refundAmount,
-        // refund_application_fee: true
+        reverse_transfer: true,  
+        refund_application_fee: true
       }
-      //  ,{stripeAccount: reservation.announcement.owner.extra.stripeAccountId}
+      // , { stripeAccount: reservation.announcement.owner.extra.stripeAccountId }
     )
   }
   
@@ -366,7 +368,7 @@ export const handleReservation = async (req, res, next) => {
 export async function getAccountDetails(req, res, next) {
   try {
     // const account = await stripe.balance.retrieve({stripeAccount: 'acct_1P1sSyR3IgYrr4Dg'})
-    const account = await stripe.paymentIntents.retrieve('pi_3P1sZSJs0TlUZPKJ1BAoEAoN')
+    const account = await stripe.paymentIntents.retrieve('pi_3P55ExJs0TlUZPKJ0I0YH9Zu')
     res.json(account)
   } catch (error) {
     next(error)

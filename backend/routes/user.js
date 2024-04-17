@@ -18,7 +18,7 @@ const userRoutes = express.Router();
 userRoutes.post('/signin/send-otp', sendOTPSignin);
 userRoutes.post('/signup/send-otp', sendOTPSignup);
 userRoutes.post('/join-us', access(ROLES.all), joinUs);
-userRoutes.post('/add-card', access(ROLES.all), addCard);
+// userRoutes.post('/add-card', access(ROLES.all), addCard);
 userRoutes.post('/verify-otp', verifyOTP);
 userRoutes.get('/signout', signoutUser);
 userRoutes.patch('/signup', signupUser);

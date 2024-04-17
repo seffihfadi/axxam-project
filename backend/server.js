@@ -10,7 +10,8 @@ import reviewRoutes from './routes/review.js'
 import reservationRoutes from './routes/reservation.js'
 import announcementRoutes from './routes/announcement.js'
 import notificationRoutes from './routes/notifications.js'
-import { webhook } from './api/webhook.js'
+
+import { createReservationWebhook } from './api/webhook.js'
 
 // init
 dotenv.config()
@@ -34,7 +35,8 @@ app.use('/api/announcement', announcementRoutes)
 app.use('/api/notification', notificationRoutes)
 
 // webhooks
-app.post('/webhook', express.json({type: 'application/json'}), webhook)
+app.post('/create-reservation-webhook', express.json({type: 'application/json'}), createReservationWebhook)
+
 
 // error middlewares
 app.use(errorHandler)
