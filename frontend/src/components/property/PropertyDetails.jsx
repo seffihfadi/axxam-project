@@ -2,6 +2,7 @@ import React from 'react'
 import { CiHeart } from "react-icons/ci";
 import Host from './Host';
 import Reservation from "./Reservation";
+import { ReactPhotoSphereViewer } from "react-photo-sphere-viewer";
 function PropertyDetails({data,rules,offers,owner,handleOpen}){
   return (
   <div className='mb-5 mt-28  container'>
@@ -15,9 +16,16 @@ function PropertyDetails({data,rules,offers,owner,handleOpen}){
 
     {/*picturessec*/}
     <div className="picture-section">
-      <div className='md:w-full'>
-        <img className="img" src={data.image1} alt=""/>
-      </div>
+      <div className="md:w-full relative">
+          <img className="opacity-0 img md:hidden" src={data.image2} alt="" />
+          <div className="wrap transform -translate-x-0 -translate-y-full md:transform-none w-full h-full overflow-hidden rounded-lg md:rounded-none">
+            <ReactPhotoSphereViewer
+              src={data.image1}
+              height={"100%"}
+              width={"100%"}
+            ></ReactPhotoSphereViewer>
+         </div>
+      </div>     
       <div className="flex md:grid md:grid-cols-2 w-max md:w-full gap-x-5 md:gap-y-3.5" >
         <img className=" img" src={data.image2} alt=""/>
         <img  className="img" src={data.image3} alt=""/>

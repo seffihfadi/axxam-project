@@ -26,8 +26,8 @@ body.popup-open {
 }
 
 .btn-switch {
-  @apply bg-primary rounded-full px-4 py-2 flex justify-center items-center dark:bg-slate-600 shadow-lg;
-}
+  @apply bg-primary rounded-lg h-[37px] font-medium md:font-semibold text-sm px-1 py-0  flex justify-center items-center dark:bg-slate-600 shadow-lg;
+} 
 /* loader  */
 .loading {
   @apply h-full w-full flex justify-center flex-col items-center absolute z-10 left-0 top-0;
@@ -597,3 +597,24 @@ button.info {
 .signup-1 {
   animation: fadeInUp 0.3s ease-in-out
 }
+
+.navbar {
+  @apply flex items-center justify-center ;
+}
+@media screen and (max-width: 768px) {
+  .navbar {
+    @apply  flex flex-col items-start justify-start fixed top-[60px] right-[-300px] w-[240px] h-[300px]  pt-[40px] pb-0 pr-0 pl-[10px] transition ease-in-out duration-300 ;
+  }
+  .navbar.active {
+    @apply right-0 ;
+  }} 
+.navbarOwner {
+  @apply flex items-center justify-center ;
+}
+@media screen and (max-width: 1024px) {
+  .navbarOwner {
+    @apply  flex flex-col items-start justify-start fixed top-[60px] right-[-300px] w-[240px] h-[300px]  pt-[40px] pb-0 pr-0 pl-[10px] transition ease-in-out duration-300 ;
+  }
+  .navbarOwner.activee {
+    @apply right-0 ;
+  }}

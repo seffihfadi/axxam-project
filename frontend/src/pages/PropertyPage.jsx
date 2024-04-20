@@ -11,7 +11,7 @@ const PropertyPage = () => {
     {/*PropertDetails */}
     const card = 
     { 
-      image1: "/public/picc1.jpg",
+      image1: "/public/picc1-360.jpg",
       image2:"/public/card1pic1.jpg",
       image3:"/public/card1pic2.jpg",
       image4:"/public/card1pic3.jpg",

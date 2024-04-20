@@ -27,7 +27,7 @@ const ThemeToggle = () => {
     <button onClick={handleTheme} className="btn-switch">
       <span>
         <svg
-          className="h-6 w-6 text-gray-500"
+          className="h-5 w-5 text-gray-500"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -49,7 +49,7 @@ const ThemeToggle = () => {
         }
         </svg>
       </span>  
-      <span className="mx-2">{theme}</span>  
+      <span className="mx-1">{theme}</span>  
     </button>
   </div>
   
