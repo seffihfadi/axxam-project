@@ -1,23 +1,23 @@
-import { Component } from "react";
+
 import ThemeToggle from "./ThemeToggle";
 import Signup from "../auth/signup/Signup";
 import { FaTimes } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdNotificationsNone } from "react-icons/md";
 import Notification from "./Notification";
-class UserGreeting extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { clicked: false };
-  }
-  handleClick = () => {
-    this.setState({ clicked: !this.state.clicked });}
-  render(){
-    const { isSignedUp, isJoined } = this.props;
+import React, { useState } from "react";
+
+const UserGreeting = ({ isSignedUp, isJoined }) => {
+  const [clicked, setClicked] = useState(false);
+
+  const handleClick = () => {
+    setClicked(!clicked);
+  };
+
   if (isSignedUp && isJoined) {
     return(
       <nav className="flex items-center gap-[5px] lg:gap-[39px] md:gap-[10px] sm:flex-row">
-          <div className={this.state.clicked  ?" navbarOwner activee  dark:bg-darkmode  gap-5 bg-white font-semibold " : "navbarOwner flex items-center font-semiblold lg:font-medium lg:gap-[15px] md:gap-[13px] "}>  
+          <div className={clicked  ?" navbarOwner activee  dark:bg-darkmode  gap-5 bg-white font-semibold " : "navbarOwner flex items-center font-semiblold lg:font-medium lg:gap-[15px] md:gap-[13px] "}>  
                   <a href="/" className="brd ">Property overview</a>
                   <a href="/" className="brd ">Property management</a>
                   <a href="/" className="brd ">Booking management</a>
@@ -31,8 +31,8 @@ class UserGreeting extends Component {
                   </div>
                   <div className=" hidden lg:block"><ThemeToggle  /></div>
          </div>
-         <div   className=" block lg:hidden pl-[12px] " onClick={this.handleClick}>
-          {this.state.clicked ? <FaTimes className="text-lg" /> : <GiHamburgerMenu className="text-lg" />}
+         <div   className=" block lg:hidden pl-[12px] " onClick={handleClick}>
+          {clicked ? <FaTimes className="text-lg" /> : <GiHamburgerMenu className="text-lg" />}
          </div>
     </nav>
       
@@ -40,7 +40,7 @@ class UserGreeting extends Component {
   } else if (isSignedUp) {
     return (
       <nav className="flex items-center gap-[5px] lg:gap-[150px] md:gap-[36px] sm:flex-row ">
-          <div className={this.state.clicked  ?" navbar active font-semibold dark:bg-darkmode  gap-5 bg-white " : "navbar flex items-center font-semibold lg:gap-[35px] md:gap-[13px] "}>  
+          <div className={clicked  ?" navbar active font-semibold dark:bg-darkmode  gap-5 bg-white " : "navbar flex items-center font-semibold lg:gap-[35px] md:gap-[13px] "}>  
               <a href="/Home" className="brd">Home</a>     
               <a href="/Our services" className="brd ">Our services</a>
               <a href="/Properties" className="brd ">Properties</a>
@@ -59,8 +59,8 @@ class UserGreeting extends Component {
               <div className=" hidden md:block"><ThemeToggle  /></div>
           </div>
       
-        <div   className=" block md:hidden pl-1 sm:pl-[20px] " onClick={this.handleClick}>
-          {this.state.clicked ? <FaTimes className="text-lg" /> : <GiHamburgerMenu className="text-lg" />}
+        <div   className=" block md:hidden pl-1 sm:pl-[20px] " onClick={handleClick}>
+          {clicked ? <FaTimes className="text-lg" /> : <GiHamburgerMenu className="text-lg" />}
        </div>
     </nav>
       
@@ -68,7 +68,7 @@ class UserGreeting extends Component {
   } else {
     return(
       <nav className="flex items-center gap-[5px] lg:gap-[150px] md:gap-[25px] sm:flex-row">
-         <div className={this.state.clicked  ?" navbar active font-semibold dark:bg-darkmode  gap-5 bg-white" : "navbar flex items-center font-semibold lg:gap-[35px] md:gap-[13px] "}>  
+         <div className={clicked  ?" navbar active font-semibold dark:bg-darkmode  gap-5 bg-white" : "navbar flex items-center font-semibold lg:gap-[35px] md:gap-[13px] "}>  
               <a href="/" className="brd ">Home</a>     
               <a href="/" className="brd ">Our services</a>
               <a href="/" className="brd ">Properties</a>
@@ -87,13 +87,13 @@ class UserGreeting extends Component {
               </div>
               <div className=" hidden md:block"><ThemeToggle  /></div>
          </div>
-           <div   className=" block md:hidden  pl-1 sm:pl-[20px] " onClick={this.handleClick}>
-             {this.state.clicked ? <FaTimes className="text-lg" /> : <GiHamburgerMenu className="text-lg" />}
+           <div   className=" block md:hidden  pl-1 sm:pl-[20px] " onClick={handleClick}>
+             {clicked ? <FaTimes className="text-lg" /> : <GiHamburgerMenu className="text-lg" />}
            </div>
        </nav>
    
      );
   }
-}}
+}
 
 export default UserGreeting;
