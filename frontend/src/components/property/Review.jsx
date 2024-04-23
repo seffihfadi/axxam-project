@@ -4,14 +4,14 @@ function Review({users}) {
   return ( 
     <div className='flex justify-around flex-wrap'>
       {users.map((user) => ( 
-        <div className="relative  shadow-md p-5 shadow-gray-400  border-gray-200 dark:border-gray-600  dark:shadow-gray-700 border my-9 rounded-xl w-80">
+        <div className="relative shadow-md p-5 shadow-gray-400  border-gray-200 dark:border-gray-600  dark:shadow-gray-700 border my-9 rounded-xl w-80">
         <p className='p-2 text-l font-semibold '>“{user.comment}“</p>
         <div className="  mt-5 before:h-[1px] before:w-full before:bg-gray-300  before:absolute relative before:top-[-10px]  ">
           <div className="user ">
             <div className="img">
             <img  src={user.picture} alt=""/>
             </div>
-            <div className="name ">
+            <div className="name">
               <span>{user.user}</span>
               <p>{user.location}</p>
               <div className='stars '>

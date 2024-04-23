@@ -3,12 +3,16 @@ import { IoLogOutOutline } from "react-icons/io5";
 import { MdBookmarkBorder } from "react-icons/md";
 import { LuCalendarClock } from "react-icons/lu";
 import React, {useState, useEffect, useRef} from 'react';
-import user from "/bg4.jpg"
-function Notification() {
+import Image from "./Image";
+import { useSignoutMutation } from "../../features/auth/authApiSlice";
+import { useNavigate } from "react-router-dom";
+
+function Notification({user}) {
 
   const [open, setOpen] = useState(false);
-
+  const navigate = useNavigate()
   let menuRef = useRef();
+  const [signOut] = useSignoutMutation()
 
   useEffect(() => {
 
@@ -28,25 +32,32 @@ function Notification() {
 
   });
 
+  const handleLogout = async () => {
+    signOut()
+    navigate('/')
+  }
+
   return (
     <div >
       <div className='menu-container' ref={menuRef}>
-        <div className='menu-trigger' onClick={()=>{setOpen(!open)}}>  
-          <img src={user} alt="user " className="flex-shrink-0 rounded-full w-9 h-9 flex overflow-hidden "></img>
+        <div className='menu-trigger' onClick={()=>{setOpen(!open)}}> 
+          <div className="w-9 aspect-square">
+            <Image src={user.avatar} userName={user.fullname} alt="user" className="flex-shrink-0 rounded-full w-9 h-9 flex overflow-hidden " />
+          </div> 
         </div>
-        <div className={`absolute top-[60px] shadow-md shadow-[#6D6D6D] rounded-b-lg p-4 bg-[#fff] w-[250px] right-2 before:absolute before:top-[-5px] before:right-[20px] before:transform before:rotate-45 before:h-[20px] before:w-[20px] before: dark:bg-darkmode ${open? 'opacity-100 visible translate-y-0 ' : 'opacity-0 invisible -translate-y-20 '}`} >
+        <div className={`lnkdrp absolute top-[65px] shadow-md rounded-b-lg p-4 bg-[#fff] w-[250px] right-2 before:absolute before:top-[-5px] before:right-[20px] before:transform before:rotate-45 before:h-[20px] before:w-[20px] before: dark:bg-darkmode ${open? 'opacity-100 visible translate-y-0 ' : 'opacity-0 invisible -translate-y-20 '}`} >
         <ul>
-            <li className = 'flex gap-2 items-center py-2 border-t-[#6D6D6D]/50 border-t-[1px]  text-black hover:text-[#0051CB] border-none '>
+            <li className = 'flex gap-2 items-center py-3 text-black hover:text-[#0051CB] border-none '>
               <GoPerson className="text-lg"/> <a href="">Personal informations</a>
             </li>
-            <li className = 'flex gap-2 items-center py-2 border-t-[#6D6D6D]/50 border-t-[1px]  text-black hover:text-[#0051CB]'>
+            <li className = 'flex gap-2 items-center py-3 text-black hover:text-[#0051CB]'>
               <LuCalendarClock className="text-lg"/><a href="">Booking history</a>
             </li>
-            <li className = 'flex gap-2 items-center py-2 border-t-[#6D6D6D]/50 border-t-[1px]  text-black hover:text-[#0051CB]'>
+            <li className = 'flex gap-2 items-center py-3 text-black hover:text-[#0051CB]'>
               <MdBookmarkBorder className="text-lg"/><a href="">Favorite properties</a>
             </li>
-            <li className = 'flex gap-2 items-center py-2 border-t-[#6D6D6D]/50 border-t-[1px]  text-black hover:text-[#0051CB]'>
-              <IoLogOutOutline className="text-lg"/><a href="">Log out</a>
+            <li className = 'flex gap-2 items-center py-3 text-black hover:text-[#0051CB]'>
+              <button onClick={handleLogout} className="secondary flex justify-center items-center gap-2"><IoLogOutOutline className="text-lg"/>Log out</button>
             </li>
         </ul>
         </div>

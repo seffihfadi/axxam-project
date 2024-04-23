@@ -18,6 +18,7 @@ const access = (roles) => {
       }
       const {userID} = verified
       const user = await User.findById(userID).populate('extra')
+      console.log('use from authr', user)
       // console.log('user', verified)   // .select('-password')
       if (!user) {
         res.status(401)

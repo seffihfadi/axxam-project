@@ -2,25 +2,26 @@ import { IoMdTime } from "react-icons/io";
 import { GoPeople } from "react-icons/go";
 import { TbSmokingNo, TbBalloonOff } from "react-icons/tb";
 
-export const Rules = [
-  {
+
+export const Rules = {
+  rule1: {
     icon: <IoMdTime />,
-    check_in: "Check-in after 3 PM",
+    content: "Check-in after 3 PM",
   },
-  {
-    icon: <IoMdTime />, // Corrected icon for check-out
-    check_out: "Check-out 12 PM",
+  rule2: {
+    icon: <IoMdTime />,
+    content: "Check-out 12 PM",
   },
-  {
+  rule3: {
     icon: <GoPeople />,
-    max_guest: "10 Guests maximum ",
+    content: "10 Guests maximum",
   },
-  {
+  rule4: {
     icon: <TbSmokingNo />,
-    smoking: "No smoking",
+    content: "No smoking",
   },
-  {
+  rule5: {
     icon: <TbBalloonOff />,
-    parties: "No parties or events",
+    content: "No parties or events",
   },
-];
+};

@@ -1,29 +1,29 @@
 import { Navigate } from 'react-router-dom'
-// import { useGetUserQuery } from '../features/auth/authApiSlice';
+import { useGetUserQuery } from '../../features/auth/authApiSlice';
 
 import { useDispatch } from 'react-redux';
-// import { setUser } from '../features/auth/authSlice';
-// import Loader from './Loader';
+import { setUser } from '../../app/slices/authSlice';
+import Loader from './Loader';
 
 const PrivateRoute = ({ element, allowed }) => {
-  // const dispatch = useDispatch()
-  // const {data, isLoading} = useGetUserQuery()
+  const dispatch = useDispatch()
+  const {data, isLoading} = useGetUserQuery()
 
-  // if(isLoading) return <Loader />
+  if(isLoading) return <Loader />
   // console.log('data', data)
 
-  // if (!data) {
-  //   return <Navigate to="/signin" />;
-  // }
-
-  // const user = data?.user
-  // dispatch(setUser(user))
-
-  const user = {
-    fullname: 'seffih fadi',
-    role: 'Lessor',
-    phone: '0560475728'
+  if (!data) {
+    return <Navigate to="/signin" />;
   }
+
+  const user = data?.user
+  dispatch(setUser(user))
+
+  // const user = {
+  //   fullname: 'seffih fadi',
+  //   role: 'Lessor',
+  //   phone: '0560475728'
+  // }
 
   if (!user) {
     return <Navigate to="/signin" />;

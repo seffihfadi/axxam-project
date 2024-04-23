@@ -1,6 +1,6 @@
 
 export const CalculateTotalPrice = ({days, announcement, guests}) => {
-   
+ 
   const longStayDiscounts = {
     15: 0.05,
     30: 0.10, 
@@ -16,9 +16,10 @@ export const CalculateTotalPrice = ({days, announcement, guests}) => {
   })
   const discountedBasePricePerDay = announcement.price * (1 - discountRate)
   const basePrice = days * discountedBasePricePerDay
-  const totalAdultPrice = basePrice * guests.adults * (1 - (announcement.reductions.adults / 100))
-  const totalChildrenPrice = basePrice * guests.children * (1 - (announcement.reductions.children / 100))
-  const totalInfantsPrice = basePrice * guests.infants * (1 - (announcement.reductions.infants / 100))
+  const totalAdultPrice = basePrice * guests.Adults * (1 - (announcement.reductions.adults / 100))
+  const totalChildrenPrice = basePrice * guests.Children * (1 - (announcement.reductions.children / 100))
+  const totalInfantsPrice = basePrice * guests.Infants * (1 - (announcement.reductions.infants / 100))
   // console.log('totalInfantsPrice', totalAdultPrice, guests.adults)
-  return totalAdultPrice + totalChildrenPrice + totalInfantsPrice
+  // console.log('first', totalAdultPrice + totalChildrenPrice + totalInfantsPrice)
+  return <span>{(totalAdultPrice + totalChildrenPrice + totalInfantsPrice) / 100},00</span>
 }

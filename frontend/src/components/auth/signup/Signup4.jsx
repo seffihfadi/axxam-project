@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Popup from "../../common/Popup";
 import { IoChevronBackOutline } from "react-icons/io5";
+import { useUpdateAdditionalMutation } from "../../../features/auth/authApiSlice";
+import { useDispatch } from "react-redux";
+import { setAlert } from "../../../app/slices/alertSlice";
+import { useNavigate } from "react-router-dom";
 
 function ResizeAwareTextarea({ children }) {
   const [rows, setRows] = useState(4);
+  
 
   function calculateRows() {
       const screenWidth = window.innerWidth;
@@ -26,7 +31,31 @@ function ResizeAwareTextarea({ children }) {
 }
 
 
-function Signup4({ isOpen, handleBack }) {
+
+function Signup4({ isOpen, handleClose }) {
+  const [bio, setBio] = useState('')
+  const [livein, setLivein] = useState('')
+  const [gender, setGender] = useState('male')
+  const navigate = useNavigate()
+
+  const dispatch = useDispatch()
+  const [updateAdditional, { isLoading }] = useUpdateAdditionalMutation();
+
+  const handleUpdateAdditional = async (e) => {
+    e.preventDefault()
+    if(!gender && !livein && !bio) return dispatch(setAlert(['add at least one field or skip for now', 'error']))
+    // console.log('gender, livein, bio', gender, livein, bio)
+  
+    await updateAdditional({gender, livesIn: livein, bio})
+      .unwrap()
+      .then((payload) => {
+        dispatch(setAlert([payload.message, 'success']))
+        navigate('/sl')
+        handleClose()
+      })
+      .catch((error) => dispatch(setAlert([error.data.message, 'error'])))
+  
+  }
 
   return (
     <>
@@ -36,7 +65,6 @@ function Signup4({ isOpen, handleBack }) {
             <div className="window">
               <div className="w-[85%] mx-auto h-[400px] md:h-[450px] lg:h-[480px]">
                 <button
-                  onClick={handleBack}
                   className="absolute left-5 top-6 md:text-lg"
                 >
                   <IoChevronBackOutline/>
@@ -50,52 +78,52 @@ function Signup4({ isOpen, handleBack }) {
                 <h1 className="text-center font-semibold text-xl md:text-2xl mt-14">
                   Additional Informations
                 </h1>
+                <form onSubmit={handleUpdateAdditional}>
                 <div className="pt-8 lg:pt-10">
                   <div className="flex justify-between items-center gap-3">
-                    <form className="flex-1">
-                      <div className="group flex-1">
-                        <select name="gender" id="sdf">
-                          <option value="">Male</option>
-                          <option value="">Female</option>
-                        </select>
-                        <label htmlFor="sdf">Gender</label>
+                      <div className="flex-1" >
+                        <div className="group flex-1">
+                          <select onChange={(e) => setGender(e.target.value)} name="gender" id="sdf">
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                          </select>
+                          <label htmlFor="sdf">Gender</label>
+                        </div>
                       </div>
-                    </form>
-                    <form className="flex-1">
                       <div className="group flex-1">
                         <input
                           id="location"
                           name="location"
                           type="location"
-                          required
+                          onChange={(e) => setLivein(e.target.value)}
                         />
                         <label htmlFor="location">Lives in</label>
                       </div>
-                    </form>
                   </div>
                   <ResizeAwareTextarea>
                     {(rows) => (
-                      <form>
                         <div className="group">
                           <textarea
                             name="desc"
                             id="desc"
                             rows={rows}
                             maxLength={250}
-                            required
+                            onChange={(e) => setBio(e.target.value)}
                           ></textarea>
                           <label htmlFor="desc">Tell us more about yourself</label>
                         </div>
-                      </form>
                     )}
                   </ResizeAwareTextarea>
+                  
                 </div>
                 <div className="flex justify-between items-center">
-                  <button className="text-gray-500 text-sm md:text-base">Skip for now</button>
-                  <button className="rounded-lg bg-primary text-white font-semibold w-fit px-8 md:px-10 py-3 md:py-4">
+                  <button onClick={handleClose} className="text-gray-500 font-light text-sm md:text-base">Skip for now</button>
+                      
+                  <button disabled={isLoading} type="submit" className="rounded-lg bg-primary text-white font-semibold w-fit px-8 md:px-10 py-3 md:py-4">
                     Save
                   </button>
                 </div>
+                </form>
               </div>
             </div>
           }

@@ -28,22 +28,24 @@ const App = () => {
           {/* public routes */}
           <Route index element={<LandingPage/>} />
           <Route path="/services" element={<OurServicesPage/>} />
-          <Route path="/property" element={<PropertyPage/>} />
-          <Route path="/success" element={<SuccessPayment />} />
-          <Route path="/canceled" element={<CanceledPayment />} />
-          <Route path="/checkout" element={<PaymentIntegration><CheckoutPage /></PaymentIntegration>} />
-          <Route path="/favourite" element={<FavoritePropertiesPage/>}/>
-          <Route path="/history" element={<BookingHistoryPage/>}/>
-          <Route path="/info" element={<MainInfosPage/>}/>
-          
+          <Route path="/sl" element={<HomePage />} />
+
+         
           {/* lessee routes */}
           <Route
-            path="lessee"
             element={
               <PrivateRoute element={<LesseeLayout />} allowed={ROLES.lessee} />
             }
           >
-            <Route index element={<HomePage />} />
+            <Route path="/property/:propID" element={<PropertyPage/>} />
+            <Route path="/favourite" element={<FavoritePropertiesPage/>}/>
+            <Route path="/history" element={<BookingHistoryPage/>}/>
+            <Route path="/info" element={<MainInfosPage/>}/>
+
+            <Route path="/success" element={<SuccessPayment />} />
+            {/* <Route path="/canceled" element={<CanceledPayment />} /> */}
+            {/* <Route path="/checkout" element={<PaymentIntegration><CheckoutPage /></PaymentIntegration>} /> */}
+
             
           </Route>
 

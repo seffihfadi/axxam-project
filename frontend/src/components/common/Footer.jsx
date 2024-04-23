@@ -4,7 +4,6 @@ import { FaLinkedin, FaInstagram, FaFacebook } from "react-icons/fa";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { LuMapPin } from "react-icons/lu";
 import { FiPhone } from "react-icons/fi";
-import ThemeToggle from "./ThemeToggle";
 const Footer = () => {
   const Menu = ["Home", "Our services", "Properties", "Contact us"];
   const [choses] = useState(Menu);
@@ -18,13 +17,12 @@ const Footer = () => {
               <img
                 src="/src/assets/logoo.svg"
                 alt="logo-img"
-                className=" w-[103.18px] h-[56.39px]  object-contain "
+                className="w-28 object-contain "
               />
             </a>
-            <p className=" font-medium text-black mt-[8px] ">
+            <p className="mt-7 font-medium text-black">
               Renting real estate <br /> platform.
             </p>
-            <ThemeToggle />
           </div>
           <ul className="flex flex-col gap-[15px] w-full md:w-auto  ">
             <li className=" font-semibold mb-[22px]  ">Menu</li>
@@ -59,7 +57,24 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          <div className="flex-col items-center gap-[15px]  ">
+          <div className="  flex-col  gap-[20px] w-full md:w-auto  ">
+            <p className="font-semibold mb-[29px]  ">Contact us</p>
+            <ul className=" flex flex-col   gap-[20px]   ">
+              <li className="flex gap-[7px] items-center py-2  hover:text-[#0051CB] transition-colors duration-200 text-base ">
+                <FiPhone />
+                05 54 76 76 11
+              </li>
+              <li className=" flex items-center md:gap-0 gap-[7px] sm:w-full lg:gap-[7px] py-2  hover:text-[#0051CB] transition-colors duration-200 text-base  ">
+                <MdOutlineMailOutline />
+                axxam@gmail.com
+              </li>
+              <li className=" flex items-center gap-[7px] py-2  hover:text-[#0051CB] transition-colors duration-200 text-base ">
+                <LuMapPin />
+                Amizour, N-76 Béjaia
+              </li>
+            </ul>
+          </div>
+          {/* <div className="flex-col items-center gap-[15px]  ">
             <p className="font-semibold mb-[10px]">
               Your Opinion About
               <br /> AXXAM !
@@ -78,7 +93,7 @@ const Footer = () => {
                 Send your message
               </a>
             </div>
-          </div>
+          </div> */}
         </div>
 
         <div className=" flex items-center justify-center flex-wrap  align-items flex-col-1  gap-[30px]  mt-[30px] ">

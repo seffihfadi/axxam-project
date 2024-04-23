@@ -62,12 +62,12 @@ export const createCheckoutSession = async (req, res, next) => {
         { checkin: { $lt: checkout }, checkout: { $gt: checkin } },
       ],
     })
+
     
     if (overlappingReservations.length > 0) {
       res.status(400)
       throw new Error('the announcement is not available for the selected dates.')
     }
-    
     
     // Calculata total price
     const days = checkoutDate.diff(checkinDate, 'days')
@@ -79,11 +79,11 @@ export const createCheckoutSession = async (req, res, next) => {
       }, 
       guests
     )
-    
+
     // Create payment session
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
       mode: 'payment',
+      payment_method_types: ['card'],
       line_items: [
         {
           quantity: 1,
@@ -93,13 +93,13 @@ export const createCheckoutSession = async (req, res, next) => {
             product_data: {
               name: announcement.title,
               description: announcement.desc,
-              images: announcement.images[0].secure_url
+              images: [announcement.images[1].secure_url]
             }
           }
         }
       ],
       success_url: `${domainUrl}/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${domainUrl}/canceled`,
+      cancel_url: `${domainUrl}/property/${announcement._id}`,
       metadata: {
         announcementID,
         clientID: clientID.toString(),
@@ -115,12 +115,10 @@ export const createCheckoutSession = async (req, res, next) => {
       },
     })
 
-    console.log('session', session)
     // send notification 
     await sendNotification(clientID, announcement.owner._id, 'has booked your property.', `/profile/?announcement=${announcementID}`)
 
     return res.status(200).json({sessionId: session.id})
-    // return res.status(200).json({message: 'it works '+ totalPrice + JSON.stringify(guests) + clientID.toString()})
     
   } catch (error) {
     next(error)

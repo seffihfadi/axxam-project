@@ -2,13 +2,38 @@ import React, { useState } from "react";
 import Popup from "../../common/Popup";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import { IoChevronBackOutline } from "react-icons/io5";
+import { useVerifyOtpMutation } from "../../../features/auth/authApiSlice";
+import { useDispatch } from "react-redux";
+import { setAlert } from "../../../app/slices/alertSlice";
+import { useNavigate } from "react-router-dom";
 
-function Signup2({ isOpen, handleBack, number, openPopup3, title }) {
+function Signup2({ isOpen, number, openPopup3, title, handleClose }) {
   const [otp, setOtp] = useState("");
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [verifyOtp, { isLoading }] = useVerifyOtpMutation();
 
-  const handleChange = (newValue) => {
-    setOtp(newValue);
-  };
+  const verifyOTP = async (e) => {
+    e.preventDefault()
+    console.log('hsi', otp, number)
+    if(otp.length < 6 || !number) return 
+
+    await verifyOtp({phone: number, otp})
+      .unwrap()
+      .then((payload) => {
+        dispatch(setAlert([payload.message, 'success']))
+        if (title === 'Signup') {
+          openPopup3()
+        }else {
+          navigate('/sl')
+          handleClose()
+        }
+      })
+      .catch((error) => dispatch(setAlert([error.data.message, 'error'])))
+
+  }
+
+
 
   return (
     <>
@@ -18,7 +43,6 @@ function Signup2({ isOpen, handleBack, number, openPopup3, title }) {
             <div className="window">
               <div className="w-[80%] md:w-[65%] mx-auto h-[400px] md:h-[450px] lg:h-[480px]">
                 <button
-                  onClick={handleBack}
                   className="absolute left-5 top-6 md:text-lg"
                 >
                   <IoChevronBackOutline />
@@ -32,33 +56,35 @@ function Signup2({ isOpen, handleBack, number, openPopup3, title }) {
                 <h1 className="text-center font-semibold text-xl md:text-2xl mt-14">
                   Phone Checking
                 </h1>
-                <form className="py-12 lg:py-14">
+                <form onSubmit={verifyOTP} className="py-12 lg:py-14">
                   <div>
-                    <MuiOtpInput value={otp} onChange={handleChange} />
+                    <MuiOtpInput length={6} value={otp} onChange={(v) => setOtp(v)} />
+                  </div>
+                  <p className="text-center text-sm md:text-base">
+                    <span className="font-semibold">Note:</span> We have sent an
+                    OTP Code to{" "}
+                    <span className="font-semibold">+213 {number}</span> check
+                    your phone, the code will be expired in{" "}
+                    <span className="font-semibold">2 minutes</span>
+                  </p>
+                  <div className="flex justify-center items-center mt-8 md:mt-12 ">
+                    {title === 'Signup' ? 
+                    <button
+                    className="rounded-md md:rounded-lg bg-primary text-white font-semibold w-fit px-8 md:px-10 py-4 text-sm md:text-base"
+                    type="submit"
+                    >
+                      Next
+                    </button> 
+                    : 
+                    <button
+                    className="rounded-md md:rounded-lg bg-primary text-white font-semibold w-fit px-8 md:px-10 py-4 text-sm md:text-base"
+                    type="submit"
+                    disabled={isLoading}
+                    >
+                      Signin
+                    </button> }
                   </div>
                 </form>
-                <p className="text-center text-sm md:text-base">
-                  <span className="font-semibold">Note:</span> We have sent an
-                  OTP Code to{" "}
-                  <span className="font-semibold">+213 {number}</span> check
-                  your phone, the code will be expired in{" "}
-                  <span className="font-semibold">2 minutes</span>
-                </p>
-                <div className="flex justify-center items-center mt-8 md:mt-12 ">
-                  {title === 'Signup' ? 
-                  <button
-                    className="rounded-md md:rounded-lg bg-primary text-white font-semibold w-fit px-8 md:px-10 py-4 text-sm md:text-base"
-                    onClick={openPopup3}
-                  >
-                    Next
-                  </button> 
-                  : 
-                  <button
-                    className="rounded-md md:rounded-lg bg-primary text-white font-semibold w-fit px-8 md:px-10 py-4 text-sm md:text-base"
-                  >
-                    Signin
-                  </button> }
-                </div>
               </div>
             </div>
           }

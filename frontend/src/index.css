@@ -26,11 +26,11 @@ body.popup-open {
 }
 
 .btn-switch {
-  @apply bg-primary rounded-lg h-[37px] font-medium md:font-semibold text-sm px-1 py-0  flex justify-center items-center dark:bg-slate-600 shadow-lg;
+  @apply flex justify-center items-center ;
 } 
 /* loader  */
 .loading {
-  @apply h-full w-full flex justify-center flex-col items-center absolute z-10 left-0 top-0;
+  @apply h-screen w-full flex justify-center flex-col items-center z-10 left-0 top-0;
 }
 .circul_loader {
   position: relative;
@@ -78,7 +78,7 @@ body.popup-open {
   animation: fadeIn 0.5s ease-in-out, fadeOut 0.5s ease-in-out 4.5s forwards;
   @apply fixed w-full bottom-0 left-0 md:bottom-auto md:left-auto md:right-6
   md:max-w-xs md:top-20 bg-white px-5 py-3 rounded-lg md:border-[1px] border-[#353535] flex 
-  justify-center items-center gap-3 md:w-fit z-40 shadow-lg backdrop-blur-md text-sm;
+  justify-center items-center gap-3 md:w-fit z-50 shadow-lg backdrop-blur-md text-sm;
 }
 .alert i {
   @apply text-[20px];
@@ -92,6 +92,10 @@ body.popup-open {
 }
 .alert.success * {
   @apply text-green-600;
+}
+
+.lki svg {
+  @apply h-6 w-6
 }
 
 button:disabled {
@@ -175,7 +179,10 @@ header nav a {
 }
 
 header nav a:hover:before {
-  @apply w-full h-[3px] bg-primary content-[''] -bottom-5 absolute left-0 rounded-tl-xl rounded-tr-xl animate-bounce;
+  @apply w-full h-[2px] bg-primary content-[''] -bottom-5 absolute left-0 rounded-tl-xl rounded-tr-xl;
+}
+header nav .lnkdrp a:hover:before {
+  @apply w-0
 }
 /* .user .img.sm {
   @apply w-6 h-6 text-sm mr-3
@@ -333,9 +340,9 @@ p.link a{
   @apply w-[100px] h-[30px]     lg:w-[130px] lg:h-[40px]  element-center font-medium  rounded-[10px];
 }
 
-.brd {
+/* .brd {
   @apply hover:border-b-2 hover:border-b-[#0051CB] hover:text-[#0051CB] active:text-[#0051CB] transition-colors duration-200;
-}
+} */
 @layer {
   .element-center {
     @apply flex justify-center items-center;
@@ -379,9 +386,9 @@ p.link a{
   position: relative;
 }
 
-main {
-  overflow: hidden;
-}
+/* main {
+  overflow-x: hidden;
+} */
 #hero::before {
   content: "";
   position: absolute;
@@ -473,7 +480,7 @@ main {
   @apply w-8 h-8 rounded-full border  border-gray-300 text-center text-gray-300 hover:border-gray-600 hover:text-gray-600;
 }
 .guest_number {
-  @apply flex justify-center items-center gap-8;
+  @apply flex justify-center items-center gap-4;
 }
 .elements {
   @apply flex flex-col px-8 md:text-lg lg:text-2xl;
@@ -483,8 +490,11 @@ main {
 }
 
 /*property details page picture section*/
+.svgi svg {
+  @apply h-6 w-6
+}
 .picture-section {
-  @apply flex gap-5 md:rounded-3xl md:overflow-hidden my-5 overflow-x-auto scrollbar-hide;
+  @apply flex gap-3 md:rounded-2xl md:overflow-hidden my-5 overflow-x-auto scrollbar-hide;
 }
 
 .picture-section .img {
@@ -499,11 +509,11 @@ form .main {
 form .group input,
 form .group textarea,
 form .group select {
-  @apply px-8 pt-7 pb-3 rounded-lg appearance-none outline-none border-[1.5px] border-gray-400 dark:bg-gray-100 dark:text-gray-500;
+  @apply px-8 pt-7 pb-3 rounded-lg appearance-none text-left outline-none border-[1.5px] border-gray-400 dark:bg-darkmode dark:text-gray-500;
 }
 
 form .group label {
-  @apply text-sm absolute top-[23px] bg-white dark:bg-gray-100 w-[calc(100%-3rem)] pl-1 pb-4 left-8
+  @apply text-sm absolute top-[23px] bg-white dark:bg-darkmode w-[calc(100%-3rem)] text-left pl-1 pb-4 left-8
   text-gray-400 transition-all cursor-text select-none;
 }
 form .group input:valid ~ label,
@@ -546,9 +556,9 @@ form .main select:focus {
 }
 
 .group.phone::before {
-  @apply absolute bottom-3 left-8 w-full h-min  text-gray-400;
-  content: "+213 | XXXXXXXXX";
-  word-spacing: 1rem;
+  @apply absolute bottom-3 left-8 w-full h-min text-left text-gray-400;
+  content: "+213 | XXX XX XX XX";
+  word-spacing: .5rem;
 }
 
 .group.phone.has-input::before {

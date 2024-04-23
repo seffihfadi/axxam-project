@@ -179,12 +179,20 @@ export const getAnnouncement = async (req, res, next) => {
   const {announcementID} = req.params
 
   try {
-    const announcement = await Announcement.findById(announcementID)
+    const announcement = await Announcement.findById(announcementID).populate({
+      path: 'owner',
+      select: ['birthDate', 'fullname', 'phone', 'avatar'],
+      // populate: {
+      //   path: 'extra',
+      //   select: ['stripeAccountId', 'image']
+      // }
+
+    })
     if (!announcement){
         res.status(404)
         throw new Error('announcement not found')
     }
-    return res.status(200).json({announcement})
+    return res.status(200).json(announcement)
   } catch (err) {
     next(err)
   }
@@ -194,13 +202,14 @@ export const getAnnouncement = async (req, res, next) => {
 export const getAnnouncementForSearch = async (req, res, next) =>{
   try {
     var { tags, // string seperated by comas
-            location, // the name of the location
-            lowerPrice, // number
-            higherPrice, // number 
-            periode, // 'small' or 'long'
-            maxPersons, 
-            title, 
-            desc } = req.query
+          location, // the name of the location
+          lowerPrice, // number
+          higherPrice, // number 
+          periode, // 'small' or 'long'
+          maxPersons, 
+          title, 
+          desc 
+        } = req.query
 
 // verfications :
     if (periode !== 'small' && periode !== 'long') {
@@ -226,7 +235,7 @@ export const getAnnouncementForSearch = async (req, res, next) =>{
     
     const resultsCount = await Announcement.countDocuments(searchQuery) 
     const announcements = await Announcement.find(searchQuery)
-    return res.status(200).json({ announcements, resultsCount})
+    return res.status(200).json(announcements)
   
   } catch (err) {
     next(err)

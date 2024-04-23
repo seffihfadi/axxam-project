@@ -8,18 +8,18 @@ import { LiaWaterSolid } from "react-icons/lia";
 import { BsThermometerHalf } from "react-icons/bs";
 import { TbGrill } from "react-icons/tb";
 
-export const amenities= {
-    Hot_tub : <MdOutlineBathtub/>,
-    Air_conditioning: <IoSnowOutline/>,
-    Wifi: <IoWifiOutline/>,
-    Piano: <PiPianoKeysLight/>,
-    Gym: <CiDumbbell/>,
-    Workspace: <SlScreenDesktop/>,
-    Parking: <IoCarSportOutline/>,
-    BBQ_Grill: <TbGrill/>,
-    Beach_Access: <LiaWaterSolid/>,
-    Swimming_Pool: <PiSwimmingPoolLight/>,
-    Garden: <PiPlantLight/>,
-    TV: <FaTv/>,
-    Heating: <BsThermometerHalf/>
-  }
+export const Amenities = {
+  hot_tub : <MdOutlineBathtub/>,
+  air_conditioning: <IoSnowOutline/>,
+  wifi: <IoWifiOutline/>,
+  piano: <PiPianoKeysLight/>,
+  gym: <CiDumbbell/>,
+  workspace: <SlScreenDesktop/>,
+  parking: <IoCarSportOutline/>,
+  bbq_grill: <TbGrill/>,
+  beach_access: <LiaWaterSolid/>,
+  swimming_pool: <PiSwimmingPoolLight/>,
+  garden: <PiPlantLight/>,
+  tv: <FaTv/>,
+  heating: <BsThermometerHalf/>
+}
