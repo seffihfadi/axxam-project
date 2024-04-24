@@ -23,9 +23,9 @@ const PropertyPage = () => {
       date: "Mar 1-6",
       rating: "5.0",
       reductions:{
-        adultes:0.5,
-        infants:0.5,
-        children:0.5,
+        adults:0,
+        infants:0,
+        children:0,
       },
       price:25000,
     }
@@ -40,7 +40,72 @@ const PropertyPage = () => {
       cleanliness_rate: "5.0",
       picture: "/public/bg4.jpg"
     };
-    
+    const comments=[
+      {
+        comment:'Wonderful location, good for 2-3 couples with children. Tastefully decorated. Great outdoor area and pool. Recommended!',
+        user:'B. Salim',
+        location:'Tiaret, Algeria',
+        rate:'5',
+        picture:'../../../public/user1.jpg',
+        date:"November 2023"
+      },
+      {
+        comment:'incredible location and views with several tavernas in proximity. The pool, terrace and garden were beautiful and well maintained, kitchen was clean and stocked. The host also runs one of the best tavernas and is just across the street. highly recommend',
+        user:'M. Ismael',
+        location:'Oran, Algeria',
+        rate:'5',
+        picture:'../../../public/user2.jpg',
+        date:"July 2023"
+      },
+      {
+        comment:'The location of the villa is very good - walking distance to the lake and many tavernas, short drive to the beach. The house is very comfortable, well equiped with all amenities. Contact person is very nice, just across the street in the taverna.',
+        user:'B. Assia',
+        location:'Bouira, Algeria',
+        rate:'4',
+        picture:'../../../public/user3.jpg',
+        date:"June 2023"
+      },
+      {
+        comment:'Lovely villa with stunning views. The pool and outdoor area were fantastic for relaxing. The interior was spacious and beautifully decorated. Convenient location with shops and restaurants nearby. Highly recommended for a family getaway.',
+        user:'A. Youssef',
+        location:'Constantine, Algeria',
+        rate:'5',
+        picture:'../../../public/user4.jpg',
+        date:"September 2023"
+        },
+        {
+        comment:'Exceptional villa with breathtaking views. The pool and garden were immaculate. The interior was tastefully furnished with all the necessary amenities. Great location with easy access to local attractions. Perfect for a relaxing holiday.',
+        user:'H. Samir',
+        location:'Annaba, Algeria',
+        rate:'5',
+        picture:'../../../public/user5.jpg',
+        date:"August 2023"
+        },
+        {
+        comment:'Fantastic villa in a picturesque location. The outdoor space was perfect for BBQs and lounging by the pool. Interior was clean, modern, and comfortable. Host was friendly and provided helpful tips for exploring the area. Would definitely return!',
+        user:'R. Amira',
+        location:'Batna, Algeria',
+        rate:'5',
+        picture:'../../../public/user6.jpg',
+        date:"May 2023"
+        },
+        {
+        comment:'Amazing villa with stunning views of the surrounding mountains. The pool area was a highlight, great for relaxing after a day of exploring. The villa itself was spacious and well-appointed. Close to amenities yet still felt private and secluded.',
+        user:'S. Fatima',
+        location:'Setif, Algeria',
+        rate:'5',
+        picture:'../../../public/user7.jpg',
+        date:"April 2023"
+        },
+        {
+        comment:'Beautiful villa in a peaceful setting. The outdoor space was perfect for our group to enjoy meals together and the pool was a refreshing escape from the heat. The interior was clean and comfortable. Excellent communication with the host throughout our stay.',
+        user:'N. Ahmed',
+        location:'Tebessa, Algeria',
+        rate:'5',
+        picture:'../../../public/user8.jpg',
+        date:"March 2023"
+        } 
+    ]
     const propertyPosition = [36.75694627456025, 2.8524488210678105]
     
     const propertyRules = [Rules[0], Rules[1], Rules[2], Rules[3],Rules[4]];
@@ -94,9 +159,9 @@ const PropertyPage = () => {
     <>
     <PropertyDetails data={card} rules={propertyRules} offers={propertyAmenities} owner={owner} handleOpen={handleOpen}/>
     <Overallreview owner={owner} ratingPercentage={ratingPercentage}/>
-    <Reviews handleOpen={handleOpen}/>
+    <Reviews handleOpen={handleOpen} users={comments} />
     <PropertyMap position = {propertyPosition}/>
-    {isOpen && <Comments handleClose={handleClose}/>}
+    {isOpen && <Comments handleClose={handleClose} owner={owner} comments={comments} />}
     </>
   )
 }

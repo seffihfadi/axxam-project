@@ -18,6 +18,9 @@ const FavoritePropertiesPage = lazy(() => import("./pages/FavoritePropertiesPage
 const BookingHistoryPage = lazy(() => import("./pages/BookingHistoryPage"));
 const MainInfosPage = lazy(() => import("./pages/MainInfospage"));
 const PointSystemPage = lazy(() => import("./pages/PointSystemPage"));
+const BManagementPage=lazy(()=>import("./pages/BManagementPage"));
+const PManagementPage=lazy(()=>import("./pages/PManagementPage"));
+const AddListingPage=lazy(()=>import("./pages/AddListingPage"));
 
 const App = () => {
   return (
@@ -32,9 +35,13 @@ const App = () => {
           <Route path="/success" element={<SuccessPayment />} />
           <Route path="/canceled" element={<CanceledPayment />} />
           <Route path="/checkout" element={<PaymentIntegration><CheckoutPage /></PaymentIntegration>} />
+          <Route path="points" element={PointSystemPage}/>
           <Route path="/favourite" element={<FavoritePropertiesPage/>}/>
           <Route path="/history" element={<BookingHistoryPage/>}/>
           <Route path="/info" element={<MainInfosPage/>}/>
+          <Route path="/bookings" element={<BManagementPage/>}/>
+          <Route path="/properties" element={<PManagementPage/>}/>
+          <Route path="/addlisting" element={<AddListingPage/>}/>
           
           {/* lessee routes */}
           <Route
