@@ -102,7 +102,7 @@ button:disabled {
   @apply w-screen h-screen flex justify-center items-center z-50 fixed top-0 left-0 backdrop-blur-sm;
 }
 .popup .window {
-  @apply max-w-[calc(100%-4rem)] w-[672px] bg-white dark:bg-darkmode rounded-xl max-h-[75%] overflow-y-auto shadow-xl py-6 px-0 relative dark:border-[1px] dark:border-gray-600;
+  @apply max-w-[calc(100%-4rem)] w-[672px] bg-white dark:bg-darkmode rounded-xl max-h-[80%] overflow-y-auto shadow-xl py-4 px-0 relative dark:border-[1px] dark:border-gray-600;
 }
 
 .backdrop {
@@ -464,7 +464,7 @@ main {
 }
 
 .stars img {
-  @apply w-4 h-5;
+  @apply w-4 h-4;
 }
 .owner_stars img {
   @apply w-7 h-7  absolute;
@@ -515,6 +515,7 @@ form .group select:focus ~ label {
   @apply top-2.5 text-xs left-8 p-0;
 }
 
+
 /* form .group input:valid ~ label,
 form .group textarea:valid ~ label,
 form .group select:valid ~ label {
@@ -556,7 +557,7 @@ form .main select:focus {
 }
 
 .BookingButton {
-  @apply flex gap-2 items-center justify-center px-4 py-2 rounded-lg font-semibold text-sm lg:w-fit w-[138px];
+  @apply flex gap-2 items-center justify-center  py-2 rounded-lg font-semibold text-sm lg:w-[46%] w-[138px];
 }
 .darktxt {
   @apply dark:text-gray-200;
@@ -587,11 +588,28 @@ form .main select:valid:not(:placeholder-shown) {
   @apply border-gray-300;
 }
 button.info {
-  @apply px-10  md:my-10  mx-auto flex justify-center   md:mx-0 font-normal text-base;
+  @apply px-10  md:my-16  mx-auto flex justify-center   md:mx-0 font-normal text-base;
 }
+
 
 .group.signup {
   @apply mb-0;
+
+}
+
+.fixebutton{
+@apply lg:py-4 py-3 lg:w-full w-3/5;
+}
+.stars_reviews img{
+  @apply w-3 h-4;
+}
+
+.style_input input:focus {
+  @apply outline-none border-transparent;
+}
+
+.style_input {
+  @apply text-secondary ;
 }
 
 .signup-1 {

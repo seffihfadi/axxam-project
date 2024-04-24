@@ -65,9 +65,9 @@ function Reservation({rules,data}) {
       age:"Under 2"
     }]
     const Guests = {
-      Adults: adults,
-      Children: children,
-      Infants: infants
+      adults: adults,
+      ahildren: children,
+      infants: infants
     };
   return (
     <div className='mx-auto lg:mx-0 p-7 lg:sticky lg:top-24 my-3 border w-full md:w-1/2 lg:w-full lg:h-[46%]  border-gray-200  rounded-3xl shadow-md shadow-gray-400 flex flex-col gap-3 dark:border-gray-600 dark:shadow-gray-700'>
@@ -95,7 +95,7 @@ function Reservation({rules,data}) {
         /> </div>}
         <div class='col-span-2 w-full border-t  border-t-gray-400 dark:border-t-gray-600 relative flex flex-col justify-center items-start pl-4 py-3 lg:py-2' onClick={toggleChevron} >
           <p className='text-xs font-medium'>Guests</p>
-          <p className='text-sm text-gray-600'>{total} guest{total>1 && <span>s</span>}</p>
+          <p className='text-sm text-gray-600'>{total} guest{total>1 &&<span>s</span>}</p>
           <div className='absolute right-5 top-5'>
           {isChevronUp ? <FaChevronUp /> : <FaChevronDown />}</div>
         </div>
@@ -135,7 +135,7 @@ function Reservation({rules,data}) {
       <button className='flex  justify-center items-center border cursor-pointer h-[14%] py-4 rounded-2xl dark:border-none text-white bg-primary font-semibold'>Reserve</button>
       <div className='flex justify-center  text-gray-600 pb-3'>You won't be charged yet</div>
       <div className='flex justify-between font-medium  before:h-[1px] before:w-full before:bg-gray-300 dark:before:bg-gray-600   before:absolute relative before:bottom-[-35px] '>
-        <h2>{data.price} X {numberOfDays} nights</h2>
+        <h2>{data.price} X {numberOfDays} night{numberOfDays>1 && <span>s</span>}</h2>
         <h2>{data.price} DZD</h2>
       </div>
     {/*totalsect*/}
