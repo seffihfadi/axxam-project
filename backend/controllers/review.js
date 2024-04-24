@@ -22,13 +22,17 @@ export const getAnnouncementReviews = async (req, res, next) => {
       oneStar: 0
     };
 
+    const comments = [];
     // Sum up all ratings and count rating levels
     reviews.forEach(review => {
       const { cleanliness, communication, neighbours, location } = review.rating;
+      const comment = review.comment;
       totalCleanliness += cleanliness;
       totalCommunication += communication;
       totalNeighbours += neighbours;
       totalLocation += location;
+
+      comments.push(comment)
 
       // Calculate average rating for this review
       let averageRating = (cleanliness + communication + neighbours + location) / 4;
@@ -55,13 +59,16 @@ export const getAnnouncementReviews = async (req, res, next) => {
 
     // Return the computed averages along with star counts
     return res.status(200).json({
-      counts,
-      totalCleanliness: averageCleanliness,
-      totalCommunication: averageCommunication,
-      totalNeighbours: averageNeighbours,
-      totalLocation: averageLocation,
-      totalAverage: overallAverage,
-      count
+      rate: {
+        counts,
+        totalCleanliness: averageCleanliness,
+        totalCommunication: averageCommunication,
+        totalNeighbours: averageNeighbours,
+        totalLocation: averageLocation,
+        totalAverage: overallAverage,
+        count
+      },
+      comments
 
     });
   } catch (error) {
@@ -69,6 +76,7 @@ export const getAnnouncementReviews = async (req, res, next) => {
   }
 }
 
+// export const getAnnouncementComments = async (req, res, next) {}
 
 // done notification
 export const addReview = async (req, res, next) => {

@@ -16,10 +16,10 @@ const PropertyPage = () => {
 
   const {data: property, isLoading: propertyLoading} = useGetPropertyQuery(propID)
   const {data: reviews, isLoading: reviewsLoading} = useGetReviewsQuery(propID)
-  // console.log('reviews', reviews)
+  // console.log('reviews comments', comments)
 
   
-  const propertyPosition = [36.75694627456025, 2.8524488210678105]
+  // const propertyPosition = [36.75694627456025, 2.8524488210678105]
   
   function handleOpen() {
     setIsOpen(true);
@@ -37,8 +37,8 @@ const PropertyPage = () => {
   return (
     <>
       <PropertyDetails property={property} handleOpen={handleOpen}/>
-      <Overallreview rating={reviews} owner={property.owner} />
-      <Reviews handleOpen={handleOpen}/>
+      <Overallreview rating={reviews.rate} owner={property.owner} />
+      <Reviews comments={reviews.comments} handleOpen={handleOpen}/>
       <PropertyMap position={property.location.coordinates}/>
       {isOpen && <Comments handleClose={handleClose}/>}
     </>

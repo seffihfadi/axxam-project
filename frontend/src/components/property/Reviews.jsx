@@ -1,6 +1,6 @@
 import React from 'react'
 import Review from './Review'
-export default function Reviews({handleOpen}) {
+export default function Reviews({comments, handleOpen}) {
   const users=[
     {
       comment:'Spacious and charming house, conveniently located near the beach and the center of Staoueli.    ',
