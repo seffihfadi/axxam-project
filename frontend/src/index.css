@@ -342,9 +342,9 @@ p.link a{
   }
 }
 
-.headerSearchText {
+/* .headerSearchText {
   cursor: pointer;
-}
+} */
 
 .pd {
   @apply h-[28px] w-[28px] flex justify-center items-center bg-[#EFEFEF] rounded-md;
@@ -371,9 +371,9 @@ p.link a{
   padding-top: 0px;
 }
 
-.select-slc {
+/* .select-slc {
   @apply m-1.5 ml-[28px] whitespace-nowrap;
-}
+} */
 
 #hero {
   position: relative;
@@ -499,11 +499,11 @@ form .main {
 form .group input,
 form .group textarea,
 form .group select {
-  @apply px-8 pt-7 pb-3 rounded-lg appearance-none outline-none border-[1.5px] border-gray-400 dark:bg-gray-100 dark:text-gray-500;
+  @apply px-8 pt-7 pb-3 rounded-lg appearance-none outline-none border-[1.5px] border-gray-400 dark:bg-darkmode dark:text-gray-500;
 }
 
 form .group label {
-  @apply text-sm absolute top-[23px] bg-white dark:bg-gray-100 w-[calc(100%-3rem)] pl-1 pb-4 left-8
+  @apply text-sm absolute top-[23px] bg-white dark:bg-darkmode w-[calc(100%-3rem)] pl-1 pb-4 left-8
   text-gray-400 transition-all cursor-text select-none;
 }
 form .group input:valid ~ label,
@@ -636,3 +636,7 @@ button.info {
   .navbarOwner.activee {
     @apply right-0 ;
   }}
+
+/* .MuiOtpInput-TextField{
+  @apply dark:outline dark:outline-gray-600 
+} */

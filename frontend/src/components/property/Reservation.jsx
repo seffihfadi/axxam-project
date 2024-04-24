@@ -66,7 +66,7 @@ function Reservation({rules,data}) {
     }]
     const Guests = {
       adults: adults,
-      ahildren: children,
+      children: children,
       infants: infants
     };
   return (
