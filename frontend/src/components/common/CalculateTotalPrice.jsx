@@ -1,4 +1,3 @@
-
 export const CalculateTotalPrice = ({days, announcement, guests}) => {
  
   const longStayDiscounts = {

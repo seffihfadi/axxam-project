@@ -18,6 +18,9 @@ const FavoritePropertiesPage = lazy(() => import("./pages/FavoritePropertiesPage
 const BookingHistoryPage = lazy(() => import("./pages/BookingHistoryPage"));
 const MainInfosPage = lazy(() => import("./pages/MainInfospage"));
 const PointSystemPage = lazy(() => import("./pages/PointSystemPage"));
+const BManagementPage=lazy(()=>import("./pages/BManagementPage"));
+const PManagementPage=lazy(()=>import("./pages/PManagementPage"));
+const AddListingPage=lazy(()=>import("./pages/AddListingPage"));
 
 const App = () => {
   return (

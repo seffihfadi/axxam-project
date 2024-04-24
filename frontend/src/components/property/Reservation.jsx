@@ -152,7 +152,7 @@ function Reservation({ property }) {
         }
         <div class='col-span-2 w-full border-t  border-t-gray-400 dark:border-t-gray-600 relative flex flex-col justify-center items-start pl-4 py-3 lg:py-2' onClick={toggleChevron} >
           <p className='text-xs font-medium'>Guests</p>
-          <p className='text-sm text-gray-600'>{total} guest{total>1 && <span>s</span>}</p>
+          <p className='text-sm text-gray-600'>{total} guest{total>1 &&<span>s</span>}</p>
           <div className='absolute right-5 top-5'>
           {isChevronUp ? <FaChevronUp /> : <FaChevronDown />}</div>
         </div>

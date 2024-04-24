@@ -1,7 +1,14 @@
 import React from 'react'
 import RatingDisplay from '../common/RaitingDisplay'
-function Review({users}) {
-  return ( 
+function truncateText(text, maxLength) {
+  if (text.length > maxLength) {
+    return text.slice(0, maxLength) + '...';
+  }
+  return text;
+}
+
+function Review({ users }) {
+  return (
     <div className='flex justify-around flex-wrap'>
       {users.map((user) => ( 
         <div className="relative shadow-md p-5 shadow-gray-400  border-gray-200 dark:border-gray-600  dark:shadow-gray-700 border my-9 rounded-xl w-80">
@@ -25,8 +32,7 @@ function Review({users}) {
       </div>
       ))}  
     </div>
-
-  )
+  );
 }
 
-export default Review
+export default Review;

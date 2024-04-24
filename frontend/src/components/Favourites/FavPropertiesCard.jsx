@@ -1,5 +1,4 @@
 import React from "react";
-import { FaHeart } from "react-icons/fa6";
 import { FaRegStar } from "react-icons/fa6";
 import { FaXmark } from "react-icons/fa6";
 function FavPropertiesCard({ props }) {

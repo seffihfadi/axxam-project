@@ -27,7 +27,7 @@ export default function Reviews({comments, handleOpen}) {
 
   ]
   return (
-  <div className='container'>
+  <div className='container' id="reviews-section">
     <div className='border-t border-t-gray-300 dark:border-t-gray-600 py-10 my-5'>
       <div className='flex  justify-between'>
         <h1 className='font-bold text-xl my-4'>Reviews</h1>

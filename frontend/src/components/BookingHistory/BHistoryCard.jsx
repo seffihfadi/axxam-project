@@ -13,7 +13,7 @@ function BHistoryCard({ props }) {
           className="h-full w-full"
         />
         </div>
-      <div className="flex justify-between w-full  ">
+      <div className="flex justify-between w-full mt-1  ">
           <span className="font-semibold darktxt">
             {props.location}
           </span>
@@ -33,12 +33,12 @@ function BHistoryCard({ props }) {
         {props.status == "accepted" ?(
           <button className='BookingButton bg-green-600  '>
             <span>Confirmed</span>
-            <span><IoCheckmark/></span>
+            <span><IoCheckmark size={15} /></span>
           </button>
        ): props.status == "rejected" ? (
          <button className=' BookingButton bg-red-600 dark:bg-red-700'>
            <span>Rejected</span>
-           <span><FaXmark/></span>
+           <span><FaXmark size={15} /></span>
          </button>
        ):props.status == "pending" ? (
         <button className='BookingButton bg-orange-500 dark:bg-orange-600 '>
@@ -48,23 +48,23 @@ function BHistoryCard({ props }) {
        ):props.status == "completed" ? (
         <button className='BookingButton bg-gray-400 dark:bg-gray-500 '>
         <span>Completed</span>
-        <span><GiTrophyCup size={12}/></span>
+        <span><GiTrophyCup size={15} /></span>
        </button>
        )
        :props.status == "cancelled" ?(
         <button className='BookingButton  bg-red-600 dark:bg-red-700  '>
-        <span className=' ' >Cancelled</span>
-        <span><RiProhibitedLine/></span>
+        <span>Cancelled</span>
+        <span><RiProhibitedLine size={15}/></span>
        </button>
        )
        :props.status == "inprogress" ?(
        <div className='flex justify-between '> 
-        <button className=' flex gap-1 items-center  rounded-lg primary dark:bg-blue-800  font-semibold text-sm w-fit '>
-        <span className=' '>In progress</span>
-        <span><PiBedLight/></span>
+        <button className=' flex gap-2 px-3 items-center rounded-lg bg-primary dark:bg-blue-800 font-semibold text-sm '>
+        <span className='text-white '>In progress</span>
+        <span ><PiBedLight color="white" size={15} /></span>
        </button>
-        <button className=' flex  gap-2 items-center  justify-center  px-12 py-2 lg:px-7   rounded-lg bg-gray-300 dark:bg-gray-500  font-semibold text-sm  w-fit lg:w-1/3 '>
-        <span className=' text-gray-500   ' >Cancel</span>
+        <button className=' flex  gap-2 items-center justify-center px-14 py-2 rounded-lg bg-gray-300 dark:bg-gray-500  font-semibold text-sm  w-fit lg:w-1/3 '>
+        <span className='text-gray-500'>Cancel</span>
        </button>
        </div>
        ):(<></>)
