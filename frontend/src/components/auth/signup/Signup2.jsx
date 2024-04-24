@@ -34,7 +34,7 @@ function Signup2({ isOpen, handleBack, number, openPopup3, title }) {
                 </h1>
                 <form className="py-12 lg:py-14">
                   <div>
-                    <MuiOtpInput value={otp} onChange={handleChange} />
+                    <MuiOtpInput length={6} value={otp} onChange={handleChange} />
                   </div>
                 </form>
                 <p className="text-center text-sm md:text-base">

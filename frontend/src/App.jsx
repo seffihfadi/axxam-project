@@ -35,7 +35,7 @@ const App = () => {
           <Route path="/success" element={<SuccessPayment />} />
           <Route path="/canceled" element={<CanceledPayment />} />
           <Route path="/checkout" element={<PaymentIntegration><CheckoutPage /></PaymentIntegration>} />
-          <Route path="points" element={PointSystemPage}/>
+          <Route path="points" element={<PointSystemPage/>}/>
           <Route path="/favourite" element={<FavoritePropertiesPage/>}/>
           <Route path="/history" element={<BookingHistoryPage/>}/>
           <Route path="/info" element={<MainInfosPage/>}/>

@@ -7,10 +7,11 @@ import {
 } from "react-icons/pi";
 import { CiDumbbell } from "react-icons/ci";
 import { LiaWaterSolid, LiaSkiingSolid } from "react-icons/lia";
-import { IoSnowOutline } from "react-icons/io5";
+import { IoSnowOutline} from "react-icons/io5";
 import { TbGrill } from "react-icons/tb";
 import { SlScreenDesktop } from "react-icons/sl";
 import { RiCaravanLine } from "react-icons/ri";
+import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi2";
 
 function Filters() {
   const elementRef = useRef();
@@ -18,47 +19,47 @@ function Filters() {
   const filters = [
     {
       name: "Pool",
-      icon: <PiSwimmingPoolLight />,
+      icon: <PiSwimmingPoolLight size={26}/>,
     },
     {
       name: "Gym",
-      icon: <CiDumbbell />,
+      icon: <CiDumbbell size={26}/>,
     },
     {
       name: "Beach View",
-      icon: <LiaWaterSolid />,
+      icon: <LiaWaterSolid size={26}/>,
     },
     {
       name: "Arctic",
-      icon: <IoSnowOutline />,
+      icon: <IoSnowOutline size={26}/>,
     },
     {
       name: "Barbecue",
-      icon: <TbGrill />,
+      icon: <TbGrill size={26}/>,
     },
     {
       name: "Office",
-      icon: <SlScreenDesktop />,
+      icon: <SlScreenDesktop size={26}/>,
     },
     {
       name: "Camping",
-      icon: <PiTentLight />,
+      icon: <PiTentLight size={26}/>,
     },
     {
       name: "Ski",
-      icon: <LiaSkiingSolid />,
+      icon: <LiaSkiingSolid size={26}/>,
     },
     {
       name: "Caravan",
-      icon: <RiCaravanLine />,
+      icon: <RiCaravanLine size={26}/>,
     },
     {
       name: "Piano",
-      icon: <PiPianoKeysLight />,
+      icon: <PiPianoKeysLight size={26}/>,
     },
     {
       name: "Nature",
-      icon: <PiPlantLight />,
+      icon: <PiPlantLight size={26}/>,
     },
   ];
 
@@ -70,7 +71,7 @@ function Filters() {
   }
 
   return (
-    <div className="relative container mt-24" id="filters">
+    <div className="relative container mt-48 mb-8" id="filters">
       <div
         className="w-full mx-auto py-2 md:py-3 rounded-3xl flex justify-between align-middle overflow-x-auto shadow-md scrollbar-hide gap-5 md:gap-1 scroll-smooth border-[1px] border-gray-200 dark:border-gray-600 font-light text-[14px] md:text-[16px]"
         ref={elementRef}
@@ -87,18 +88,8 @@ function Filters() {
           </div>
         ))}
       </div>
-      <span
-        className="material-symbols-outlined hidden lg:block text-[25px] absolute top-[50%] translate-y-[-50%] bg-white dark:bg-gray-700 right-9 rounded-full cursor-pointer border-[1px] border-gray-300 dark:border-gray-500 hover:shadow-md"
-        onClick={() => slideRight(elementRef.current)}
-      >
-        chevron_right
-      </span>
-      <span
-        className="material-symbols-outlined hidden lg:block text-[25px] absolute top-[50%] translate-y-[-50%] left-9 rounded-full cursor-pointer bg-white dark:bg-gray-700 border-[1px] border-gray-300 dark:border-gray-500 hover:shadow-md"
-        onClick={() => slideLeft(elementRef.current)}
-      >
-        chevron_left
-      </span>
+      <HiOutlineChevronRight onClick={() => slideRight(elementRef.current)} size={24} className=" font-thin p-[2px] rounded-full absolute top-[50%] translate-y-[-50%] bg-white dark:bg-gray-700 right-9 cursor-pointer border-[1px] border-gray-300 dark:border-gray-500 hover:shadow-md"/>
+      <HiOutlineChevronLeft onClick={() => slideLeft(elementRef.current)} size={24} className=" font-thin p-[2px] rounded-full absolute top-[50%] translate-y-[-50%] bg-white dark:bg-gray-700 left-9 cursor-pointer border-[1px] border-gray-300 dark:border-gray-500 hover:shadow-md"/>
     </div>
   );
 }

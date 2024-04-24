@@ -102,7 +102,7 @@ function Properties() {
     },
   ];
   return (
-    <div className="container py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+    <div className="containerpy-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 z-30">
       {cards.map((element) => (
         <PropertyCard props={element} />
       ))}
