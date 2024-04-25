@@ -371,9 +371,9 @@ p.link a{
   padding-top: 0px;
 }
 
-/* .select-slc {
+ .select-slc {
   @apply m-1.5 ml-[28px] whitespace-nowrap;
-} */
+} 
 
 #hero {
   position: relative;
@@ -640,3 +640,12 @@ button.info {
 /* .MuiOtpInput-TextField{
   @apply dark:outline dark:outline-gray-600 
 } */
+.search-bar :is(.select-item div) {
+  @apply text-[#6D6D6D];
+}
+.react-select__option {
+  @apply dark:bg-gray-800 text-gray-200;
+}
+.react-select__option--is-focused {
+  background-color: rgb(0 81 203 / 1) !important ;color: white !important;
+}

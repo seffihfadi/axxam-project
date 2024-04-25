@@ -38,8 +38,8 @@ function SearchBar() {
     { value: "Ouran", label: "Ouran" },
   ];
   const customStyles = {
-    control: (provided) => ({
-      ...provided,
+    control: (state) => ({
+      color: "#6D6D6D",
       border: "none", // Supprime la bordure
     }),
     indicatorSeparator: () => ({
@@ -60,80 +60,83 @@ function SearchBar() {
   };
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex gap-4 border rounded-xl lg:rounded-full w-full sm:w-[unset] max-w-[25rem] sm:max-w-full bg-white p-3 sm:p-5 sm:py-3 lg:px-8 mt-10 -mx-20 -px-20">
+    <div className="search-bar grid grid-cols-1 sm:grid-cols-2 lg:flex gap-3 dark:bg-darkmode border rounded-xl lg:rounded-full w-full sm:w-[unset] max-w-[25rem] sm:max-w-full bg-white p-3 sm:p-5 sm:py-3 lg:px-7 mt-10 -mx-20 -px-20">
       <div className="">
         <div className=" iconDiv flex gap-3">
-          <div className="pd">
+          <div className="pd dark:bg-darkmode ">
             <HiOutlineLocationMarker className=" " />
           </div>
-          <h4 className="font-semibold titre arrow flex items-center gap-2">
+          <h4 className="font-semibold titre dark:text-white arrow flex items-center gap-2 ">
             Location <IoIosArrowDown />
           </h4>
         </div>
 
-        <div className=" flex gap-3">
+        <div className="select-item flex gap-3">
           <Select
+            classNamePrefix="react-select"
             options={lieu}
             placeholder="Select location"
             styles={customStyles}
-            className="text-sm text-[#6D6D6D] select-slc"
+            className="text-sm text-[#6D6D6D] w-full  max-w-[150px] md:w-[150px] select-slc"
           />
         </div>
       </div>
       <div className="">
         <div className=" flex iconDiv gap-3">
-          <div className="pd">
+          <div className="pd dark:bg-darkmode">
             {" "}
-            <MdOutlineHomeWork  />
+            <MdOutlineHomeWork />
           </div>
-          <h4 className="font-semibold arrow flex titre items-center gap-2">
+          <h4 className="font-semibold arrow dark:text-white flex titre items-center gap-2  ">
             Proprety Type <IoIosArrowDown />
           </h4>
         </div>
-        <div className="flex gap-3">
+        <div className="select-item flex gap-3 min-w-full">
           <Select
+            classNamePrefix="react-select"
             options={option}
             placeholder="Select Property"
             styles={customStyles}
-            className="text-sm text-[#6D6D6D] select-slc"
+            className="text-sm text-[#6D6D6D] select-slc w-full  max-w-[150px] md:w-[150px]"
           />
         </div>
       </div>
 
-      <div >
+      <div>
         <div className="flex iconDiv gap-3">
-          <div className="pd ">
-            <FiDollarSign  />
+          <div className="pd dark:bg-darkmode  ">
+            <FiDollarSign />
           </div>
-          <h4 className="font-semibold  titre arrow flex items-center gap-2">
-            Price Range <IoIosArrowDown  />{" "}
+          <h4 className="font-semibold dark:text-white  titre arrow flex items-center gap-2  ">
+            Price Range <IoIosArrowDown />{" "}
           </h4>
         </div>
-        <div >
-          <div >
+        <div>
+          <div className="select-item flex gap-3">
             {" "}
             <Select
+              classNamePrefix="react-select"
               options={prix}
               placeholder="Select price"
               styles={customStyles}
-              className="text-sm text-[#6D6D6D] select-slc"
+              className="text-sm  text-[#6D6D6D] select-slc w-full  max-w-[150px] md:w-[150px]"
             />
           </div>
         </div>
       </div>
 
-      <div >
+      <div>
         <div className=" flex  iconDiv gap-3">
-          <div className="pd">
+          <div className="pd dark:bg-darkmode  ">
             {" "}
             <SlCalender className="" />
           </div>
-          <h4 className="font-semibold arrow titre flex items-center gap-2">
+          <h4 className="font-semibold arrow dark:text-white titre flex items-center gap-2  ">
             Date Range <IoIosArrowDown />
           </h4>
         </div>
         <div className=" flex gap-3">
-          <div className="mt-1 p-2 h-[2.45rem] rounded-md relative">
+          <div className="p-2  rounded-md relative">
             <span
               onClick={() => setOpenDate(!openDate)}
               className="headerSearchText  text-sm select-slc"
@@ -149,7 +152,7 @@ function SearchBar() {
                 onChange={(item) => setDate([item.selection])}
                 moveRangeOnFirstSelection={false}
                 ranges={date}
-                className="date mt-32 absolute -top-[5.5rem] md:top-[-5.5rem] left-0 z-50"
+                className="date mt-32 absolute -top-[5.5rem] md:top-[-5.5rem] left-0 sm:-left-[4rem] md:left-0 z-50 bg-red-500"
                 minDate={new Date()}
               />
             )}
@@ -170,8 +173,3 @@ function SearchBar() {
 }
 
 export default SearchBar;
-
-
-
-
-
