@@ -5,11 +5,22 @@ export const bookingsApiSlice = apiSlice.injectEndpoints({
 
     getAnnouncements: builder.query({
       query: () => '/announcement/search',
+      providesTags: ['Saved']
     }),
     getProperty: builder.query({
       query: (announcementID) => `/announcement/get/${announcementID}`,
+      providesTags: ['Saved']
     }),
-    // reservation/create-checkout-session/
+
+    saveProperty: builder.mutation({
+      // query: (announcementID) => `/announcement/save/${announcementID}`,
+      query: (announcementID) => ({
+        url: `/announcement/save/${announcementID}`,
+        method: 'GET',
+      }),
+      invalidatesTags: ['Saved']
+    }),
+
     createCheckoutSession: builder.mutation({
       query: ({reservationDetails, announcementID}) => ({
         url: `reservation/create-checkout-session/${announcementID}`,
@@ -24,7 +35,8 @@ export const {
 
     useGetAnnouncementsQuery,
     useGetPropertyQuery,
-    useCreateCheckoutSessionMutation
+    useCreateCheckoutSessionMutation,
+    useSavePropertyMutation
     
 
 } = bookingsApiSlice

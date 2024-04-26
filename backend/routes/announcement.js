@@ -1,5 +1,6 @@
 import express from 'express';
 import access from '../middlewares/auth.js';
+import secure from '../middlewares/secure.js';
 import ROLES from '../utils/roles.js'
 import { 
     createAnnouncement,
@@ -14,9 +15,9 @@ const announcementRoutes = express.Router();
 
 announcementRoutes.post('/create',access(ROLES.lessor), createAnnouncement);
 announcementRoutes.patch('/update/:announcementID',access(ROLES.lessor), updateAnnouncement);
-announcementRoutes.patch('/save/:announcementID', access(ROLES.all), saveAnnouncement);
-announcementRoutes.get('/get/:announcementID',access(ROLES.all), getAnnouncement);
-announcementRoutes.get('/search', getAnnouncementForSearch);
+announcementRoutes.get('/save/:announcementID', access(ROLES.lessee), saveAnnouncement);
+announcementRoutes.get('/get/:announcementID', secure(), getAnnouncement);
+announcementRoutes.get('/search', secure(), getAnnouncementForSearch);
 announcementRoutes.delete('/delete/:announcementID',access(ROLES.lessor), deleteAnnouncement);
 
 

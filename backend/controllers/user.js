@@ -271,10 +271,10 @@ export const updateUserAdditional = async (req, res ,next) => {
 
 export const joinUs = async (req, res, next) => {
   const {_id: sessionID, extra} = req.user
-  const {idCard, email, bio, gender, token} = req.body
+  const {email, token} = req.body
   try {
 
-    if (!idCard || !email || !bio || !gender|| !token) {
+    if (!email || !token) {
       res.status(400)
       throw new Error('please fill in all requered fields')
     }
@@ -333,9 +333,6 @@ export const joinUs = async (req, res, next) => {
     const userDetails = await UserExtraDetails.findOneAndUpdate(
       { _id: extra?._id || new mongoose.Types.ObjectId() },
       {
-        bio,
-        gender,
-        idCard,
         stripeAccountId: account.id,
       },
       {
@@ -365,7 +362,7 @@ export const getUser = async (req, res, next) => {
       res.status(500)
       throw new Error('server error !')
     }
-    console.log('req.user', req.user?.extra)
+    // console.log('req.user', req.user?.extra)
 
     const userSession = req.user
     res.status(200).json({user: userSession})

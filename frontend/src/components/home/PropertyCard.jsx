@@ -10,6 +10,7 @@ import { Pagination, Autoplay, EffectFade } from 'swiper/modules'
 import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/effect-fade'
+import SaveButton from "../property/SaveButton";
 
 
 function PropertyCard({ announcement }) {
@@ -67,13 +68,15 @@ function PropertyCard({ announcement }) {
           </Swiper>
           
         </div>
-        <button>
-          <FaHeart className="absolute top-3 right-3 text-xl" />
-        </button>
+        {/* <button>
+          <FaHeart className="" />
+
+        </button> */}
+        <SaveButton className={'absolute top-3 z-20 right-3'} propID={announcement._id} isSaved={announcement.isSaved} />
       </div>
       <div className="flex justify-between w-full">
         <Link to={`/property/${announcement._id}`}>
-          <div className="font-semibold flex justify-between dark:text-gray-200">
+          <div className="font-semibold flex justify-between mt-2 dark:text-gray-200">
             {announcement.location.name}
             <div className="flex justify-center items-center gap-1">
               <FaRegStar className="text-lg" />

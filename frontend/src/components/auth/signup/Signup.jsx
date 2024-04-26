@@ -17,15 +17,14 @@ function Signup() {
     setIsOpen(false);
     setIsPopup4Open(false);
     setIsPopup2Open(false);
-    setIsPopup1SigninOpen(false);
-    document.body.classList.remove("popup-open");
+    // document.body.classList.remove("popup-open");
   }
 
   
 
   function handleOpen() {
     setIsOpen(true);
-    document.body.classList.add("popup-open");
+    // document.body.classList.add("popup-open");
   }
 
   const openPopup1Signin = () => {
@@ -50,7 +49,7 @@ function Signup() {
 
   return (
     <>
-      <button onClick={handleOpen} className='Secondary'>Signup</button>
+      <button onClick={handleOpen} className='primary'>Signup</button>
       {isOpen && <Signup1 isOpen={isOpen} openPopup2={openPopup2} openPopup1Signin={openPopup1Signin} handleClose={handleClose} inputValue={inputValue} setInputValue={setInputValue} title={title}/>}
       {isPopup2Open && <Signup2 isOpen={isPopup2Open} number={inputValue} handleClose={handleClose} openPopup3={openPopup3} title={title}/>}
       {isPopup3Open && <Signup3 isOpen={isPopup3Open} number={inputValue} openPopup4={openPopup4}/>}

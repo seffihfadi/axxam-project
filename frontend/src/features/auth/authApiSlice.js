@@ -4,7 +4,9 @@ export const authApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
     getUser: builder.query({
       query: () => '/user/get-user',
-      providesTags: ['User']
+      providesTags: ['User'],
+      refetchOnMount: true,
+      refetchOnReconnect: true,
     }),
     sendOtp: builder.mutation({
       query: ({phone, type}) => ({
@@ -18,7 +20,8 @@ export const authApiSlice = apiSlice.injectEndpoints({
         url: `/user/verify-otp`,
         method: 'POST',
         body: {phone, otp}
-      })
+      }),
+      invalidatesTags: ['User']
     }),
     updateAdditional: builder.mutation({
       query: ({gender, livesIn, bio}) => ({
@@ -41,6 +44,13 @@ export const authApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User']
     }),
+    joinUs: builder.mutation({
+      query: ({token, email}) => ({
+        url: '/user/join-us',
+        method: 'POST',
+        body: {token, email}
+      }),
+    }),
   })
 })
 
@@ -51,6 +61,7 @@ export const {
     useSignupMutation,
     useSendOtpMutation,
     useVerifyOtpMutation,
-    useUpdateAdditionalMutation
+    useUpdateAdditionalMutation,
+    useJoinUsMutation
 
 } = authApiSlice

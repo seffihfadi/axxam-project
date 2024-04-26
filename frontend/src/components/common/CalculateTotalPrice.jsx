@@ -20,5 +20,5 @@ export const CalculateTotalPrice = ({days, announcement, guests}) => {
   const totalInfantsPrice = basePrice * guests.Infants * (1 - (announcement.reductions.infants / 100))
   // console.log('totalInfantsPrice', totalAdultPrice, guests.adults)
   // console.log('first', totalAdultPrice + totalChildrenPrice + totalInfantsPrice)
-  return <span>{(totalAdultPrice + totalChildrenPrice + totalInfantsPrice) / 100},00</span>
+  return <span>{(totalAdultPrice + totalChildrenPrice + totalInfantsPrice) / 100}</span>
 }

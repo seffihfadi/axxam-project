@@ -106,7 +106,7 @@ button:disabled {
   @apply w-screen h-screen flex justify-center items-center z-50 fixed top-0 left-0 backdrop-blur-sm;
 }
 .popup .window {
-  @apply max-w-[calc(100%-4rem)] w-[672px] bg-white dark:bg-darkmode rounded-xl max-h-[80%] overflow-y-auto shadow-xl py-4 px-0 relative dark:border-[1px] dark:border-gray-600;
+  @apply md:max-w-[calc(100%-4rem)] w-full md:w-[672px] bg-white dark:bg-darkmode rounded-xl md:max-h-[80%] h-[90%] overflow-y-auto shadow-xl py-4 px-0 relative dark:border-[1px] dark:border-gray-600;
 }
 
 .backdrop {
@@ -128,6 +128,9 @@ button:disabled {
 
 button.primary {
   @apply px-6 py-2 rounded-lg bg-primary text-white font-semibold w-fit;
+}
+button.saved span {
+  @apply text-green-500;
 }
 button.secondary-sq {
   @apply px-6 py-2 rounded-lg bg-white text-black font-semibold border-[1px] w-fit border-black;

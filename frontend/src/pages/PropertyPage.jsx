@@ -16,7 +16,7 @@ const PropertyPage = () => {
 
   const {data: property, isLoading: propertyLoading} = useGetPropertyQuery(propID)
   const {data: reviews, isLoading: reviewsLoading} = useGetReviewsQuery(propID)
-  // console.log('reviews comments', comments)
+  // console.log('reviews comments', property)
 
   
   // const propertyPosition = [36.75694627456025, 2.8524488210678105]

@@ -58,9 +58,9 @@ function Signup2({ isOpen, number, openPopup3, title, handleClose }) {
                 </h1>
                 <form onSubmit={verifyOTP} className="py-12 lg:py-14">
                   <div>
-                    <MuiOtpInput value={otp} onChange={handleChange} />
+                    <MuiOtpInput length={6} value={otp} onChange={(v) => setOtp(v)}  />
                   </div>
-                  <p className="text-center text-sm md:text-base">
+                  <p className="text-center text-sm mt-4 md:text-base">
                     <span className="font-semibold">Note:</span> We have sent an
                     OTP Code to{" "}
                     <span className="font-semibold">+213 {number}</span> check

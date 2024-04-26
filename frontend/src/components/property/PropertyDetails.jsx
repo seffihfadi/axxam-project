@@ -1,24 +1,21 @@
 import React from 'react'
-import { CiHeart } from "react-icons/ci";
-import Host from './Host';
 import Reservation from "./Reservation";
 import { ReactPhotoSphereViewer } from "react-photo-sphere-viewer";
 import { Rules } from '../common/Rules';
 // import PaymentIntegration from '../reservation/PaymentIntegration';
 import { Amenities } from '../common/Ameneties';
+import SaveButton from './SaveButton';
 
 
 
 function PropertyDetails({ property, handleOpen }){
 
+
   return (
-  <div className='mb-5 mt-28  container'>
+  <div className='mb-5 mt-28 container'>
     <div className='flex justify-between my-5 gap-1'>
       <h1 className='text-xl md:text-2xl font-bold'>{property.title}</h1>
-      <div className='flex gap-2 items-center text-lg md:text-xl hover:cursor-pointer '> 
-        <CiHeart/>
-        <h2 className='text-base'>save</h2>
-      </div>
+      <SaveButton propID={property._id} isSaved={property.isSaved} text />
     </div>
 
     {/*picturessec*/}

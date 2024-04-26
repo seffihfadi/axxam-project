@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ThemeToggle from "./ThemeToggle";
 import Signup from "../auth/signup/Signup";
+import Joinus from '../auth/joinus/Joinus';
 import { FaTimes } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { MdNotificationsNone } from "react-icons/md";
@@ -47,9 +48,7 @@ function UserGreeting({ isSignedUp, isJoined, user }) {
         </div>
         <div className="flex items-center gap-[7px] sm:gap-[12px] md:gap-[15px]">
           <div className="flex items-center gap-2 sm:gap-[7px] md:max-w-full">
-            <button className="primary">
-              Join us
-            </button>
+            <Joinus />
             <div className="hidden md:block"><ThemeToggle /></div>
             <MdNotificationsNone className="text-xl" />
             <Notification user={user} />
@@ -73,12 +72,10 @@ function UserGreeting({ isSignedUp, isJoined, user }) {
         <div className="flex items-center gap-[6px] sm:gap-[20px] md:gap-[20px]">
           <div className="hidden md:block"><ThemeToggle /></div>
           <div className="flex items-center gap-[4px] sm:gap-[20px] md:max-w-full md:gap-[10px]">
-            <button className="secondary">
+            {/* <button className="secondary">
               Join us
-            </button>
-            <button className="primary">
-              <Signup />
-            </button>
+            </button> */}
+            <Signup />
           </div>
         </div>
         <div className="block md:hidden pl-1 sm:pl-[20px]" onClick={handleClick}>

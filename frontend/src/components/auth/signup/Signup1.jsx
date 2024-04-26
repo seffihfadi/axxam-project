@@ -72,7 +72,7 @@ function Signup1({
                     <label htmlFor="phonenumber">Phone Number</label>
                   </div>
                 
-                  <p className="text-center text-sm md:text-base">
+                  <p className="text-center text-sm mt-4 md:text-base">
                     <span className="font-semibold">Note:</span> We will send an
                     OTP Code to the provided number for verification perposes
                   </p>

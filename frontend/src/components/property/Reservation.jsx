@@ -10,7 +10,10 @@ import { differenceInDays } from 'date-fns';
 import { useCreateCheckoutSessionMutation } from '../../features/bookings/bookingsApiSlice';
 import { useDispatch } from "react-redux";
 import { setAlert } from '../../app/slices/alertSlice';
-import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+import { useStripe } from "@stripe/react-stripe-js";
+
+import LongStayDiscount from './LongStayDiscount';
+import PersonsDiscout from './PersonsDiscount'
 
 
 function Reservation({ property }) {
@@ -25,7 +28,7 @@ function Reservation({ property }) {
   const [calendar, setCalendar] = useState([
     {
       startDate: new Date(),
-      endDate: new Date(),
+      endDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
       key: 'selection'
     }
   ]);
@@ -101,7 +104,7 @@ function Reservation({ property }) {
       }
     }
 
-    console.log('reservationDetails', reservationDetails)
+    // console.log('reservationDetails', reservationDetails)
 
     await createCheckoutSession({reservationDetails, announcementID: property._id})
       .unwrap()
@@ -120,6 +123,7 @@ function Reservation({ property }) {
 
   }
 
+  
 
   return (
     <div className='mx-auto h-fit lg:mx-0 p-7 lg:sticky lg:top-24 my-3 border w-full md:w-1/2 lg:w-full border-gray-200  rounded-2xl shadow-md flex flex-col gap-3 dark:border-gray-600 dark:shadow-gray-700'>
@@ -198,12 +202,18 @@ function Reservation({ property }) {
       </div>
       <button disabled={isLoading} onClick={handleCheckout} className='flex  justify-center items-center border cursor-pointer h-[14%] py-4 rounded-2xl dark:border-none text-white bg-primary font-semibold'>Reserve</button>
       <div className='flex justify-center  text-gray-600 pb-3'>You won't be charged yet</div>
-      <div className='flex justify-between font-medium  before:h-[1px] before:w-full before:bg-gray-300 dark:before:bg-gray-600   before:absolute relative before:bottom-[-35px] '>
+      <div className='flex py-2 justify-between font-medium  border-b-[1px] border-gray-300 dark:border-gray-600 relative '>
         <h2>{property.price / 100},00 X {numberOfDays-1} nights</h2>
         <h2>{property.price * (numberOfDays-1) / 100},00 DZD</h2>
       </div>
+      <div className="extradetails">
+        <LongStayDiscount days={numberOfDays-1} originalPrice={(property.price / 100) * (numberOfDays-1)} />
+        <PersonsDiscout guests={{adults, children, infants}} property={property} numberOfDays={numberOfDays-1} />
+
+        
+      </div>
     {/*totalsect*/}
-      <div className='flex justify-between items-center mt-12 font-medium'>
+      <div className='flex justify-between items-center font-medium'>
         <h1 className='font-semibold text-lg'>Total</h1>
         <h2><CalculateTotalPrice days={numberOfDays-1} announcement={property} guests={Guests}/> DZD</h2>
       </div>

@@ -5,6 +5,8 @@ import { useUpdateAdditionalMutation } from "../../../features/auth/authApiSlice
 import { useDispatch } from "react-redux";
 import { setAlert } from "../../../app/slices/alertSlice";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../../app/slices/authSlice";
 
 function ResizeAwareTextarea({ children }) {
   const [rows, setRows] = useState(4);
@@ -32,11 +34,15 @@ function ResizeAwareTextarea({ children }) {
 
 
 
-function Signup4({ isOpen, handleClose }) {
-  const [bio, setBio] = useState('')
-  const [livein, setLivein] = useState('')
-  const [gender, setGender] = useState('male')
+function Signup4({ isOpen, handleClose, isJoin=false, openPopupBank }) {
+  const user = useSelector(selectCurrentUser)
+
+  const [bio, setBio] = useState(user?.extra?.bio || '')
+  const [livein, setLivein] = useState(user?.extra?.livesIn || '')
+  const [gender, setGender] = useState(user?.extra?.gender || '')
   const navigate = useNavigate()
+
+  // console.log('user', user)
 
   const dispatch = useDispatch()
   const [updateAdditional, { isLoading }] = useUpdateAdditionalMutation();
@@ -44,14 +50,20 @@ function Signup4({ isOpen, handleClose }) {
   const handleUpdateAdditional = async (e) => {
     e.preventDefault()
     if(!gender && !livein && !bio) return dispatch(setAlert(['add at least one field or skip for now', 'error']))
-    // console.log('gender, livein, bio', gender, livein, bio)
+    if (isJoin && (!gender || !livein || !bio)) {
+      return dispatch(setAlert(['fill in all required fields', 'error']))
+    }
   
     await updateAdditional({gender, livesIn: livein, bio})
       .unwrap()
       .then((payload) => {
         dispatch(setAlert([payload.message, 'success']))
-        navigate('/sl')
-        handleClose()
+        if (isJoin) {
+          openPopupBank()
+        } else {
+          navigate('/sl')
+          handleClose()
+        }
       })
       .catch((error) => dispatch(setAlert([error.data.message, 'error'])))
   
@@ -73,7 +85,7 @@ function Signup4({ isOpen, handleClose }) {
                   className="text-center mb-6  before:absolute before:w-full before:h-px before:bg-gray-300 dark:before:bg-gray-600 before:top-16 
                                 before:left-0 font-semibold"
                 >
-                  Signup
+                  {isJoin ? 'Join Us' : 'Signup'} 
                 </div>
                 <h1 className="text-center font-semibold text-xl md:text-2xl mt-14">
                   Additional Informations
@@ -83,7 +95,8 @@ function Signup4({ isOpen, handleClose }) {
                   <div className="flex justify-between items-center gap-3">
                       <div className="flex-1" >
                         <div className="group flex-1">
-                          <select onChange={(e) => setGender(e.target.value)} name="gender" id="sdf">
+                            
+                          <select required={isJoin} defaultValue={gender} onChange={(e) => setGender(e.target.value)} name="gender" id="sdf">
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                           </select>
@@ -92,9 +105,11 @@ function Signup4({ isOpen, handleClose }) {
                       </div>
                       <div className="group flex-1">
                         <input
+                          defaultValue={livein} 
                           id="location"
                           name="location"
                           type="location"
+                          required={isJoin}
                           onChange={(e) => setLivein(e.target.value)}
                         />
                         <label htmlFor="location">Lives in</label>
@@ -106,8 +121,10 @@ function Signup4({ isOpen, handleClose }) {
                           <textarea
                             name="desc"
                             id="desc"
+                            defaultValue={bio} 
                             rows={rows}
                             maxLength={250}
+                            required={isJoin}
                             onChange={(e) => setBio(e.target.value)}
                           ></textarea>
                           <label htmlFor="desc">Tell us more about yourself</label>
@@ -117,9 +134,9 @@ function Signup4({ isOpen, handleClose }) {
                   
                 </div>
                 <div className="flex justify-between items-center">
-                  <button onClick={handleClose} className="text-gray-500 font-light text-sm md:text-base">Skip for now</button>
+                  {!isJoin && <button onClick={handleClose} className="text-gray-500 font-light text-sm md:text-base">Skip for now</button>}
                       
-                  <button disabled={isLoading} type="submit" className="rounded-lg bg-primary text-white font-semibold w-fit px-8 md:px-10 py-3 md:py-4">
+                  <button disabled={isLoading} type="submit" className="rounded-lg bg-primary ml-auto text-white font-semibold w-fit px-8 md:px-10 py-3 md:py-4">
                     Save
                   </button>
                 </div>

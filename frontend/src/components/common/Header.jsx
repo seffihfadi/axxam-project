@@ -4,9 +4,11 @@ import { useSelector } from "react-redux";
 
 function Header()  {
   const user = useSelector(selectCurrentUser)
-  // console.log('useskdjgaldjsgklajsdkgjaskdjgalr', user)
+  console.log('useskdjgaldjsgklajsdkgjaskdjgalr', user)
   const isSignedUp = !!user
-  const isJoined = user?.extra?.stripeAccountId
+  const isJoined = !!user && !!user?.extra?.stripeAccountId
+
+  console.log('isSignedUp', isSignedUp, isJoined)
 
     return (
       <header>
