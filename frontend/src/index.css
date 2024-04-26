@@ -12,7 +12,7 @@
   @apply text-gray-800 dark:text-white ;
 } */
 
-body, span, p, button, div {
+body, span, p, button, div, a {
   @apply text-gray-800 dark:text-white;
 }
 
@@ -640,3 +640,6 @@ button.info {
 /* .MuiOtpInput-TextField{
   @apply dark:outline dark:outline-gray-600 
 } */
+.react-select__menu {
+  @apply dark:bg-gray-800 ;
+}

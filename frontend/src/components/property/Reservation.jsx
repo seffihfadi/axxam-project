@@ -92,6 +92,7 @@ function Reservation({rules,data}) {
             onChange={item => setCalendar([item.selection])}
             moveRangeOnFirstSelection={false}
             ranges={calendar}
+            minDate={new Date()}
         /> </div>}
         <div class='col-span-2 w-full border-t  border-t-gray-400 dark:border-t-gray-600 relative flex flex-col justify-center items-start pl-4 py-3 lg:py-2' onClick={toggleChevron} >
           <p className='text-xs font-medium'>Guests</p>
