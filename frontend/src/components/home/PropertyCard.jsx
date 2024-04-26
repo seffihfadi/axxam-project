@@ -16,7 +16,7 @@ function PropertyCard({ props }) {
       </div>
       <div className="flex justify-between w-full">
         <div>
-          <span className="font-semibold dark:text-gray-200">
+          <span className="font-semibold">
             {props.location}
           </span>
           <br />

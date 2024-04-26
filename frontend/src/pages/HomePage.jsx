@@ -5,7 +5,7 @@ import AdvancedSearch from "../components/home/AdvancedSearch";
 const HomePage = () => {
   return (
     <>
-      <AdvancedSearch />
+      <AdvancedSearch/>
       <Filters />
       <Properties />
     </>
