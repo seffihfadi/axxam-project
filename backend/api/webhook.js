@@ -20,7 +20,7 @@ export const createReservationWebhook = async (req, res, next) => {
   
   if (event.type === 'checkout.session.completed') {
     const {clientID, announcementID, checkin, checkout, guests} = event.data.object.metadata
-    console.log('event', event)
+    // console.log('event', event)
 
     const reservation = await Reservation.create({
       announcement: announcementID,

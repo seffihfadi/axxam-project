@@ -121,9 +121,14 @@ export const addReview = async (req, res, next) => {
       res.status(500)
       throw new Error('review not created, try again later')
     }
+
+
+    if (((rating.cleanliness + rating.communication + rating.neighbours + rating.location) / 4) >= 4.5) {
+      incrementPoints(announcement.owner.toString(), 210)
+    }
+
     await sendNotification(userID, announcement.owner, 'has rated your property with #num# stars.', `/profile/?announcement=${announcementID}`)
     return res.status(201).json({message: 'your review has been successfully stored'})
-
 
   } catch (error) {
     next(error)

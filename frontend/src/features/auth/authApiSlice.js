@@ -21,7 +21,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: {phone, otp}
       }),
-      invalidatesTags: ['User']
+      // invalidatesTags: ['User']
     }),
     updateAdditional: builder.mutation({
       query: ({gender, livesIn, bio}) => ({
@@ -36,7 +36,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
         method: 'PATCH',
         body: {fullname, birthDate, image, phone}
       }),
-      invalidatesTags: ['User']
+      // invalidatesTags: ['User']
     }),
     signout: builder.mutation({
       query: () => ({

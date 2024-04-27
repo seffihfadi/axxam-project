@@ -7,6 +7,7 @@ import { validateGuests } from "../utils/validation.js"
 import { stripe } from "../api/stripe.js"
 import { sendNotification } from "../controllers/notifications.js"
 import { calculateTotalPrice } from "../utils/func.js"
+import { appFeeBasedinPoints, incrementPoints } from "../utils/pointsSystem.js"
 
 // done notification 
 export const createCheckoutSession = async (req, res, next) => {
@@ -80,6 +81,10 @@ export const createCheckoutSession = async (req, res, next) => {
       guests
     )
 
+    if (days >= 30 && days <= 180) { // between 1 - 6 months
+      incrementPoints(announcement.owner._id.toString(), 140)
+    }
+
     // Create payment session
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
@@ -108,7 +113,7 @@ export const createCheckoutSession = async (req, res, next) => {
         guests: JSON.stringify(guests),
       },
       payment_intent_data: {
-        application_fee_amount: Math.round(totalPrice * 0.1), 
+        application_fee_amount: Math.round(totalPrice * appFeeBasedinPoints(announcement.owner._id.toString())), 
         transfer_data: {
           destination: lessorStripeAccountId,
         },
@@ -348,7 +353,8 @@ export const handleReservation = async (req, res, next) => {
         amount: totalAmountPaid
       })
       var msg = 'has rejected your reservation.'
-    }else{
+    } else {
+      incrementPoints(reservation.announcement.owner.toString(), 70)
       var msg = 'has accepted your reservation.'
     }
     await sendNotification(lessorID, reservation.client, msg, `/profile/?announcement=${reservation.announcement._id}`)

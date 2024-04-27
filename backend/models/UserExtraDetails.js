@@ -16,6 +16,10 @@ const userDetailsSchema = new Schema({
     type: Number,
     default: 0
   },
+  pointsExtrema: {
+    type: Number,
+    default: 500
+  },
 
   // idCard: {
   //   type: String,

@@ -56,11 +56,12 @@ const App = () => {
 
           {/* lessor routes */}
           <Route
+            path="/dashboard"
             element={
               <PrivateRoute element={<LessorLayout />} allowed={ROLES.lessor} />
             }
           >
-            <Route path="/ab" element={<PointSystemPage/>} />
+            <Route path="points" element={<PointSystemPage/>} />
 
             {/* <Route index element={<HomePage />} /> */}
             {/* <Route path="/history" element={<BookingHistoryPage/>}/> */}

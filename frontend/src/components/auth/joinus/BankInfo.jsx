@@ -16,7 +16,7 @@ function BankInfo({ isOpen, handleClose }) {
   // const navigate = useNavigate()
   const [accountHolderName, setAccountHolderName] = useState(user.fullname);
   const [accountNumber, setAccountNumber] = useState('00001234567890123456');
-  const [email, setEmail] = useState(user.fullname+'@email.domain');
+  const [email, setEmail] = useState(user.fullname.toLowerCase().replace(/ /g, '')+'@email.domain');
   const [routingNumber, setRoutingNumber] = useState('AAAADZDZXXX');
   const [accountHolderType, setAccountHolderType] = useState('individual');
 
@@ -38,7 +38,7 @@ function BankInfo({ isOpen, handleClose }) {
         if (error) {
           dispatch(setAlert([error.message, 'error']))
         } else {
-          console.log('Bank account token:', token.id);
+          // console.log('Bank account token:', token.id);
           // Send the token to your server
           submitBankAccountToken(token.id);
         }
@@ -46,7 +46,7 @@ function BankInfo({ isOpen, handleClose }) {
   }
 
   const submitBankAccountToken = async (tokenId) => {
-    console.log('tokenId submitBankAccountToken', tokenId)
+    // console.log('tokenId submitBankAccountToken', tokenId)
     await joinUs({token: tokenId, email})
       .unwrap()
       .then((payload) => {

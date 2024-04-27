@@ -13,9 +13,10 @@ function Signup2({ isOpen, number, openPopup3, title, handleClose }) {
   const navigate = useNavigate()
   const [verifyOtp, { isLoading }] = useVerifyOtpMutation();
 
+  // console.log('title', title)
   const verifyOTP = async (e) => {
     e.preventDefault()
-    console.log('hsi', otp, number)
+    // console.log('hsi', otp, number)
     if(otp.length < 6 || !number) return 
 
     await verifyOtp({phone: number, otp})
@@ -24,7 +25,7 @@ function Signup2({ isOpen, number, openPopup3, title, handleClose }) {
         dispatch(setAlert([payload.message, 'success']))
         if (title === 'Signup') {
           openPopup3()
-        }else {
+        } else {
           navigate('/sl')
           handleClose()
         }

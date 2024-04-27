@@ -39,7 +39,7 @@ function Signup4({ isOpen, handleClose, isJoin=false, openPopupBank }) {
 
   const [bio, setBio] = useState(user?.extra?.bio || '')
   const [livein, setLivein] = useState(user?.extra?.livesIn || '')
-  const [gender, setGender] = useState(user?.extra?.gender || '')
+  const [gender, setGender] = useState(user?.extra?.gender || 'Male')
   const navigate = useNavigate()
 
   // console.log('user', user)

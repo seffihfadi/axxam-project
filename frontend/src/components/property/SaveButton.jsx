@@ -11,7 +11,7 @@ const SaveButton = ({ className, propID, isSaved, text = false }) => {
   const [saveProp, {isLoading: saveLoading}] = useSavePropertyMutation()
 
 
-  console.log('isSaved', isSaved)
+  // console.log('isSaved', isSaved)
   const handleSave = async () => {
     await saveProp(propID)
       .unwrap()

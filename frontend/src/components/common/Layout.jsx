@@ -13,7 +13,7 @@ const Layout = () => {
   const dispatch = useDispatch()
   const {data, isLoading} = useGetUserQuery()
   
-  console.log('data layout', data)
+  // console.log('data layout', data)
 
   useEffect(() => {
     if (!!data) {

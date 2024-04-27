@@ -12,7 +12,7 @@ import announcementRoutes from './routes/announcement.js'
 import notificationRoutes from './routes/notifications.js'
 
 import { createReservationWebhook } from './api/webhook.js'
-
+import { incrementPoints, appFeeBasedinPoints } from './utils/pointsSystem.js'
 // init
 dotenv.config()
 const app = express()
@@ -48,8 +48,11 @@ try {
     dbName: 'axxam'
     // dbName:'test'
   })
-  app.listen(port, () => {
+  app.listen(port, async () => {
     console.log('server runing on port ' + port)
+    // await incrementPoints('6624016b2f4e0ae7ed2142ce', 20)
+    // const i = await appFeeBasedinPoints('6624016b2f4e0ae7ed2142ce')
+    // console.log('i', i)
   })
 
 } catch (err) {

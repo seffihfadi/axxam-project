@@ -38,7 +38,7 @@ function Overallreview({ rating, owner }) {
             </div>
           </div>
           <p className='text-center max-w-xl'>One of the most loved  homes on AXXAM based on ratings, reviews, and reliability.</p>
-          <span className='font-semibold text-3xl'>* {rating.totalAverage} *</span>
+          <span className='font-semibold text-3xl'>{rating.totalAverage}<span className='font-semibold text-lg'> / 5 stars</span></span>
           
         </div>
         <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-y-5 w-full font-bold pb-5'>

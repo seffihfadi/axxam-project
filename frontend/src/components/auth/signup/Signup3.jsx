@@ -52,7 +52,7 @@ function Signup3({ isOpen, openPopup4, number }) {
   const handleSignup = async (e) => {
     e.preventDefault()
     if(!name || !birthDay || !number) return 
-    console.log('hsi',number,  name, birthDay, imageb64)
+    // console.log('hsi',number,  name, birthDay, imageb64)
 
     await signup({fullname: name, birthDate: birthDay, phone: number, image: imageb64})
       .unwrap()

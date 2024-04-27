@@ -20,7 +20,7 @@ function Signup1({
 
   const sendOTP = async (e) => {
     e.preventDefault()
-    console.log('hsi', inputValue)
+    // console.log('hsi', inputValue)
     if(inputValue === "") return 
 
     await sendOtp({phone: inputValue, type: title.toLowerCase()})
