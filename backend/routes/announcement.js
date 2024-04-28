@@ -15,7 +15,7 @@ const announcementRoutes = express.Router();
 
 announcementRoutes.post('/create',access(ROLES.lessor), createAnnouncement);
 announcementRoutes.patch('/update/:announcementID',access(ROLES.lessor), updateAnnouncement);
-announcementRoutes.get('/save/:announcementID', access(ROLES.lessee), saveAnnouncement);
+announcementRoutes.get('/save/:announcementID', access(ROLES.all), saveAnnouncement);
 announcementRoutes.get('/get/:announcementID', secure(), getAnnouncement);
 announcementRoutes.get('/search', secure(), getAnnouncementForSearch);
 announcementRoutes.delete('/delete/:announcementID',access(ROLES.lessor), deleteAnnouncement);
