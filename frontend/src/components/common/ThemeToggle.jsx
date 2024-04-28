@@ -48,8 +48,7 @@ const ThemeToggle = () => {
           />
         }
         </svg>
-      </span>  
-      <span className="mx-1">{theme}</span>  
+      </span>
     </button>
   </div>
   

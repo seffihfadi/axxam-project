@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
-import { amenities } from '../common/Ameneties';
+import { Amenities } from '../common/Ameneties';
 function ListingDetails({propertyRules}) {
   const [isAmenitiesChevronUp, setIsAmenitiesChevronUp] = useState(false);
   const [selectedAmenities, setSelectedAmenities] = useState([]);
@@ -123,7 +123,7 @@ function ListingDetails({propertyRules}) {
         rounded-xl shadow-lg  shadow-gray-300 flex flex-col gap-3 dark:border-gray-600 dark:shadow-gray-700 z-50' 
         onClick={(e) => e.stopPropagation()}>
           <div className='grid lg:grid-cols-4 md:grid-cols-3  gap-5 py-2'>
-            {Object.entries(amenities).map(([key, icon]) => (
+            {Object.entries(Amenities).map(([key, icon]) => (
               <div
                 key={key}
                 className={`flex items-center gap-1 border rounded-lg h-[80px] p-5 ${selectedAmenities.includes(key) ? 'border-primary' : ''}`}

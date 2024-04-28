@@ -7,7 +7,7 @@ function PropertyMap({position}) {
     <div className='border-t border-t-gray-300 dark:border-t-gray-600 py-10 my-5 h-[90vh] mb-24'>
       <h1 className='font-bold text-xl my-5 '>Where you will be.</h1>
       {/*map*/}
-      <MapContainer center={position} zoom={16} scrollWheelZoom={false} className='w-full h-full mt-6'>
+      <MapContainer center={position} zoom={10} scrollWheelZoom={true} className='w-full h-full mt-6'>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

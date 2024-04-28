@@ -41,3 +41,4 @@ export const calculateTotalPrice = (days, announcement, guests) => {
   // console.log('totalInfantsPrice', totalAdultPrice, guests.adults)
   return totalAdultPrice + totalChildrenPrice + totalInfantsPrice
 }
+

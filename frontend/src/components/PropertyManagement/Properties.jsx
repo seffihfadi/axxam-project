@@ -1,7 +1,7 @@
 import React from 'react'
 import PropertyCard from './PropertyCard';
 import { AiOutlinePlus } from "react-icons/ai";
-import { amenities } from '../common/Ameneties';
+import { Amenities } from '../common/Ameneties';
 const cards = [
     {
       image: "public/card1.jpg",
@@ -34,10 +34,10 @@ const cards = [
       Price:"25 000",
     },
   ];
-  const Amenities={
-    Bed: amenities.Bed,
-    Bathroom:amenities.Hot_tub,
-  }
+  // const Amenities={
+  //   Bed: Amenities.Bed,
+  //   Bathroom:Amenities.Hot_tub,
+  // }
 function Properties() {
   return (
     <div className='container my-24'>

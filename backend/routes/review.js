@@ -13,10 +13,10 @@ const reviewRoutes = express.Router()
 
 // reviewRoutes.use(access(ROLES.all))
 
-reviewRoutes.get('/get-reviews/:announcementID', access(ROLES.all), getAnnouncementReviews)
-reviewRoutes.post('/add/:announcementID', access(ROLES.all), addReview)
-reviewRoutes.patch('/update/:reviewID', access(ROLES.all), updateReview)
-reviewRoutes.delete('/delete/:reviewID', access(ROLES.all), deleteReview)
-reviewRoutes.get('/get/:reviewID', access(ROLES.all), getReview)
+reviewRoutes.get('/get-reviews/:announcementID', getAnnouncementReviews)
+reviewRoutes.post('/add/:announcementID', access(ROLES.lessee), addReview)
+reviewRoutes.patch('/update/:reviewID', access(ROLES.lessee), updateReview)
+reviewRoutes.delete('/delete/:reviewID', access(ROLES.lessee), deleteReview)
+reviewRoutes.get('/get/:reviewID', access(ROLES.lessee), getReview)
 
 export default reviewRoutes

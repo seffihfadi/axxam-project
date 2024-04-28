@@ -42,7 +42,7 @@ const LandingPage = () => {
   return (
     <>
       <HeroSection />
-      <Features />  
+      {/* <Features />   */}
       <SectionOne data={sectionOne} />
       <SectionOne data={sectionTwo} rtl />
       <SectionTwo data={sectionThree} />

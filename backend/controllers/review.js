@@ -3,14 +3,80 @@ import Announcement from '../models/Announcement.js'
 import { sendNotification, unsendNotification} from '../controllers/notifications.js'
 
 export const getAnnouncementReviews = async (req, res, next) => {
-  const {announcementID} = req.params
+  const { announcementID } = req.params;
   try {
-    const reviews = await Review.find({announcement: announcementID})
-    return res.status(200).json(reviews)
+    const reviews = await Review.find({ announcement: announcementID });
+
+    let totalCleanliness = 0;
+    let totalCommunication = 0;
+    let totalNeighbours = 0;
+    let totalLocation = 0;
+    let count = reviews.length;
+
+    // Counters for rating levels
+    let counts = {
+      fiveStars: 0,
+      fourStars: 0,
+      threeStars: 0,
+      twoStars: 0,
+      oneStar: 0
+    };
+
+    const comments = [];
+    // Sum up all ratings and count rating levels
+    reviews.forEach(review => {
+      const { cleanliness, communication, neighbours, location } = review.rating;
+      const comment = review.comment;
+      totalCleanliness += cleanliness;
+      totalCommunication += communication;
+      totalNeighbours += neighbours;
+      totalLocation += location;
+
+      comments.push(comment)
+
+      // Calculate average rating for this review
+      let averageRating = (cleanliness + communication + neighbours + location) / 4;
+      
+      // Increment counters based on average rating
+      if (averageRating === 5) {
+        counts.fiveStars++;
+      } else if (averageRating >= 4) {
+        counts.fourStars++;
+      } else if (averageRating >= 3) {
+        counts.threeStars++;
+      } else if (averageRating >= 2) {
+        counts.twoStars++;
+      } else {
+        counts.oneStar++;
+      }
+    });
+    // Calculate averages
+    const averageCleanliness = count > 0 ? Math.round(totalCleanliness / count * 10) / 10 : 0;
+    const averageCommunication = count > 0 ? Math.round(totalCommunication / count * 10) / 10 : 0;
+    const averageNeighbours = count > 0 ? Math.round(totalNeighbours / count * 10) / 10 : 0;
+    const averageLocation = count > 0 ? Math.round(totalLocation / count * 10) / 10 : 0;
+    const overallAverage = count > 0 ? Math.round(((averageCleanliness + averageCommunication + averageNeighbours + averageLocation) / 4)* 10) / 10 : 0;
+
+    // Return the computed averages along with star counts
+    return res.status(200).json({
+      rate: {
+        counts,
+        totalCleanliness: averageCleanliness,
+        totalCommunication: averageCommunication,
+        totalNeighbours: averageNeighbours,
+        totalLocation: averageLocation,
+        totalAverage: overallAverage,
+        count
+      },
+      comments
+
+    });
   } catch (error) {
-    next(error)
+    next(error);
   }
 }
+
+// export const getAnnouncementComments = async (req, res, next) {}
 
 // done notification
 export const addReview = async (req, res, next) => {
@@ -55,9 +121,14 @@ export const addReview = async (req, res, next) => {
       res.status(500)
       throw new Error('review not created, try again later')
     }
+
+
+    if (((rating.cleanliness + rating.communication + rating.neighbours + rating.location) / 4) >= 4.5) {
+      incrementPoints(announcement.owner.toString(), 210)
+    }
+
     await sendNotification(userID, announcement.owner, 'has rated your property with #num# stars.', `/profile/?announcement=${announcementID}`)
     return res.status(201).json({message: 'your review has been successfully stored'})
-
 
   } catch (error) {
     next(error)

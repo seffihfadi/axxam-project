@@ -5,8 +5,10 @@ import AdvancedSearch from "../components/home/AdvancedSearch";
 const HomePage = () => {
   return (
     <>
-      <AdvancedSearch/>
-      <Filters />
+      {/* <div className="mt-20 relative"> */}
+        <AdvancedSearch />
+        <Filters />
+      {/* </div> */}
       <Properties />
     </>
   );

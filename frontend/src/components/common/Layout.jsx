@@ -1,11 +1,30 @@
-import { Outlet } from "react-router-dom"
+import { Outlet, Navigate } from "react-router-dom"
 import Footer from './Footer'
 import Header from './Header'
-import { Suspense } from "react"
+import { Suspense, useEffect } from "react"
 import Loader from "./Loader"
 import AlertModel from "./AlertModel"
+import { selectCurrentUser } from "../../app/slices/authSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { useGetUserQuery } from "../../features/auth/authApiSlice"
+import { setUser } from "../../app/slices/authSlice"
 
 const Layout = () => {
+  const dispatch = useDispatch()
+  const {data, isLoading} = useGetUserQuery()
+  
+  // console.log('data layout', data)
+
+  useEffect(() => {
+    if (!!data) {
+      const user = data.user;
+      dispatch(setUser(user));
+    } else {
+      dispatch(setUser(null));
+    }
+  }, [data, dispatch]);
+
+  if(isLoading) return <Loader />
   return (
 
     <>

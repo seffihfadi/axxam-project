@@ -135,8 +135,9 @@ const generateToken = (userID) => {
 // done
 export const signupUser = async (req, res, next) => {
   const { fullname, birthDate, image, phone } = req.body
-  console.log('{ fullname, birthDate, image, phone }', { fullname, birthDate, image, phone })
+
   try {
+    // console.log( fullname, birthDate, phone)
     if (!fullname || !birthDate || !phone ){
       res.status(400)
       throw new Error('please fill in all required fields')
@@ -153,6 +154,10 @@ export const signupUser = async (req, res, next) => {
     if (!!image) {
       const {secure_url: url} = await cloudinary.uploader.upload(image, {
         folder: "Zoquix",
+        width: 200,
+        height: 200,
+        crop: 'fill',
+        gravity: 'face'
       })
       avatar = url
     }
@@ -228,30 +233,36 @@ export const updateUserMain = async (req, res ,next) => {
 
 // done
 export const updateUserAdditional = async (req, res ,next) => {
-  const {newBio, newGender, newLivesIn} = req.body
-  let { extra : userDetails} = req.user
-  const user = req.user
-  
+  const {bio, gender, livesIn} = req.body
+  const {_id: sessionID, extra} = req.user
+  // const newGender = genderO.charAt(0).toUpperCase() + genderO.slice(1).toLowerCase();
+  console.log('{bio, gender, livesIn}', {bio, gender, livesIn})
   try {
-    if(!userDetails){
-      userDetails = await UserExtraDetails.create({bio : newBio, gender : newGender, livesIn : newLivesIn})
-      const updatedUser = await User.findByIdAndUpdate(user._id, {extra : userDetails._id})
-      if (!updatedUser) {
-        res.status(500)
-        throw new Error('failed to update profile')
+
+    if (!bio && !gender && !livesIn) {
+      res.status(400)
+      throw new Error('you must enter at least one field')
+    }
+    const userDetails = await UserExtraDetails.findOneAndUpdate(
+      { _id: extra?._id || new mongoose.Types.ObjectId() },
+      {
+        bio,
+        gender,
+        livesIn
+      },
+      {
+        new: true, 
+        upsert: true,
+        setDefaultsOnInsert: true,
       }
-    }else{
-      userDetails = await UserExtraDetails.findByIdAndUpdate({
-        bio : newBio || userDetails.bio,
-        gender : newGender || userDetails.gender ,
-        livesIn : newLivesIn || userDetails.livesIn
-      },{ new : true })
+    );
+
+    if (!extra?._id) {
+      await User.findByIdAndUpdate(sessionID, { extra: userDetails._id })
     }
-    if(!userDetails){
-      res.status(500)
-      throw new Error('INTERNAL SERVER ERROR')
-    }
+
     return res.status(200).json({message: 'updated successfully'})
+
   }catch(err){
     next(err)
   }
@@ -260,11 +271,10 @@ export const updateUserAdditional = async (req, res ,next) => {
 
 export const joinUs = async (req, res, next) => {
   const {_id: sessionID, extra} = req.user
-  console.log('first', req.body)
-  const {idCard, email, bio, gender, token} = req.body
+  const {email, token} = req.body
   try {
 
-    if (!idCard || !email || !bio || !gender|| !token) {
+    if (!email || !token) {
       res.status(400)
       throw new Error('please fill in all requered fields')
     }
@@ -323,9 +333,6 @@ export const joinUs = async (req, res, next) => {
     const userDetails = await UserExtraDetails.findOneAndUpdate(
       { _id: extra?._id || new mongoose.Types.ObjectId() },
       {
-        bio,
-        gender,
-        idCard,
         stripeAccountId: account.id,
       },
       {
@@ -348,20 +355,19 @@ export const joinUs = async (req, res, next) => {
 }
 
 
-export const addCard = async (req, res, next) => {
-  // const user = req.user;
-  // const {token} = req.body;
-  // try {
-  //     const card = await stripe.accounts.createExternalAccount(
-  //         user.extra.stripeAccountId,
-  //         {
-  //             external_account: token.id,
-              
-  //           //  currency: 'dzd'
-  //         }
-  //     )
-  //     res.json(card)
-  // } catch (error) {
-  //   next(error)
-  // }
+export const getUser = async (req, res, next) => {
+  
+  try {
+    if(!req.user) {
+      res.status(500)
+      throw new Error('server error !')
+    }
+    // console.log('req.user', req.user?.extra)
+
+    const userSession = req.user
+    res.status(200).json({user: userSession})
+    
+  } catch (error) {
+    next(error)
+  }
 }

@@ -79,7 +79,7 @@ function Filters() {
         {filters.map((element, index) => (
           <div
             key={index}
-            className="min-w-[15%] lg:min-w-[12%] flex justify-center flex-col items-center gap-1 cursor-pointer group text-2xl  hover:text-gray-400 dark:hover:text-gray-300"
+            className="lki min-w-[15%] lg:min-w-[12%] flex justify-center flex-col items-center gap-1 cursor-pointer group text-lg  hover:text-gray-400 dark:hover:text-gray-300"
           >
             {element.icon}
             <div className="relative text-sm md:text-base before:opacity-0 before:w-full before:h-[2px] before:bg-gray-400 dark:before:bg-gray-300 before:absolute before:bottom-[-12px] group-hover:before:opacity-70 text-nowrap group-hover:text-gray-400 dark:group-hover:text-gray-300 duration-150">
