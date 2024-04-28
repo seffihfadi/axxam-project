@@ -19,47 +19,47 @@ function Filters() {
   const filters = [
     {
       name: "Pool",
-      icon: <PiSwimmingPoolLight size={26}/>,
+      icon: <PiSwimmingPoolLight />,
     },
     {
       name: "Gym",
-      icon: <CiDumbbell size={26}/>,
+      icon: <CiDumbbell/>,
     },
     {
       name: "Beach View",
-      icon: <LiaWaterSolid size={26}/>,
+      icon: <LiaWaterSolid/>,
     },
     {
       name: "Arctic",
-      icon: <IoSnowOutline size={26}/>,
+      icon: <IoSnowOutline/>,
     },
     {
       name: "Barbecue",
-      icon: <TbGrill size={26}/>,
+      icon: <TbGrill/>,
     },
     {
       name: "Office",
-      icon: <SlScreenDesktop size={26}/>,
+      icon: <SlScreenDesktop/>,
     },
     {
       name: "Camping",
-      icon: <PiTentLight size={26}/>,
+      icon: <PiTentLight/>,
     },
     {
       name: "Ski",
-      icon: <LiaSkiingSolid size={26}/>,
+      icon: <LiaSkiingSolid/>,
     },
     {
       name: "Caravan",
-      icon: <RiCaravanLine size={26}/>,
+      icon: <RiCaravanLine/>,
     },
     {
       name: "Piano",
-      icon: <PiPianoKeysLight size={26}/>,
+      icon: <PiPianoKeysLight/>,
     },
     {
       name: "Nature",
-      icon: <PiPlantLight size={26}/>,
+      icon: <PiPlantLight/>,
     },
   ];
 
@@ -71,9 +71,9 @@ function Filters() {
   }
 
   return (
-    <div className="relative container mt-48 mb-8" id="filters">
+    <div className="relative container mt-80 md:mt-48 mb-8" id="filters">
       <div
-        className="w-full mx-auto py-2 md:py-3 rounded-3xl flex justify-between align-middle overflow-x-auto shadow-md scrollbar-hide gap-5 md:gap-1 scroll-smooth border-[1px] border-gray-200 dark:border-gray-600 font-light text-[14px] md:text-[16px]"
+        className="w-full lg:w-[90%] mx-auto py-2 md:py-3 rounded-3xl flex justify-between align-middle overflow-x-auto shadow-md scrollbar-hide gap-5 md:gap-1 scroll-smooth border-[1px] border-gray-200 dark:border-gray-600 font-light text-[14px] md:text-[16px]"
         ref={elementRef}
       >
         {filters.map((element, index) => (
@@ -88,8 +88,8 @@ function Filters() {
           </div>
         ))}
       </div>
-      <HiOutlineChevronRight onClick={() => slideRight(elementRef.current)} size={24} className=" font-thin p-[2px] rounded-full absolute top-[50%] translate-y-[-50%] bg-white dark:bg-gray-700 right-9 cursor-pointer border-[1px] border-gray-300 dark:border-gray-500 hover:shadow-md"/>
-      <HiOutlineChevronLeft onClick={() => slideLeft(elementRef.current)} size={24} className=" font-thin p-[2px] rounded-full absolute top-[50%] translate-y-[-50%] bg-white dark:bg-gray-700 left-9 cursor-pointer border-[1px] border-gray-300 dark:border-gray-500 hover:shadow-md"/>
+      <HiOutlineChevronRight onClick={() => slideRight(elementRef.current)} size={24} className="hidden lg:block font-thin p-[2px] rounded-full absolute top-[50%] translate-y-[-50%] bg-white dark:bg-gray-700 right-20 cursor-pointer border-[1px] border-gray-300 dark:border-gray-500 hover:shadow-md"/>
+      <HiOutlineChevronLeft onClick={() => slideLeft(elementRef.current)} size={24} className="hidden lg:block font-thin p-[2px] rounded-full absolute top-[50%] translate-y-[-50%] bg-white dark:bg-gray-700 left-20 cursor-pointer border-[1px] border-gray-300 dark:border-gray-500 hover:shadow-md"/>
     </div>
   );
 }
