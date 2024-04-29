@@ -50,9 +50,6 @@ try {
   })
   app.listen(port, async () => {
     console.log('server runing on port ' + port)
-    // await incrementPoints('6624016b2f4e0ae7ed2142ce', 20)
-    // const i = await appFeeBasedinPoints('6624016b2f4e0ae7ed2142ce')
-    // console.log('i', i)
   })
 
 } catch (err) {
