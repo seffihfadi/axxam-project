@@ -124,7 +124,7 @@ export const addReview = async (req, res, next) => {
 
 
     if (((rating.cleanliness + rating.communication + rating.neighbours + rating.location) / 4) >= 4.5) {
-      incrementPoints(announcement.owner.toString(), 210)
+      await incrementPoints(announcement.owner.toString(), 210)
     }
 
     await sendNotification(userID, announcement.owner, 'has rated your property with #num# stars.', `/profile/?announcement=${announcementID}`)
