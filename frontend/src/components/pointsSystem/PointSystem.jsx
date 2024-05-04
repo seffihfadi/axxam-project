@@ -3,7 +3,7 @@ import { FaCircleCheck } from "react-icons/fa6";
 import { IoEllipse } from "react-icons/io5";
 
 function PointSystem() {
-  const prog = 250;
+  const prog = 300;
 
  //Progress bar calculations
   const circumference = 2 * Math.PI * 100;

@@ -21,7 +21,7 @@ const PointSystemPage = lazy(() => import("./pages/PointSystemPage"));
 const BManagementPage=lazy(()=>import("./pages/BManagementPage"));
 const PManagementPage=lazy(()=>import("./pages/PManagementPage"));
 const AddListingPage=lazy(()=>import("./pages/AddListingPage"));
-
+const ProfilePage=lazy(()=>import("./pages/ProfilePage"));
 const App = () => {
   return (
     <>
@@ -29,7 +29,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           {/* public routes */}
-          <Route index element={<LandingPage/>} />
+          <Route index element={< LandingPage/>} />
           <Route path="/services" element={<OurServicesPage/>} />
           <Route path="/property" element={<PropertyPage/>} />
           <Route path="/success" element={<SuccessPayment />} />
@@ -42,7 +42,7 @@ const App = () => {
           <Route path="/bookings" element={<BManagementPage/>}/>
           <Route path="/properties" element={<PManagementPage/>}/>
           <Route path="/addlisting" element={<AddListingPage/>}/>
-          
+          <Route path="/profile" element={<ProfilePage/>}/>
           {/* lessee routes */}
           <Route
             path="lessee"

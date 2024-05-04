@@ -2,13 +2,13 @@ import React from 'react'
 import RatingDisplay from '../common/RaitingDisplay'
 function Comment({comments}) {
   return (
-    <div className='flex flex-col gap-12 py-6'>
+    <div className='flex flex-col gap-7 py-6'>
       {comments.map((comment)=>(
         <div className='md:w-[95%] '>
           <div className="user  ">
             <img src={comment.picture} alt="user" className="img" />
             <div >
-              <span className='text-sm font-bold'>{comment.user}  </span>
+              <span className='text-sm font-bold "'>{comment.user}  </span>
               <p className="text-secondary darktxt text-[14px] font-normal  ">                
                 {comment.location}
               </p>
