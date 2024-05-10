@@ -9,18 +9,22 @@ const userDetailsSchema = new Schema({
   },
   gender: {
     type: String,
-    enum: ['Male', 'Female'],
+    enum: ['Male', 'Female', ''],
     default: ''
   },
   points: {
     type: Number,
     default: 0
   },
-
-  idCard: {
-    type: String,
-    default: ''
+  pointsExtrema: {
+    type: Number,
+    default: 500
   },
+
+  // idCard: {
+  //   type: String,
+  //   default: ''
+  // },
   saved: [{
     type: Types.ObjectId,
     ref: 'Announcement'

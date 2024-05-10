@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa6';
-import { amenities } from '../common/Ameneties';
+import { Amenities } from '../common/Ameneties';
 function ListingDetails({propertyRules}) {
   const [isAmenitiesChevronUp, setIsAmenitiesChevronUp] = useState(false);
   const [selectedAmenities, setSelectedAmenities] = useState([]);
@@ -46,7 +46,7 @@ function ListingDetails({propertyRules}) {
         id="description"
         value={text} 
         onChange={handleChange} 
-        className="md:h-[210px] h-[290px]  resize-none px-7 py-14 rounded-lg outline-none border-[1.5px] border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-300 dark:bg-darkmode"
+        className="md:h-[210px] h-[290px]  resize-none px-6 py-12 rounded-lg outline-none border-[1.5px] border-gray-300 dark:border-gray-600 text-gray-400 dark:text-gray-300 dark:bg-darkmode"
         maxLength={255} 
       />
       <span className="absolute bottom-6 right-5">{text.length}/255</span> 
@@ -123,7 +123,7 @@ function ListingDetails({propertyRules}) {
         rounded-xl shadow-lg  shadow-gray-300 flex flex-col gap-3 dark:border-gray-600 dark:shadow-gray-700 z-50' 
         onClick={(e) => e.stopPropagation()}>
           <div className='grid lg:grid-cols-4 md:grid-cols-3  gap-5 py-2'>
-            {Object.entries(amenities).map(([key, icon]) => (
+            {Object.entries(Amenities).map(([key, icon]) => (
               <div
                 key={key}
                 className={`flex items-center gap-1 border rounded-lg h-[80px] p-5 ${selectedAmenities.includes(key) ? 'border-primary' : ''}`}

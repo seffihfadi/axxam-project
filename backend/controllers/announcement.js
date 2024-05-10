@@ -174,17 +174,28 @@ try{
 }
 }
 
+
+const isSavedAnnouncement = (userSaves, announcementID) => {
+  if (!userSaves) {
+    return false
+  }
+  return !!userSaves.includes(announcementID.toString())
+}
 // done
 export const getAnnouncement = async (req, res, next) => {
   const {announcementID} = req.params
-
+  const userSaves = req?.user?.extra?.saved
+  // console.log(announcementID)
   try {
-    const announcement = await Announcement.findById(announcementID)
+    const announcement = await Announcement.findById(announcementID).populate({
+      path: 'owner',
+      select: ['birthDate', 'fullname', 'phone', 'avatar'],
+    })
     if (!announcement){
         res.status(404)
         throw new Error('announcement not found')
     }
-    return res.status(200).json({announcement})
+    return res.status(200).json({...announcement.toObject(), isSaved: isSavedAnnouncement(userSaves, announcementID) })
   } catch (err) {
     next(err)
   }
@@ -192,15 +203,8 @@ export const getAnnouncement = async (req, res, next) => {
 
 // done
 export const getAnnouncementForSearch = async (req, res, next) =>{
+  let { tags, location, lowerPrice, higherPrice, periode, maxPersons, title, desc } = req.query
   try {
-    var { tags, // string seperated by comas
-            location, // the name of the location
-            lowerPrice, // number
-            higherPrice, // number 
-            periode, // 'small' or 'long'
-            maxPersons, 
-            title, 
-            desc } = req.query
 
 // verfications :
     if (periode !== 'small' && periode !== 'long') {
@@ -224,49 +228,65 @@ export const getAnnouncementForSearch = async (req, res, next) =>{
     if (title) searchQuery.title = new RegExp(title, 'i')
     if (desc) searchQuery.desc = new RegExp(desc, 'i')
     
-    const resultsCount = await Announcement.countDocuments(searchQuery) 
     const announcements = await Announcement.find(searchQuery)
-    return res.status(200).json({ announcements, resultsCount})
+    const userSaves = req.user?.extra?.saved || [];
+
+    const modifiedAnnouncements = announcements.map(announcement => {
+        const isSaved = userSaves.includes(announcement._id.toString());
+        return { ...announcement.toJSON(), isSaved };
+    });
+ 
+    return res.status(200).json(modifiedAnnouncements);
   
   } catch (err) {
     next(err)
   }
 }
-
 // done
-export const saveAnnouncement = async (req, res, next)=>{
+export const saveAnnouncement = async (req, res, next) => {
   try {
-    const user = req.user
-    let {extra : userDetails} = user
-    const {announcementID} = req.params
+    let { _id: sessionID, extra: userDetails } = req.user;
+    const { announcementID } = req.params;
 
-// checking if the announcement exists 
-    const announcement = await Announcement.findById(announcementID)
-    if(!announcement){
-      res.status(404)
-      throw new Error('ANNOUNCEMENT NOT FOUND.')
-    }
-// creating extra if it does not exist 
-    if(!userDetails){
-      userDetails = await UserExtraDetails.create({})
-      await User.findByIdAndUpdate(user._id,{ extra : userDetails._id})
-    }
-    const isAlreadySaved = userDetails.saved.includes(announcementID)
-    if(isAlreadySaved){
-      userDetails.saved.pull(announcementID)
-      var msg = 'announcement removed from saved list.'
-    }else{
-      userDetails.saved.push(announcementID)
-      var msg = 'announcement saved.'
+    if (!announcementID) {
+      return res.status(400).json({ message: "Announcement ID is required." });
     }
 
-    const updatedUserDetails = await UserExtraDetails.findByIdAndUpdate(userDetails._id, { saved : userDetails.saved }, {new :true})
-    if(!updatedUserDetails){
-      res.status(500)
-      throw new Error('INTERNAL ERROR.')
+    // Check if the announcement exists
+    const announcement = await Announcement.findById(announcementID);
+    if (!announcement) {
+      return res.status(404).json({ message: 'Announcement not exists' });
     }
-    return res.status(200).json({message : msg})
-  }catch(err){
-    next(err)
+
+    if (!userDetails) {
+      userDetails = await UserExtraDetails.create({});
+      await User.findByIdAndUpdate(sessionID, { extra: userDetails._id });
+    }
+
+    // Determine if the announcement is already saved and toggle the save status
+    const index = userDetails.saved.indexOf(announcementID);
+    let msg = '';
+    if (index !== -1) {
+      userDetails.saved.splice(index, 1);
+      msg = `${announcement.title} removed from saved list.`;
+    } else {
+      userDetails.saved.push(announcementID);
+      msg = `${announcement.title} saved.`;
+    }
+
+    // Save the updated userDetails
+    const updatedUserDetails = await UserExtraDetails.findByIdAndUpdate(
+      userDetails._id,
+      { saved: userDetails.saved },
+      { new: true }
+    );
+
+    if (!updatedUserDetails) {
+      return res.status(500).json({ message: 'Internal error while updating details.' });
+    }
+
+    return res.status(200).json({ message: msg });
+  } catch (err) {
+    next(err);
   }
-}
+};

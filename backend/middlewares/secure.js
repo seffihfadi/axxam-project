@@ -1,36 +1,35 @@
 import jwt from 'jsonwebtoken'
 import User from '../models/User.js'
 
-const access = (roles) => {
+const secure = () => {
 
   return async (req, res, next) => {
     try {
       const token = req.cookies.tigerToken
+      // console.log('token', token)
       if (!token) {
-        res.status(403)
-        throw new Error('session expired, please login')
+        req.user = {}
+        next()
+        return
       }
       const verified = jwt.verify(token, process.env.JWT_SECRET)
 
       if (!verified) {
-        res.status(401)
-        throw new Error('something went wrong, please login')
+        req.user = {}
+        next()
+        return
       }
       const {userID} = verified
       const user = await User.findById(userID).populate('extra')
       
       if (!user) {
-        res.status(401)
-        throw new Error('user not found, something went wrong, please login')
+        req.user = {}
+        next()
+        return
       } 
-
-      if (!roles.includes(user.role)) {
-        res.status(403)
-        throw new Error('not authorised to access this route')
-      }
-
       req.user = user
       next()
+      return
     } catch (err) {
       next(err)
     }
@@ -38,4 +37,4 @@ const access = (roles) => {
 
 }
 
-export default access
+export default secure

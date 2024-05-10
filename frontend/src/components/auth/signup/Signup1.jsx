@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import Popup from "../../common/Popup";
 import { IoClose } from "react-icons/io5";
+import { useSendOtpMutation } from "../../../features/auth/authApiSlice";
+import { useDispatch } from "react-redux";
+import { setAlert } from "../../../app/slices/alertSlice";
 
 function Signup1({
   isOpen,
@@ -11,14 +14,26 @@ function Signup1({
   setInputValue,
   title,
 }) {
+  const dispatch = useDispatch()
   const [hasInput, setHasInput] = useState(false);
+  const [sendOtp, { isLoading }] = useSendOtpMutation();
 
-  function handleEnter(event) {
-    event.key === "Enter" &&
-      (event.preventDefault(),
-      setInputValue(event.target.value),
-      inputValue != "" && openPopup2());
+  const sendOTP = async (e) => {
+    e.preventDefault()
+    // console.log('hsi', inputValue)
+    if(inputValue === "") return 
+
+    await sendOtp({phone: inputValue, type: title.toLowerCase()})
+      .unwrap()
+      .then((payload) => {
+        dispatch(setAlert([payload.message, 'success']))
+        openPopup2()
+      })
+      .catch((error) => dispatch(setAlert([error.data.message, 'error'])))
+
+    // openPopup2()
   }
+
   return (
     <>
       {isOpen && (
@@ -41,14 +56,14 @@ function Signup1({
                 <h1 className="text-center font-semibold text-xl md:text-2xl mt-14">
                   Welcome To AXXAM
                 </h1>
-                <form className="pt-10 md:pt-14 text-sm md:text-base">
+                <form onSubmit={sendOTP} className="pt-10 md:pt-14 text-sm md:text-base">
                   <div className={`group phone ${hasInput && "has-input"}`}>
                     <input
                       id="phonenumber"
                       name="phonenumber"
-                      type="text"
+                      type="tel"
+                      maxLength={10}
                       required
-                      onKeyDown={(event) => handleEnter(event)}
                       onChange={(event) => {
                         setHasInput(event.target.value !== "");
                         setInputValue(event.target.value);
@@ -56,24 +71,27 @@ function Signup1({
                     />
                     <label htmlFor="phonenumber">Phone Number</label>
                   </div>
+                
+                  <p className="text-center text-sm mt-4 md:text-base">
+                    <span className="font-semibold">Note:</span> We will send an
+                    OTP Code to the provided number for verification perposes
+                  </p>
+                  <div className="flex justify-center items-center mt-8 md:mt-12 ">
+                    <button
+                      type="submit"
+                      className="rounded-md md:rounded-lg bg-primary text-white font-semibold w-fit px-6 md:px-10 py-4 text-sm md:text-base"
+                      
+                    >
+                      Send Code
+                    </button>
+                  </div>
                 </form>
-                <p className="text-center text-sm md:text-base">
-                  <span className="font-semibold">Note:</span> We will send an
-                  OTP Code to the provided number for verification perposes
-                </p>
-                <div className="flex justify-center items-center mt-8 md:mt-12 ">
-                  <button
-                    className="rounded-md md:rounded-lg bg-primary text-white font-semibold w-fit px-6 md:px-10 py-4 text-sm md:text-base"
-                    onClick={inputValue != "" && openPopup2}
-                  >
-                    Send Code
-                  </button>
-                </div>
               </div>
               { title === 'Signup' &&
               <button
                   className="text-gray-500 text-xs md:text-sm relative bottom-4 left-8 underline underline-offset-2"
                   onClick={openPopup1Signin}
+                  disabled={isLoading}
                   >
                     Already signed up?
               </button>}

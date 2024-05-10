@@ -1,11 +1,11 @@
 
-import SearchBar from "./SearchBar";
+import AdvancedSearch from "../home/AdvancedSearch";
 
 const HeroSection = () => {
   return (
     <>
       <section id="hero" className="min-h-screen">
-        <div className="hero-content w-full flex-col z-10 flex justify-center items-center sm:px-4 pt-44 relative pb-10">
+        <div className="hero-content w-full flex-col z-10 flex justify-center items-center sm:px-4 pt-44 relative pb-10 mb-80 md:mb-28">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold max-w-4xl text-center">
             Let’s Find a Home That’s Perfect For You
           </h1>
@@ -14,8 +14,8 @@ const HeroSection = () => {
             start exploring now!
           </p>
           <button className="primary">Discover more</button>
-          <SearchBar />
         </div>
+        <AdvancedSearch/>
       </section>
     </>
   );

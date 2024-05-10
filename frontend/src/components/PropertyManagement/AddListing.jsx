@@ -10,6 +10,9 @@ import { PiTentLight } from "react-icons/pi";
 function AddListing() {
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [isNoteOpen, setIsNoteOpen] = useState(false);
+  const [price, setPrice] = useState('');
+  const [propertyName, setPropertyName] = useState('');
+  const [address, setAddress] = useState('');
 
   const PropertyType = [
     {
@@ -49,6 +52,18 @@ function AddListing() {
     }, 1800); 
   };
 
+  const handlePriceChange = (event) => {
+    setPrice(event.target.value);
+  };
+
+  const handlePropertyNameChange = (event) => {
+    setPropertyName(event.target.value);
+  };
+
+  const handleAddressChange = (event) => {
+    setAddress(event.target.value);
+  };
+
   return (
     <div className='container my-24'>
       <h1 className="py-2 md:pb-15 font-bold text-xl md:text-start text-center ">Add listing</h1>
@@ -77,15 +92,15 @@ function AddListing() {
           </div>
           <form className='h-[250px]'>
             <div className="group">
-              <input id="propertyname" name="propertyname" type="text" required />
+              <input id="propertyname" name="propertyname"  value={propertyName}  onChange={handlePropertyNameChange} type="text" required />
               <label htmlFor="propertyname">Property Name</label>
             </div>
             <div className="group">
-              <input id="address" name="address" type="address" placeholder='(ex: algiers, douira)' required />
+              <input id="address" name="address" type="address" value={address} onChange={handleAddressChange} placeholder='(ex: algiers, douira)' required />
               <label htmlFor="address">Address</label>
             </div>
             <div className="group" onClick={toggleNote}>
-              <input id="price" name="price" type="text" required />
+              <input id="price" name="price" type="text" value={price} onChange={handlePriceChange} required />
               <label htmlFor="price">Price</label>
               <div className={`transition-opacity duration-1000 ${isNoteOpen ? 'opacity-100' : 'opacity-0'} absolute w-[98%]
                bg-white border border-gray-100  rounded-xl shadow-lg shadow-gray-300 lg:text-base text-[13px] flex flex-col gap-3 dark:border-gray-800
