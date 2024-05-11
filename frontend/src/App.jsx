@@ -2,6 +2,7 @@ import { lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import ROLES from "./utils/roles";
 import PrivateRoute from "./components/common/PrivateRoute";
+import CanceledPayment from "./components/reservation/CanceledPayment";
 
 
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));

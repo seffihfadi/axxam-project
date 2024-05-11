@@ -4,11 +4,11 @@ import Signup from "../auth/signup/Signup";
 import Joinus from '../auth/joinus/Joinus';
 import { FaTimes } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { MdNotificationsNone } from "react-icons/md";
 import Notification from "./Notification";
 import { Link } from 'react-router-dom';
+import NotificationPopup from './NotificationPopup';
 
-function UserGreeting({ isSignedUp, isJoined, user }) {
+function UserGreeting({ isSignedUp, isJoined,user }) {
   const [clicked, setClicked] = useState(false);
 
   const handleClick = () => {
@@ -18,20 +18,20 @@ function UserGreeting({ isSignedUp, isJoined, user }) {
   if (isSignedUp && isJoined) {
     return (
       <nav className="flex items-center gap-[5px] lg:gap-[39px] md:gap-[10px] sm:flex-row">
-        <div className={clicked ? "navbarOwner activee dark:bg-darkmode gap-5 bg-white font-semibold" : "navbarOwner flex items-center font-semibold lg:font-medium lg:gap-[15px] md:gap-[13px] "}>
-          <a href="/" className="brd">Dashboard</a>
-          <a href="/" className="brd">Properties</a>
-          <a href="/" className="brd">Booking</a>
-          <div className="lg:hidden"><ThemeToggle /></div>
+        <div className={clicked ? "navbar active dark:bg-darkmode gap-5 bg-white font-semibold" : "navbar flex items-center font-semibold lg:font-medium lg:gap-[15px] md:gap-[13px] "}>
+          <Link to="//" className="brd">Dashboard</Link>
+          <Link to="/sl" className="brd">Properties</Link>
+          <Link to="//" className="brd">Booking</Link>
+          <div className="md:hidden"><ThemeToggle /></div>
         </div>
-        <div className="flex items-center gap-[15px] lg:gap-[7px]">
-          <div className="flex items-center gap-[15px] lg:gap-[5px]">
-            <MdNotificationsNone className="text-xl" />
-            <div className="hidden lg:block"><ThemeToggle /></div>
+        <div className="flex items-center gap-[15px]  lg:gap-[7px] ">
+          <div className="flex items-center  gap-2 sm:gap-[7px] ">
+            <div className="hidden md:block"><ThemeToggle /></div>
+            <NotificationPopup /> 
             <Notification user={user} />
           </div>
         </div>
-        <div className="block lg:hidden pl-[12px]" onClick={handleClick}>
+        <div className="block md:hidden  pl-1 sm:pl-[20px]" onClick={handleClick}>
           {clicked ? <FaTimes className="text-lg" /> : <GiHamburgerMenu className="text-lg" />}
         </div>
       </nav>
@@ -50,7 +50,7 @@ function UserGreeting({ isSignedUp, isJoined, user }) {
           <div className="flex items-center gap-2 sm:gap-[7px] md:max-w-full">
             <Joinus />
             <div className="hidden md:block"><ThemeToggle /></div>
-            <MdNotificationsNone className="text-xl" />
+            <NotificationPopup />
             <Notification user={user} />
           </div>
         </div>
@@ -76,7 +76,7 @@ function UserGreeting({ isSignedUp, isJoined, user }) {
               Join us
             </button> */}
             <Signup />
-          </div>
+        </div>
         </div>
         <div className="block md:hidden pl-1 sm:pl-[20px]" onClick={handleClick}>
           {clicked ? <FaTimes className="text-lg" /> : <GiHamburgerMenu className="text-lg" />}
