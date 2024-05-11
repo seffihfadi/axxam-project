@@ -43,7 +43,6 @@ function UserGreeting({ isSignedUp, isJoined,user }) {
         <Link to="/" className="brd">Home</Link>
           <Link to="/services" className="brd">Services</Link>
           <Link to="/sl" className="brd">Properties</Link>
-          <Link to="/contact" className="brd">Contact</Link>
           <div className="md:hidden"><ThemeToggle /></div>
         </div>
         <div className="flex items-center gap-[7px] sm:gap-[12px] md:gap-[15px]">
@@ -66,7 +65,6 @@ function UserGreeting({ isSignedUp, isJoined,user }) {
           <Link to="/" className="brd">Home</Link>
           <Link to="/services" className="brd">Services</Link>
           <Link to="/sl" className="brd">Properties</Link>
-          <Link to="/contact" className="brd">Contact</Link>
           <div className="md:hidden"><ThemeToggle /></div>
         </div>
         <div className="flex items-center gap-[6px] sm:gap-[20px] md:gap-[20px]">

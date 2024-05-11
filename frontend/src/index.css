@@ -639,17 +639,6 @@ button.info {
   .navbar.active {
     @apply right-0 ;
   }} 
-.navbarOwner {
-  @apply flex items-center justify-center ;
-}
-@media screen and (max-width: 1024px) {
-  .navbarOwner {
-    @apply  flex flex-col items-start justify-start fixed top-[60px] right-[-300px] w-[240px] h-[300px]  pt-[40px] pb-0 pr-0 pl-[10px] transition ease-in-out duration-300 ;
-  }
-  .navbarOwner.activee {
-    @apply right-0 ;
-  }}
-
 /* .MuiOtpInput-TextField{
   @apply dark:outline dark:outline-gray-600 
 } */
