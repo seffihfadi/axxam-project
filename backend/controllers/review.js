@@ -1,12 +1,12 @@
 import Review from '../models/Review.js'
 import Announcement from '../models/Announcement.js'
 import { sendNotification, unsendNotification} from '../controllers/notifications.js'
+import { incrementPoints } from '../utils/pointsSystem.js';
 
 export const getAnnouncementReviews = async (req, res, next) => {
   const { announcementID } = req.params;
   try {
-    const reviews = await Review.find({ announcement: announcementID });
-
+    const reviews = await Review.find({ announcement: announcementID }).populate('reviewer');
     let totalCleanliness = 0;
     let totalCommunication = 0;
     let totalNeighbours = 0;
@@ -23,19 +23,22 @@ export const getAnnouncementReviews = async (req, res, next) => {
     };
 
     const comments = [];
-    // Sum up all ratings and count rating levels
-    reviews.forEach(review => {
+
+    for (const review of reviews) {
       const { cleanliness, communication, neighbours, location } = review.rating;
       const comment = review.comment;
+      const reviewDate = review.createdAt
+      const theReviwer = review.reviewer.fullname
+      const theReviwerAvatar = review.reviewer.avatar
+
       totalCleanliness += cleanliness;
       totalCommunication += communication;
       totalNeighbours += neighbours;
       totalLocation += location;
-
-      comments.push(comment)
-
+      
       // Calculate average rating for this review
       let averageRating = (cleanliness + communication + neighbours + location) / 4;
+      comments.push({comment, theReviwer, theReviwerAvatar, reviewDate , averageRating, reviewID:review._id})
       
       // Increment counters based on average rating
       if (averageRating === 5) {
@@ -49,15 +52,15 @@ export const getAnnouncementReviews = async (req, res, next) => {
       } else {
         counts.oneStar++;
       }
-    });
+    }
+    
     // Calculate averages
     const averageCleanliness = count > 0 ? Math.round(totalCleanliness / count * 10) / 10 : 0;
     const averageCommunication = count > 0 ? Math.round(totalCommunication / count * 10) / 10 : 0;
     const averageNeighbours = count > 0 ? Math.round(totalNeighbours / count * 10) / 10 : 0;
     const averageLocation = count > 0 ? Math.round(totalLocation / count * 10) / 10 : 0;
-    const overallAverage = count > 0 ? Math.round(((averageCleanliness + averageCommunication + averageNeighbours + averageLocation) / 4)* 10) / 10 : 0;
+    const overallAverage = count > 0 ? Math.round(((averageCleanliness + averageCommunication + averageNeighbours + averageLocation) / 4) * 10) / 10 : 0;
 
-    // Return the computed averages along with star counts
     return res.status(200).json({
       rate: {
         counts,
@@ -69,27 +72,31 @@ export const getAnnouncementReviews = async (req, res, next) => {
         count
       },
       comments
-
     });
   } catch (error) {
     next(error);
   }
-}
+};
 
-// export const getAnnouncementComments = async (req, res, next) {}
 
 // done notification
 export const addReview = async (req, res, next) => {
   const {announcementID} = req.params
   const {_id: userID} = req.user
   const {comment, rating} = req.body
-
+console.log({comment, rating});
   try {
 
-    if (!Object.values(rating).every(v => v >= 0 && v <= 5)) {
+    if (!comment) {
+      res.status(400)
+      throw new Error('you must write a comment')
+    }
+    
+    if (!Object.values(rating).every(v => v >= 1 && v <= 5)) {
       res.status(400)
       throw new Error('invalid rating: all ratings must be between 1 and 5 stars')
     }
+
 
 
     const announcement = await Announcement.findById(announcementID)
@@ -127,7 +134,7 @@ export const addReview = async (req, res, next) => {
       await incrementPoints(announcement.owner.toString(), 210)
     }
 
-    await sendNotification(userID, announcement.owner, 'has rated your property with #num# stars.', `/profile/?announcement=${announcementID}`)
+    await sendNotification(userID, announcement.owner,` has rated your property with ${((rating.cleanliness + rating.communication + rating.neighbours + rating.location) / 4)} stars.`, `/profile/?announcement=${announcementID}`)
     return res.status(201).json({message: 'your review has been successfully stored'})
 
   } catch (error) {
