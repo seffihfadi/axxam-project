@@ -4,7 +4,7 @@ export const bookingsApiSlice = apiSlice.injectEndpoints({
   endpoints: builder => ({
 
     getAnnouncements: builder.query({
-      query: () => '/announcement/search',
+      query: (search) => `/announcement/search${search}`,
       providesTags: ['Saved']
     }),
     getProperty: builder.query({

@@ -8,15 +8,19 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 import { format } from "date-fns";
 import { IoSearchOutline, IoLocationOutline, IoCalendarOutline  } from "react-icons/io5";
 import { PiBuildingsLight, PiCurrencyDollarLight } from "react-icons/pi";
+import { useNavigate } from 'react-router-dom';
 
 function AdvancedSearch() {
-  const minPrice = 5000;
-  const maxPrice = 50000;
+  const minPrice = 500;
+  const maxPrice = 10000;
   const [isShown, setIsShown] = useState(false);
+
+  const navigate = useNavigate();
 
   const [priceRange, setPriceRange] = useState([minPrice, maxPrice]);
 
   const wilayas = [
+    "",
     "Adrar",
     "Ain Defla",
     "Aïn Témouchent",
@@ -62,6 +66,7 @@ function AdvancedSearch() {
     "Tiemimoun",
     "Tindouf",
     "Tipasa",
+    "Tizi",
     "Tissemsilt",
     "Tlemcen",
     "Touggourt",
@@ -80,7 +85,7 @@ function AdvancedSearch() {
   const [date, setDate] = useState([
     {
       startDate: new Date(),
-      endDate: new Date(),
+      endDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
       key: "selection",
     },
   ]);
@@ -116,7 +121,30 @@ function AdvancedSearch() {
       backgroundColor : (state.isSelected) && "#0051CB",
       opacity: state.isFocused ? "0.6" : "1"
     }),
-  };
+  }
+
+
+  const handleSearch = async () => {
+    const params = new URLSearchParams()
+  
+    if (selectedProperty?.value) {
+      params.append('tags', selectedProperty.value.toLowerCase())
+    }
+    if (selectedWilaya?.value) {
+      params.append('location', selectedWilaya.value.toLowerCase())
+    }
+    if (priceRange[0] !== undefined) {
+      params.append('lowerPrice', priceRange[0])
+    }
+    if (priceRange[1] !== undefined) {
+      params.append('higherPrice', priceRange[1])
+    }
+  
+    navigate(`/sl?${params.toString()}`)
+  }
+  
+
+
   return (
     <div className="container relative z-40 top-[-250px] md:top-[-100px]">
       <div className="w-full md:h-20  border border-gray-300 dark:border-gray-600 rounded-2xl md:rounded-full grid grid-cols-2 gap-3 md:flex md:items-center md:justify-between md:gap-2 px-6 md:px-8 lg:pr-10 lg:pl-16 py-6 md:py-14 absolute bg-white dark:bg-darkmode text-sm lg:text-base left-0">
@@ -204,7 +232,7 @@ function AdvancedSearch() {
           </div>
         </div>
         <div className="flex justify-center items-center col-span-2">
-        <button className=" text-white h-[50px] w-[50px] bg-primary rounded-full flex justify-center items-center md:translate-x-[20px] translate-y-[10px] md:translate-y-0 ">
+        <button onClick={handleSearch} className=" text-white h-[50px] w-[50px] bg-primary rounded-full flex justify-center items-center md:translate-x-[20px] translate-y-[10px] md:translate-y-0 ">
           <IoSearchOutline size={18}/>
         </button>
       </div>

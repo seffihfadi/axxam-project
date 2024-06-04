@@ -34,10 +34,6 @@ const cards = [
       Price:"25 000",
     },
   ];
-  // const Amenities={
-  //   Bed: Amenities.Bed,
-  //   Bathroom:Amenities.Hot_tub,
-  // }
 function Properties() {
   return (
     <div className='container my-24'>

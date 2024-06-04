@@ -202,46 +202,51 @@ export const getAnnouncement = async (req, res, next) => {
 }
 
 // done
-export const getAnnouncementForSearch = async (req, res, next) =>{
-  let { tags, location, lowerPrice, higherPrice, periode, maxPersons, title, desc } = req.query
+export const getAnnouncementForSearch = async (req, res, next) => {
+  const { tags, location, lowerPrice, higherPrice } = req.query;
+
   try {
+    // Build the initial search query with mandatory visibility filter
+    const searchQuery = { isVisible: true };
 
-// verfications :
-    if (periode !== 'small' && periode !== 'long') {
-      periode = '';
+    // Handle tags as an array if present
+    if (tags) {
+      searchQuery.tags = { $in: tags.split(',') };  // Ensures tags are split into an array
     }
-    
-// building the searchQuery :
-    const searchQuery = { isVisible: true }
 
-    if (tags) searchQuery.tags = { $in: tags.split(',') }
-    if (location) searchQuery.location.name = new RegExp(location, 'i')
+    // Use regular expression for location to enable case-insensitive partial matching
+    if (location) {
+      searchQuery['location.name'] = new RegExp(location, 'i');
+    }
+
+    // Handle price range filtering
     if (lowerPrice && higherPrice) {
-      searchQuery.price = { $gte: lowerPrice, $lte: higherPrice }
+      searchQuery.price = { $gte: Number(lowerPrice) * 100, $lte: Number(higherPrice) * 100 };
     } else if (lowerPrice) {
-      searchQuery.price = { $gte: lowerPrice }
+      searchQuery.price = { $gte: Number(lowerPrice) * 100 };
     } else if (higherPrice) {
-      searchQuery.price = { $lte: higherPrice }
+      searchQuery.price = { $lte: Number(higherPrice) * 100 };
     }
-    if (periode) searchQuery.periode = periode
-    if (maxPersons) searchQuery.maxPersons = maxPersons
-    if (title) searchQuery.title = new RegExp(title, 'i')
-    if (desc) searchQuery.desc = new RegExp(desc, 'i')
-    
-    const announcements = await Announcement.find(searchQuery)
-    const userSaves = req.user?.extra?.saved || [];
 
+    console.log(' searchQuery',  searchQuery)
+    // Fetching announcements based on the search query
+    const announcements = await Announcement.find(searchQuery);
+
+    // Determine if each announcement is saved by the current user
+    const userSaves = new Set(req.user?.extra?.saved || []);
     const modifiedAnnouncements = announcements.map(announcement => {
-        const isSaved = userSaves.includes(announcement._id.toString());
-        return { ...announcement.toJSON(), isSaved };
+      const isSaved = userSaves.has(announcement._id.toString());
+      return { ...announcement.toJSON(), isSaved };
     });
- 
+
+    // Send the modified announcements as the response
     return res.status(200).json(modifiedAnnouncements);
-  
   } catch (err) {
-    next(err)
+    // Pass any errors to the error handling middleware
+    next(err);
   }
-}
+};
+
 // done
 export const saveAnnouncement = async (req, res, next) => {
   try {

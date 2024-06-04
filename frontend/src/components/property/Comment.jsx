@@ -9,9 +9,9 @@ function Comment({comments}) {
             <img src={comment.picture} alt="user" className="img" />
             <div >
               <span className='text-sm font-bold'>{comment.user}  </span>
-              <p className="text-secondary darktxt text-[14px] font-normal  ">                
+              {/* <p className="text-secondary darktxt text-[14px] font-normal  ">                
                 {comment.location}
-              </p>
+              </p> */}
             </div> 
           </div>
           <div className='py-1 flex items-center gap-2'>
