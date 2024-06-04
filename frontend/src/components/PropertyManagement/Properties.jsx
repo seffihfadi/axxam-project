@@ -3,7 +3,7 @@ import PropertyCard from './PropertyCard';
 import { AiOutlinePlus } from "react-icons/ai";
 import { Amenities } from '../common/Ameneties';
 import { Link } from 'react-router-dom';
-import { useGetLessorAnnouncementsQuery } from '../../features/bookings/bookingsApiSlice';
+// import { useGetLessorAnnouncementsQuery } from '../../features/bookings/bookingsApiSlice';
 const cards = [
     {
       image: "public/card1.jpg",
@@ -38,8 +38,6 @@ const cards = [
   ];
 
 function Properties() {
-  const {data: announcementLessor, isLoading} = useGetLessorAnnouncementsQuery();
-  console.log(announcementLessor)
   return (
     <div className='container my-24'>
      <div className='flex justify-between  items-center '>
