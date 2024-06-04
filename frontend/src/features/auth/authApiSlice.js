@@ -51,7 +51,13 @@ export const authApiSlice = apiSlice.injectEndpoints({
         body: {token, email}
       }),
     }),
-  })
+    switch : builder.mutation({
+      query: () => ({
+        url: '/user/switch-role',
+        method: 'PATCH'
+      })
+  }),
+})
 })
 
 export const {
@@ -62,6 +68,7 @@ export const {
     useSendOtpMutation,
     useVerifyOtpMutation,
     useUpdateAdditionalMutation,
-    useJoinUsMutation
+    useJoinUsMutation,
+    useSwitchMutation
 
 } = authApiSlice
