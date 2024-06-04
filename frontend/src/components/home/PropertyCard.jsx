@@ -14,7 +14,7 @@ import SaveButton from "../property/SaveButton";
 
 
 function PropertyCard({ announcement }) {
-  console.log(announcement);
+
   const swiperRef = useRef()
   const [autoplayInitiallyActive] = useState(false)
 
@@ -38,7 +38,8 @@ function PropertyCard({ announcement }) {
 
 
   return (
-    <div className="flex flex-wrap cursor-pointer mb-3">
+    <Link to={`/property/${announcement._id}`}>
+    <div className="flex flex-wrap cursor-pointer mb-3 md:h-">
       <div 
         onMouseEnter={handleMouseEnter} 
         onMouseLeave={handleMouseLeave}  
@@ -75,7 +76,8 @@ function PropertyCard({ announcement }) {
         <SaveButton className={'absolute top-3 z-20 right-3'} propID={announcement._id} isSaved={announcement.isSaved} />
       </div>
       <div className="flex justify-between w-full">
-        <Link to={`/property/${announcement._id}`}>
+        
+        <div>
           <div className="font-semibold flex justify-between mt-2 dark:text-gray-200">
             {announcement.location.name}
             <div className="flex justify-center items-center gap-1">
@@ -83,15 +85,14 @@ function PropertyCard({ announcement }) {
               {4.3}
             </div>
           </div>
-          <br />
-          <span className="text-secondary dark:text-gray-200 text-[14px] font-light block mb-2 leading-6">
-            {announcement.title} <br /> {announcement.desc}
+          <span className="text-secondary dark:text-gray-200 text-[14px] font-light block my-2 leading-6">
+            <span>{announcement.title}</span> <br /> <span className=" line-clamp-2">{announcement.desc}</span>
           </span>
           <span>{announcement.price / 100},00 DZD/night</span>
-        </Link>
-        
+          </div>  
       </div>
     </div>
+    </Link>
   );
 }
 

@@ -5,10 +5,11 @@ import { Rules } from '../common/Rules';
 // import PaymentIntegration from '../reservation/PaymentIntegration';
 import { Amenities } from '../common/Ameneties';
 import SaveButton from './SaveButton';
+import Host from './Host';
 
 
 
-function PropertyDetails({ property, handleOpen }){
+function PropertyDetails({ property, handleOpen, owner, reviews }){
 
 
   return (
@@ -41,13 +42,13 @@ function PropertyDetails({ property, handleOpen }){
   <div className='lg:grid lg:grid-cols-[2fr,1fr] '>
     <div>
      {/*locationsect */}
-      <div class="my-2">
+      <div className="my-2">
         <h1 className='font-bold text-xl md:text-2xl pb-2'>{property.location.name}</h1>
         <h1 className='text-sm md:text-base'>4 guests,  3 badrooms,  3 bads,  1 bath </h1>
       </div>
 
      {/*hostsect */}
-      {/* <Host owner={property.owner} handleOpen={handleOpen}/> */}
+      <Host owner={owner} handleOpen={handleOpen} reviews={reviews}/>
 
       {/*descriptionsect */}
       <div className='my-5 w-full md:w-[90%] border border-gray-300 dark:border-gray-600 rounded-3xl text-sm md:text-base'>

@@ -20,7 +20,7 @@ function Properties({ announcements, search }) {
       </div>
       {isSearch &&
       <div className="col-span-2 w-full h-[calc(100vh-2.5rem)] sticky top-12 overflow-hidden bg-red-500">
-         <MapContainer center={position} zoom={4} scrollWheelZoom={false} className='w-full h-full'>
+        <MapContainer center={position} zoom={4} scrollWheelZoom={false} className='w-full h-full'>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

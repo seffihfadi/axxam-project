@@ -245,7 +245,7 @@ export const getAnnouncement = async (req, res, next) => {
   try {
     const announcement = await Announcement.findById(announcementID).populate({
       path: "owner",
-      select: ["birthDate", "fullname", "phone", "avatar"],
+      select: ["birthDate", "fullname", "phone", "avatar", "createdAt"],
     });
     if (!announcement) {
       res.status(404);

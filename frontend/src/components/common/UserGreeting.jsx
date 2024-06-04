@@ -19,9 +19,10 @@ function UserGreeting({ isSignedUp, isJoined,user }) {
     return (
       <nav className="flex items-center gap-[5px] lg:gap-[39px] md:gap-[10px] sm:flex-row">
         <div className={clicked ? "navbar active dark:bg-darkmode gap-5 bg-white font-semibold" : "navbar flex items-center font-semibold lg:font-medium lg:gap-[15px] md:gap-[13px] "}>
-          <Link to="//" className="brd">Dashboard</Link>
+        <Link to="/" className="brd">Home</Link>
           <Link to="/sl" className="brd">Properties</Link>
-          <Link to="//" className="brd">Booking</Link>
+          <Link to="/dashboard/ac" className="brd">Booking management</Link>
+          <Link to="/dashboard/points" className="brd">Points</Link>
           <div className="md:hidden"><ThemeToggle /></div>
         </div>
         <div className="flex items-center gap-[15px]  lg:gap-[7px] ">
@@ -50,7 +51,7 @@ function UserGreeting({ isSignedUp, isJoined,user }) {
             <Joinus />
             <div className="hidden md:block"><ThemeToggle /></div>
             <NotificationPopup />
-            <Notification user={user} />
+            <Notification user={user} isSignedUp={isSignedUp} isJoined={isJoined}/>
           </div>
         </div>
         <div className="block md:hidden pl-1 sm:pl-[20px]" onClick={handleClick}>

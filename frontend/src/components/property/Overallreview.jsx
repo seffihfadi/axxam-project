@@ -4,7 +4,7 @@ import { TbLocation } from 'react-icons/tb';
 import { GoPeople } from 'react-icons/go';
 import { MdOutlineCleaningServices } from 'react-icons/md';
 import Image from '../common/Image';
-
+import { Link } from 'react-router-dom';
 function Overallreview({ rating, owner }) {
   // console.log('reviews osds', owner)
 
@@ -25,6 +25,7 @@ function Overallreview({ rating, owner }) {
           </div>
         </div> */}
         <div className='w-full flex gap-10 justify-between mb-10 items-center'>
+          <Link to={'/profile'}>
           <div className="user ">
             <div className="img">
               <Image src={owner?.avatar} userName={owner.fullname} />
@@ -37,6 +38,7 @@ function Overallreview({ rating, owner }) {
             </div>
             </div>
           </div>
+          </Link>
           <p className='text-center max-w-xl'>One of the most loved  homes on AXXAM based on ratings, reviews, and reliability.</p>
           <span className='font-semibold text-3xl'>{rating.totalAverage}<span className='font-semibold text-lg'> / 5 stars</span></span>
           
