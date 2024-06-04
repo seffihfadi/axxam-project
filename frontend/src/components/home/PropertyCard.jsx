@@ -14,7 +14,7 @@ import SaveButton from "../property/SaveButton";
 
 
 function PropertyCard({ announcement }) {
-
+  console.log(announcement);
   const swiperRef = useRef()
   const [autoplayInitiallyActive] = useState(false)
 

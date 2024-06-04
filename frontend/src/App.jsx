@@ -2,6 +2,7 @@ import { lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import ROLES from "./utils/roles";
 import PrivateRoute from "./components/common/PrivateRoute";
+import CanceledPayment from "./components/reservation/CanceledPayment";
 
 
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
@@ -17,10 +18,10 @@ const FavoritePropertiesPage = lazy(() => import("./pages/FavoritePropertiesPage
 const BookingHistoryPage = lazy(() => import("./pages/BookingHistoryPage"));
 const MainInfosPage = lazy(() => import("./pages/MainInfospage"));
 const PointSystemPage = lazy(() => import("./pages/PointSystemPage"));
-const BManagementPage = lazy(() => import("./pages/BManagementPage"));
-const PManagementPage = lazy(() => import("./pages/PManagementPage"));
-const AddListingPage = lazy(() => import("./pages/AddListingPage"));
-
+const BManagementPage=lazy(()=>import("./pages/BManagementPage"));
+const PManagementPage=lazy(()=>import("./pages/PManagementPage"));
+const AddListingPage=lazy(()=>import("./pages/AddListingPage"));
+const ProfilePage=lazy(()=>import("./pages/ProfilePage"));
 const App = () => {
   return (
     <>
@@ -28,7 +29,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Layout />}>
           {/* public routes */}
-          <Route index element={<LandingPage/>} />
+          <Route index element={< LandingPage/>} />
           <Route path="/services" element={<OurServicesPage/>} />
           <Route path="/sl" element={<HomePage />} />
           <Route path="/property/:propID" element={<PropertyPage/>} />

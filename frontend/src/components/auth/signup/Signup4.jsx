@@ -66,7 +66,6 @@ function Signup4({ isOpen, handleClose, isJoin=false, openPopupBank }) {
         }
       })
       .catch((error) => dispatch(setAlert([error.data.message, 'error'])))
-  
   }
 
   return (

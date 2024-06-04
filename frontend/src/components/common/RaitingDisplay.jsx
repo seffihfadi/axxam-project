@@ -1,10 +1,10 @@
 
-const RatingDisplay = ({ rate }) => {
-  const fullStars = Math.floor(rate)
-  const decimalPart = rate % 1
+const RatingDisplay = ({rate}) => {
+  
+  const fullStars = Math.floor( Number(rate))
+  const decimalPart =  Number(rate) % 1
   const halfStar = decimalPart >= 0.4 && decimalPart <= 0.9 ? 1 : 0
   const emptyStars = 5 - fullStars - halfStar
-
   return (
     <div className="raiting_display flex justify-center items-center w-fit lg:gap-0.5">
       {[...Array(fullStars)].map((i) => (

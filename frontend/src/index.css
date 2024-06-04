@@ -78,7 +78,7 @@ body.popup-open {
   animation: fadeIn 0.5s ease-in-out, fadeOut 0.5s ease-in-out 4.5s forwards;
   @apply fixed w-full bottom-0 left-0 md:bottom-auto md:left-auto md:right-6
   md:max-w-xs md:top-20 bg-white px-5 py-3 rounded-lg md:border-[1px] border-[#353535] flex 
-  justify-center items-center gap-3 md:w-fit z-50 shadow-lg backdrop-blur-md text-sm;
+  justify-center items-center gap-3 md:w-fit z-[1000000000] shadow-lg backdrop-blur-md text-sm;
 }
 .alert i {
   @apply text-[20px];
@@ -613,8 +613,10 @@ button.info {
 .fixebutton{
 @apply lg:py-4 py-3 lg:w-full w-3/5;
 }
-.stars_reviews img{
-  @apply w-3 h-4;
+
+
+.stars_reviews .raiting_display img{
+  @apply w-6 h-6;
 }
 
 .style_input input:focus {
@@ -639,17 +641,6 @@ button.info {
   .navbar.active {
     @apply right-0 ;
   }} 
-.navbarOwner {
-  @apply flex items-center justify-center ;
-}
-@media screen and (max-width: 1024px) {
-  .navbarOwner {
-    @apply  flex flex-col items-start justify-start fixed top-[60px] right-[-300px] w-[240px] h-[300px]  pt-[40px] pb-0 pr-0 pl-[10px] transition ease-in-out duration-300 ;
-  }
-  .navbarOwner.activee {
-    @apply right-0 ;
-  }}
-
 /* .MuiOtpInput-TextField{
   @apply dark:outline dark:outline-gray-600 
 } */
