@@ -9,6 +9,7 @@ import {
     deleteAnnouncement,
     saveAnnouncement,
     getAnnouncementForSearch,
+    getAnnouncementLessor
 } from '../controllers/announcement.js';
 
 const announcementRoutes = express.Router();
@@ -18,8 +19,8 @@ announcementRoutes.patch('/update/:announcementID',access(ROLES.lessor), updateA
 announcementRoutes.get('/save/:announcementID', access(ROLES.all), saveAnnouncement);
 announcementRoutes.get('/get/:announcementID', secure(), getAnnouncement);
 announcementRoutes.get('/search', secure(), getAnnouncementForSearch);
+announcementRoutes.get('/getsd/announcementLessor',access(ROLES.lessor), getAnnouncementLessor);
 announcementRoutes.delete('/delete/:announcementID',access(ROLES.lessor), deleteAnnouncement);
-
 
 
 export default announcementRoutes

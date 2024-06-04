@@ -356,3 +356,16 @@ export const saveAnnouncement = async (req, res, next) => {
     next(err);
   }
 };
+
+
+export const getAnnouncementLessor = async (req, res, next) => {
+  const { _id: sessionID } = req.user;
+  console.log(`dsjghss`);
+  console.log("user", sessionID);
+  try {
+    const anno = await Announcement.find({ owner: sessionID });
+    res.status(200).json(anno);
+  } catch (error) {
+    next(error);
+  }
+};

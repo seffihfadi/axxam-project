@@ -1,17 +1,37 @@
 import { useRef } from "react";
 
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi2";
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import { Amenities } from "../common/Ameneties";
 
 function Filters() {
   const elementRef = useRef();
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   function slideRight(element) {
     element.scrollLeft += document.getElementById("filters").clientWidth - 50;
   }
   function slideLeft(element) {
     element.scrollLeft -= document.getElementById("filters").clientWidth - 50;
+  }
+
+  const setTag = (newTag) => {
+    const searchParams = new URLSearchParams(location.search);
+    const currentTags = searchParams.get('tags');
+    
+    let newTagsArray = [];
+    if (currentTags) {
+      newTagsArray = currentTags.split(',');
+    }
+    
+    newTagsArray.push(newTag);
+    searchParams.set('tags', newTagsArray.join(','));
+
+    navigate({ search: searchParams.toString() });
+  
   }
 
   return (
@@ -24,6 +44,7 @@ function Filters() {
         {Object.entries(Amenities).map(([key, icon]) => (
           <div
             key={key}
+            onClick={() => setTag(key)}
             className="lki min-w-[15%] lg:min-w-[12%] flex justify-center flex-col items-center gap-1 cursor-pointer group text-lg  hover:text-gray-400 dark:hover:text-gray-300"
           >
             {icon}

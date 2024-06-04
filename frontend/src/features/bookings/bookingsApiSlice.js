@@ -28,6 +28,9 @@ export const bookingsApiSlice = apiSlice.injectEndpoints({
         body: reservationDetails
       })
     }),
+    getLessorAnnouncements: builder.query({
+      query: () => '/announcement/getsd/announcementLessor'
+    })
   })
 })
 
@@ -37,5 +40,6 @@ export const {
     useGetPropertyQuery,
     useCreateCheckoutSessionMutation,
     useSavePropertyMutation,
+    useGetLessorAnnouncementsQuery
 
 } = bookingsApiSlice

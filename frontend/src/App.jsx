@@ -61,9 +61,9 @@ const App = () => {
           >
             <Route path="points" element={<PointSystemPage/>} />
             <Route path="ac" element={<BManagementPage/>} />
-          <Route path="ad" element={<PManagementPage/>} />
-          <Route path="ae" element={<AddListingPage/>} />
-          <Route path="info" element={<MainInfosPage/>}/>
+            <Route path="ad" element={<PManagementPage/>} />
+            <Route path="ae" element={<AddListingPage/>} />
+            <Route path="info" element={<MainInfosPage/>}/>
 
             {/* <Route index element={<HomePage />} /> */}
             {/* <Route path="/history" element={<BookingHistoryPage/>}/> */}

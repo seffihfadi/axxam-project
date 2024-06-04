@@ -43,7 +43,7 @@ export default function NotificationPopup() {
             setOpen(false);
     };
 
-    if (notificationsLoading) return <div>Loading...</div>;
+    if (notificationsLoading) return <MdNotificationsNone className="w-5 h-5 animate-pulse" />;
 
     return (
         <div>
