@@ -25,8 +25,8 @@ function Comment({reviews}) {
       {reviews.comments.map((comment)=>(
         <div key={comment.reviewID} className='md:w-[95%]'>
           <div className="user">
-            <div className="w-10">
-              <Image src={comment.theReviwerAvatar} className="rounded-full " alt={'userimg'} userName={comment.theReviwer} />
+            <div className="w-10 aspect-square">
+              <Image src={comment.theReviwerAvatar} className="rounded-full h-full w-full" alt={'userimg'} userName={comment.theReviwer} />
             </div>
             <div >
               <span className='text-sm font-bold "'>{comment.theReviwer}  </span>
@@ -37,7 +37,7 @@ function Comment({reviews}) {
           </div>
           <div className='py-1 flex justify-between items-center gap-2'>
             <span className='stars_reviews'><RatingDisplay rate={comment.averageRating}/></span>
-            {user.fullname === comment.theReviwer &&
+            {user?.fullname === comment.theReviwer &&
               <span className='flex items-center gap-2'>
                 <button><span className="material-symbols-outlined">edit</span></button>
                 <button disabled={isLoadingForDelete} onClick={() => handleDeleteReview(comment.reviewID)}><span className="material-symbols-outlined">delete_sweep</span></button>

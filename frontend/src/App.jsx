@@ -33,11 +33,8 @@ const App = () => {
           <Route path="/services" element={<OurServicesPage/>} />
           <Route path="/sl" element={<HomePage />} />
           <Route path="/property/:propID" element={<PropertyPage/>} />
-          <Route path="/ac" element={<BManagementPage/>} />
-          <Route path="/ad" element={<PManagementPage/>} />
-          <Route path="/ae" element={<AddListingPage/>} />
 
-         
+        
           {/* lessee routes */}
           <Route
             element={
@@ -63,6 +60,9 @@ const App = () => {
             }
           >
             <Route path="points" element={<PointSystemPage/>} />
+            <Route path="ac" element={<BManagementPage/>} />
+          <Route path="ad" element={<PManagementPage/>} />
+          <Route path="ae" element={<AddListingPage/>} />
 
             {/* <Route index element={<HomePage />} /> */}
             {/* <Route path="/history" element={<BookingHistoryPage/>}/> */}

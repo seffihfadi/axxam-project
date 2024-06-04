@@ -61,8 +61,8 @@ function Signup4({ isOpen, handleClose, isJoin=false, openPopupBank }) {
         if (isJoin) {
           openPopupBank()
         } else {
-          navigate('/sl')
           handleClose()
+          window.location.href = '/sl'
         }
       })
       .catch((error) => dispatch(setAlert([error.data.message, 'error'])))
