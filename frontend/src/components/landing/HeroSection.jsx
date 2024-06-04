@@ -1,5 +1,6 @@
 
 import AdvancedSearch from "../home/AdvancedSearch";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
@@ -13,7 +14,7 @@ const HeroSection = () => {
             Excited to find your perfect rental home. Click 'Discover More' and
             start exploring now!
           </p>
-          <button className="primary">Discover more</button>
+          <Link to={'/sl'}><button className="rounded-lg bg-primary ml-auto text-white font-semibold w-fit px-8 md:px-10 py-3 md:py-4">Discover more</button></Link>
         </div>
         <AdvancedSearch/>
       </section>

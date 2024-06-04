@@ -35,7 +35,7 @@ const PropertyPage = () => {
   if (propertyLoading || reviewsLoading) return <Loader msg='loading' />
   return (
     <>
-      <PropertyDetails property={property} handleOpen={handleOpen}/>
+      <PropertyDetails property={property} handleOpen={handleOpen} owner={property.owner} reviews={reviews}/>
       <Overallreview rating={reviews.rate} owner={property.owner} />
       <Reviews comments={reviews.comments} handleOpen={handleOpen}/>
       {/* reviews need to be linked also */}

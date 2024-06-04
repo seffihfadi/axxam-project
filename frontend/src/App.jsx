@@ -44,7 +44,7 @@ const App = () => {
             <Route path="/favourite" element={<FavoritePropertiesPage/>}/>
             <Route path="/history" element={<BookingHistoryPage/>}/>
             <Route path="/info" element={<MainInfosPage/>}/>
-
+            <Route path="/profile" element={<ProfilePage/>}/>
             <Route path="/success" element={<SuccessPayment />} />
             {/* <Route path="/canceled" element={<CanceledPayment />} /> */}
             {/* <Route path="/checkout" element={<PaymentIntegration><CheckoutPage /></PaymentIntegration>} /> */}
@@ -63,6 +63,7 @@ const App = () => {
             <Route path="ac" element={<BManagementPage/>} />
           <Route path="ad" element={<PManagementPage/>} />
           <Route path="ae" element={<AddListingPage/>} />
+          <Route path="info" element={<MainInfosPage/>}/>
 
             {/* <Route index element={<HomePage />} /> */}
             {/* <Route path="/history" element={<BookingHistoryPage/>}/> */}
