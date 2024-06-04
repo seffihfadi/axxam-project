@@ -6,6 +6,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import Image from "./Image";
 import { useSignoutMutation } from "../../features/auth/authApiSlice";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Notification({user}) {
 
@@ -51,10 +52,10 @@ function Notification({user}) {
               <GoPerson className="text-lg"/> <a href="">Personal informations</a>
             </li>
             <li className = 'flex gap-2 items-center py-3 text-black hover:text-[#0051CB]'>
-              <LuCalendarClock className="text-lg"/><a href="">Booking history</a>
+              <LuCalendarClock className="text-lg"/><a href="/dashboard/ac">Booking history</a>
             </li>
             <li className = 'flex gap-2 items-center py-3 text-black hover:text-[#0051CB]'>
-              <MdBookmarkBorder className="text-lg"/><a href="">Favorite properties</a>
+              <MdBookmarkBorder className="text-lg"/><Link to="/favourite">Favorite properties</Link>
             </li>
             <li className = 'flex gap-2 items-center py-3 text-black hover:text-[#0051CB]'>
               <button onClick={handleLogout} className="secondary flex justify-center items-center gap-2"><IoLogOutOutline className="text-lg"/>Log out</button>

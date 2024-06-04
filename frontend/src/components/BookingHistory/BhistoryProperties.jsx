@@ -1,97 +1,21 @@
 import React from 'react'
 import BHistoryCard from './BHistoryCard';
+import { useGetLesseeReservationsQuery } from '../../features/reservations/reservationApiSlice';
+import Empty from '../common/Empty'
+import Loader from '../common/Loader';
 function BhistoryProperties(){
-    const cards = [
-      {
-        image: "public/card1.jpg",
-        location: "Staoueli, Algiers",
-        description: "Villa with terrace",
-        date: "Mar 1-6",
-        price: "25000,00",
-        rating: "5.0",
-        status:"accepted",
-      },
-      {
-        image: "public/card2.jpg",
-        location: "Bir el djir, Oran",
-        description: "Villa with swimming pool",
-        date: "Mar 1-6",
-        price: "25000,00",
-        rating: "5.0",
-        status:"completed",
-      },
-      {
-        image: "public/card3.jpg",
-        location: "Zeralda, Algiers",
-        description: "Villa with swimming pool",
-        date: "Mar 1-6",
-        price: "25000,00",
-        rating: "5.0",
-        status:"cancelled",
-      },
-      {
-        image: "public/card4.jpg",
-        location: "Bir el djir, Oran",
-        description: "Villa with swimming pool",
-        date: "Mar 1-6",
-        price: "25000,00",
-        rating: "5.0",
-        status:"inprogress",
-      },
-      {
-        image: "public/card5.jpg",
-        location: "Bir el djir, Oran",
-        description: "Villa with swimming pool",
-        date: "Mar 1-6",
-        price: "25000,00",
-        rating: "5.0",
-        status:"rejected",
-      },
-      {
-        image: "public/card6.jpg",
-        location: "Sidi abdellah, Algiers",
-        description: "Appartement",
-        date: "Mar 1-6",
-        price: "25000,00",
-        rating: "5.0",
-        status:"pending",
-      },
-      {
-        image: "public/card7.jpg",
-        location: "Sidi mebrouk, Constantine",
-        description: "Villa with terrace",
-        date: "Mar 1-6",
-        price: "25000,00",
-        rating: "5.0",
-        status:"accepted",
-      },
-      {
-        image: "public/card8.jpg",
-        location: "Biskra",
-        description: "Villa with swimming pool",
-        date: "Mar 1-6",
-        price: "25000,00",
-        rating: "5.0",
-        status:"accepted",
-      },
-      {
-        image: "public/card9.jpg",
-        location: "Flifla, Skikda",
-        description: "Beachfront house",
-        date: "Mar 1-6",
-        price: "25000,00",
-        rating: "5.0",
-        status:"accepted",
-      },
-    ];
+    const {data: reservations, isLoading: reservationsLoading} = useGetLesseeReservationsQuery()
+    console.log(reservations)
+    if (reservationsLoading) return <Loader msg={"Loading"}/>
+    if (reservations.length == 0) return <Empty/>
       return (
       <div className="container my-24">
-        {cards.length > 0 ? (
+        {reservations.length > 0 ? (
           <>
-           <h1 className="pb-10 pt-5 md:pb-20 font-bold text-xl  ">Booking History</h1>
+          <h1 className="pb-10 pt-5 md:pb-20 font-bold text-xl  ">Booking History</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">  
-              {cards.map((element) => (
-                <BHistoryCard key={element.id} props={element} />
+              {reservations.map((element, id) => (
+                <BHistoryCard key={id} props={element} />
               ))}
           </div>
           </>

@@ -27,7 +27,7 @@ export const bookingsApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body: reservationDetails
       })
-    })
+    }),
   })
 })
 
@@ -36,7 +36,6 @@ export const {
     useGetAnnouncementsQuery,
     useGetPropertyQuery,
     useCreateCheckoutSessionMutation,
-    useSavePropertyMutation
-    
+    useSavePropertyMutation,
 
 } = bookingsApiSlice

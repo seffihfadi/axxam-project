@@ -1,5 +1,8 @@
 import BookingRequests from "../components/BookingManagement/BookingRequests";
 import AllBookings from "../components/BookingManagement/AllBookings"
+import { useGetLessorReservationsQuery } from "../features/reservations/reservationApiSlice";
+import Empty from "../components/common/Empty";
+import Loader from '../components/common/Loader';
 
 const BManagementPage = () => {
   const cards = [
@@ -75,11 +78,15 @@ const BManagementPage = () => {
     property:"Seaside Retreat",
   },];
   
+  const {data: reservations, isLoading: reservationsLoading} = useGetLessorReservationsQuery()
+    console.log(reservations)
+    if (reservationsLoading) return <Loader msg={"Loading"}/>
+    if (reservations.length == 0) return <Empty/>
   
   return (
     <>
    <BookingRequests client={client}/>
-   <AllBookings cards={cards}/>
+   <AllBookings cards={reservations}/>
     </>
   )
 }

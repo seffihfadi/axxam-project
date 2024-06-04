@@ -276,7 +276,7 @@ export const getLesseeReservations = async (req, res, next) => {
   const {_id: clientID} = req.user
   try {
 
-    const reservations = await Reservation.find({client: clientID})
+    const reservations = await Reservation.find({client: clientID}).populate("announcement")
    
     const transformedReservations = await Promise.all(
       reservations.map(reservation => modifyReservationObject(reservation))

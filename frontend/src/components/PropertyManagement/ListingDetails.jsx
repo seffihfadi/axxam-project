@@ -92,14 +92,14 @@ function ListingDetails({propertyRules}) {
          <div className='flex justify-between border-b pl-6 pr-8 pb-4 '>
             <label htmlFor="smoking" className='flex items-center gap-3 '>
              <span style={{ fontSize: '17px' }}>{propertyRules[3].icon}</span>
-              <span>{propertyRules[3].smoking}</span>
+              <span>{propertyRules[3].content}</span>
             </label >
             <input id="smoking" name="smoking" type="checkbox" required />
          </div>
          <div className='flex justify-between  pl-6 pr-8 pb-4 '>
             <label htmlFor="parties" className='flex items-center gap-3 '>
              <span style={{ fontSize: '17px' }}>{propertyRules[4].icon}</span>
-              <span>{propertyRules[4].parties}</span>
+              <span>{propertyRules[4].content}</span>
             </label>
             <input id="parties" name="parties" type="checkbox" required />
          </div>
