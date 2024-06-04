@@ -5,11 +5,14 @@ import { Amenities } from '../common/Ameneties';
 import { Link } from 'react-router-dom';
 import { useGetLessorAnnouncementsQuery } from '../../features/bookings/bookingsApiSlice';
 import Loader from '../common/Loader';
+import { selectCurrentUser } from '../../app/slices/authSlice';
+import { useSelector } from 'react-redux';
 
 function Properties() {
-  const {data: announcementLessor, isLoading} = useGetLessorAnnouncementsQuery();
-  console.log('sadjkghkjsdhgjasdhgjah',announcementLessor)
-  if (isLoading) return <Loader msg={'loading prop'} />
+  const user = useSelector(selectCurrentUser)
+  const {data: announcementLessor, isLoading} = useGetLessorAnnouncementsQuery(user._id);
+  // console.log('sadjkghkjsdhgjasdhgjah',announcementLessor)
+  if (isLoading) return <Loader msg={'loading props'} />
   return (
     <div className='container my-24'>
      <div className='flex justify-between  items-center '>

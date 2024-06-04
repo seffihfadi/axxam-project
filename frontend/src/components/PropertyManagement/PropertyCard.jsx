@@ -3,18 +3,25 @@ import { LuPencilLine } from "react-icons/lu";
 import { AiOutlineDelete } from "react-icons/ai";
 import { PiMapPinLineLight } from "react-icons/pi";
 import { IoEllipsisVerticalSharp } from "react-icons/io5";
+import { useDeleteAnnoncementMutation } from '../../features/bookings/bookingsApiSlice';
+import { useDispatch } from 'react-redux';
+import { setAlert } from '../../app/slices/alertSlice';
 
 function PropertyCard({ props, Amenities }) {
-  
-  const handleDelete = async () => {
-
+  const [deleteAnno, {isLoading}] = useDeleteAnnoncementMutation()
+  const dispatch = useDispatch()
+  const handleDelete = async (propID) => {
+    await deleteAnno(propID)
+      .unwrap()
+      .then((payload) => dispatch(setAlert([payload.message, 'success'])))
+      .catch((error) => dispatch(setAlert([error.data.message, 'error'])))
   }
 
   const [isopen, setIsopen] = useState(false);
    const handleMenuToggle = () => {
     setIsopen(!isopen);
   };
-  
+
   return (
     <div className="flex flex-wrap cursor-pointer mb-4 mx-4 md:mx-0 p-2 border border-gray-200 dark:border-gray-600 rounded-2xl">
       <div className="w-full h-[160px] lg:h-[150px] mb-4  overflow-hidden rounded-xl">
@@ -32,10 +39,10 @@ function PropertyCard({ props, Amenities }) {
                 <LuPencilLine />
                 Edit
               </div>
-              <div onClick={handleDelete} className='flex items-center gap-3 text-secondary darktxt'>
+              <button disabled={isLoading} onClick={() => handleDelete(props._id)} className='flex items-center gap-3 text-secondary darktxt'>
                 <AiOutlineDelete />
                 Delete
-              </div>
+              </button>
             </div>
           }
         </span>
