@@ -52,8 +52,8 @@ export default function NotificationPopup() {
                     <MdNotificationsNone className="w-5 h-5 relative" />
                     {newNotifCount > 0 && <div className={`w-[11px] h-[11px] text-xs bg-red-700 flex items-center justify-center p-[7px] right-[92px] top-[18px] md:top-[17px] sm:top-[19px] sm:right-[107px] md:right-[65px] rounded-full absolute`}>{newNotifCount}</div>}
                 </div>
-                <div className={`absolute overflow-y-auto top-[60px] shadow-md shadow-[#6D6D6D] rounded-md bg-[#fff] w-[250px] sm:w-[350px] right-1 before:absolute before:top-[-5px] before:right-[20px] before:transform before:rotate-45 before:h-[20px] before:w-[20px] before:dark:bg-darkmode ${open ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-20'}`}>
-                    <div className="text-white bg-sky-500 py-3 px-3 rounded-t-lg font-semibold text-lg">
+                <div className={`absolute overflow-y-auto top-[60px] shadow-md shadow-[#6D6D6D] rounded-md bg-[#fff] dark:bg-darkmode w-[250px] sm:w-[350px] right-1 before:absolute before:top-[-5px] before:right-[20px] before:transform before:rotate-45 before:h-[20px] before:w-[20px] before:dark:bg-darkmode ${open ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-20'}`}>
+                    <div className="text-white bg-primary py-3 px-3 rounded-t-lg font-semibold text-lg">
                         Notifications
                     </div>
                     <div className="p-3">
@@ -67,7 +67,7 @@ export default function NotificationPopup() {
                     </div>
                     {notifs.length > 0 && (
                         <div className="flex items-center justify-center pb-2">
-                            <button onClick={handleRead} className="text-white px-2 text-xs py-1 bg-sky-500 rounded-lg mr-2">Mark as read</button>
+                            <button onClick={handleRead} className="text-white px-2 text-xs py-1 bg-primary rounded-lg mr-2">Mark as read</button>
                         </div>
                     )}
                 </div>

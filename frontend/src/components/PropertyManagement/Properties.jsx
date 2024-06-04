@@ -3,40 +3,11 @@ import PropertyCard from './PropertyCard';
 import { AiOutlinePlus } from "react-icons/ai";
 import { Amenities } from '../common/Ameneties';
 import { Link } from 'react-router-dom';
-const cards = [
-    {
-      image: "public/card1.jpg",
-      location: "Staoueli, Algiers",
-      Price:"25000",
-    },
-    {
-      image: "public/card2.jpg",
-      location: "Bir el djir, Oran",
-      Price:"25000",
-    },
-    {
-      image: "public/card3.jpg",
-      location: "Zeralda, Algiers",
-      Price:"25000",
-    },
-    {
-      image: "public/card4.jpg",
-      location: "Bir el djir, Oran",
-      Price:"25000",
-    },
-    {
-      image: "public/card5.jpg",
-      location: "Bir el djir, Oran",
-      Price:"25000",
-    },
-    {
-      image: "public/card6.jpg",
-      location: "Sidi abdellah, Algiers",
-      Price:"25 000",
-    },
-  ];
+
 
 function Properties() {
+  // const {data: announcementLessor, isLoading} = useGetLessorAnnouncementsQuery();
+  // console.log(announcementLessor)
   return (
     <div className='container my-24'>
      <div className='flex justify-between  items-center '>

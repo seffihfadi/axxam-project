@@ -69,6 +69,17 @@ const App = () => {
             {/* <Route path="/history" element={<BookingHistoryPage/>}/> */}
 
           </Route>
+
+          {/* <Route
+            element={
+              <PrivateRoute element={<LesseeLayout />} allowed={ROLES.all} />
+            }
+          >
+            <Route path="/profile" element={<ProfilePage/>}/>
+            
+
+            
+          </Route> */}
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

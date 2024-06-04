@@ -265,7 +265,7 @@ export const getReservation = async (req, res, next) => {
     }
 
     const newReservation = await modifyReservationObject(reservation)
-    return res.status(200).json(newReservation)
+    return res.status(200).json(reservation)
 
   } catch (error) {
     next(error)
@@ -282,7 +282,7 @@ export const getLesseeReservations = async (req, res, next) => {
       reservations.map(reservation => modifyReservationObject(reservation))
     )
 
-    return res.status(200).json(transformedReservations)
+    return res.status(200).json(reservations)
     
   } catch (error) {
     next(error)
@@ -290,7 +290,7 @@ export const getLesseeReservations = async (req, res, next) => {
 }
 
 export const getLessorReservations = async (req, res, next) => {
-  const {_id: lessorID} = req.user
+  const { _id: lessorID } = req.user;
 
   try {
     const reservations = await Reservation.aggregate([
@@ -298,26 +298,40 @@ export const getLessorReservations = async (req, res, next) => {
         $lookup: {
           from: 'announcements',
           localField: 'announcement',
-          foreignField: '_id', 
-          as: 'announcementDetails' 
+          foreignField: '_id',
+          as: 'announcementDetails'
         }
       },
       {
-        $unwind: '$announcementDetails' 
+        $unwind: '$announcementDetails'
       },
       {
         $match: {
           'announcementDetails.owner': lessorID
         }
+      },
+      {
+        $lookup: {
+          from: 'users', // Assuming the clients are stored in the 'users' collection
+          localField: 'client',
+          foreignField: '_id',
+          as: 'clientDetails'
+        }
+      },
+      {
+        $unwind: {
+          path: '$clientDetails',
+          preserveNullAndEmptyArrays: true // In case some reservations don't have an associated client
+        }
       }
     ]);
 
-    return res.status(200).json(reservations)
-
+    return res.status(200).json(reservations);
   } catch (error) {
-    next(error)
+    next(error);
   }
-}
+};
+
 
 // done notification
 export const handleReservation = async (req, res, next) => {
