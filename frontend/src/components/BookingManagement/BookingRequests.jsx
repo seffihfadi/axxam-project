@@ -1,12 +1,15 @@
 import React from 'react';
+import { useHandleReservationMutation } from '../../features/reservations/reservationApiSlice';
 
 function BookingRequests({ client }) {
+  const {data: reservations, isLoading: reservationsLoading} = useHandleReservationMutation()
+  console.log(reservations)
   return (
     <div className='container mt-24'>
       <h1 className="pb-12 pt-3 md:pb-15 font-bold text-xl md:text-left text-center">Booking requests</h1>
       <div className="flex flex-col items-center  gap-9 ">
-        {client.map((element) => (
-          <div key={element.id} className='border dark:border-gray-600 md:h-[135px]  rounded-xl md:grid md:grid-cols-[1fr,6fr,3fr] p-2 overflow-hidden lg:w-[84%] '>
+        {client.map((element, id) => (
+          <div key={id} className='border dark:border-gray-600 md:h-[135px]  rounded-xl md:grid md:grid-cols-[1fr,6fr,3fr] p-2 overflow-hidden lg:w-[84%] '>
             <div className='flex flex-col items-center justify-center py-2'>
               <img src={element.picture} className="h-[60px] w-[60px] lg:h-[55px] lg:w-[55px] md:w-[50px] md:h-[50px]  rounded-full " alt={element.name} />
               <span className='font-semibold pt-2 lg:text-base text-[15px]'>{element.fname}.{element.name}</span>

@@ -4,29 +4,32 @@ import { RiProhibitedLine } from "react-icons/ri";
 import { PiBedLight } from "react-icons/pi";
 import { GiTrophyCup } from "react-icons/gi";
 import { FaXmark } from "react-icons/fa6";
+import { Link } from 'react-router-dom';
+import { getDaysInMonth } from 'date-fns';
 function BHistoryCard({ props }) {
     return (
-   <div className="flex flex-wrap cursor-pointer mb-9">
+    <Link to={`/property/${props.announcement}`}>
+    <div className="flex flex-wrap cursor-pointer mb-9">
       <div className="w-full h-[300px] lg:h-[220px] mb-2  overflow-hidden rounded-2xl">
         <img
-          src={props.image}
+          src={props.announcement.images[0].secure_url}
           className="h-full w-full"
         />
         </div>
       <div className="flex justify-between w-full mt-1  ">
           <span className="font-semibold darktxt">
-            {props.location}
+            {props.announcement.location.name}
           </span>
           <span className="text-secondary text-[15px] font-light block mb-2 leading-6  darktxt">
-            {props.date}
+            {props.checkin.slice(0,10)}
           </span>
       </div>
       <div className="flex justify-between w-full text-[15px] font-semibold pb-3 ">
           <span className=' darktxt'>
-            {props.price} x 7 nights
+            {props.announcement.price} x {props.checkout.slice(8,10)-props.checkin.slice(8,10) > 0 ? props.checkout.slice(8,10)-props.checkin.slice(8,10) : props.checkout.slice(8,10)+getDaysInMonth(props.checkin.slice(5,7)-1) - props.checkin.slice(8,10)}
           </span>
           <span className=' darktxt'>
-            250000 DZD
+            {props.amount} DZD
           </span>
       </div>
       <div className='w-full '>
@@ -71,6 +74,7 @@ function BHistoryCard({ props }) {
       }
       </div>
     </div>
+    </Link>
     )
   }
 

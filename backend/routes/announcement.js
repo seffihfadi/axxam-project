@@ -8,7 +8,7 @@ import {
     getAnnouncement,
     deleteAnnouncement,
     saveAnnouncement,
-    getAnnouncementForSearch
+    getAnnouncementForSearch,
 } from '../controllers/announcement.js';
 
 const announcementRoutes = express.Router();
