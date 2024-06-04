@@ -27,7 +27,7 @@ userRoutes.patch('/update-additional', access(ROLES.all), updateUserAdditional);
 userRoutes.patch('/signup', signupUser);
 userRoutes.get('/get-user', access(ROLES.all), getUser);
 userRoutes.patch('/switch-role', access(ROLES.all), switchRole);
-userRoutes.get('/get-user-by-id', access(ROLES.all), getUserByID);
+userRoutes.get('/get-user-by-id/:userID', access(ROLES.all), getUserByID);
 export default userRoutes
 
 // //forgot password token

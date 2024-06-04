@@ -12,6 +12,8 @@ function AddListing() {
   const [address, setAddress] = useState('');
   const [images, setImages] = useState([]);
 
+
+
   const PropertyType = [
     {
       icon: <PiHouseLine size={18} />,
@@ -72,6 +74,10 @@ function AddListing() {
     }
   });
 
+  const handleCreateAnnoncement = async () => {
+    
+  }
+
   return (
     <div className='container my-24'>
       <h1 className="py-2 md:pb-15 font-bold text-xl md:text-start text-center">Add listing</h1>
@@ -124,6 +130,9 @@ function AddListing() {
               <div className={`transition-opacity duration-1000 ${isNoteOpen ? 'opacity-100' : 'opacity-0'} absolute w-[98%] bg-white border border-gray-100 rounded-xl shadow-lg shadow-gray-300 lg:text-base text-[13px] flex flex-col gap-3 dark:border-gray-800 dark:shadow-gray-900 p-3 top-12 md:left-2 left-1 dark:bg-darkmode`}>
                 Please note, our platform operates on a 10% commission from the nightly rental price set by lessors. Thank you for your understanding!
               </div>
+            </div>
+            <div className="flex">
+              <button onClick={handleCreateAnnoncement} className='primary'>Create</button>
             </div>
           </form>
         </div>

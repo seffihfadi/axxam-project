@@ -29,8 +29,17 @@ export const bookingsApiSlice = apiSlice.injectEndpoints({
       })
     }),
     getLessorAnnouncements: builder.query({
-      query: () => '/announcement/getsd/announcementLessor'
-    })
+      query: (lessorID) => `/announcement/getsd/announcementLessor/${lessorID}`,
+      providesTags: ['LessorAnno']
+    }), 
+
+    deleteAnnoncement: builder.mutation({
+      query: (announcementID) => ({
+        url: `/announcement/delete/${announcementID}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['LessorAnno']
+    }),
   })
 })
 
@@ -40,6 +49,7 @@ export const {
     useGetPropertyQuery,
     useCreateCheckoutSessionMutation,
     useSavePropertyMutation,
-    useGetLessorAnnouncementsQuery
+    useGetLessorAnnouncementsQuery,
+    useDeleteAnnoncementMutation
 
 } = bookingsApiSlice
