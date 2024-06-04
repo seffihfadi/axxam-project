@@ -79,15 +79,33 @@ const BManagementPage = () => {
   },];
   
   const {data: reservations, isLoading: reservationsLoading} = useGetLessorReservationsQuery()
-    console.log(reservations)
-    if (reservationsLoading) return <Loader msg={"Loading"}/>
-    if (reservations.length == 0) return <Empty/>
+
+  const splitReservations = (revs) => {
+    return revs.reduce(
+      (acc, reservation) => {
+        if (reservation.status === 'pending') {
+          acc.array1.push(reservation);
+        } else {
+          acc.array2.push(reservation);
+        }
+        return acc;
+      },
+      { array1: [], array2: [] }
+    );
+  };
   
+  
+  
+  if (reservationsLoading) return <Loader msg={"Loading"}/>
+  if (reservations.length == 0) return <Empty/>
+  
+  const { array1, array2 } = splitReservations(reservations);
+
   return (
-    <>
-   <BookingRequests client={client}/>
-   <AllBookings cards={reservations}/>
-    </>
+  <>
+    <BookingRequests reservations={array1}/>
+    <AllBookings cards={array2}/>
+  </>
   )
 }
 

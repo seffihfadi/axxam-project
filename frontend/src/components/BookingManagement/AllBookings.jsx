@@ -12,8 +12,14 @@ function BookingCard({ cards }) {
             <div className="w-full h-[140px] lg:h-[170px] mb-4 relative overflow-hidden rounded-xl">
               <img src={element.announcementDetails.images[0].secure_url} className="h-full w-full" alt={element.location} />
             </div>
-            <h1 className='font-semibold darktxt pb-3'>{element.announcementDetails.location.name}</h1>
+            <div className="flex flex-col mb-3">
+
+              <h1 className='font-semibold darktxt'>{element.announcementDetails.location.name}</h1>
+              <span className='text-sm text-secondary'>{element.announcementDetails.title}</span>
+            </div>
+
             <div className="flex justify-between w-full">
+              
               <div>
                 <span className="text-secondary darktxt text-[14px] font-normal block mb-2 leading-6">
                   Check-in
@@ -33,8 +39,9 @@ function BookingCard({ cards }) {
               <span className='text-secondary darktxt text-[14px] font-normal block mb-2 leading-6'>Payment</span>
               <span className='font-semibold text-[14px] darktxt'>{element.status}</span>
             </div>
+            
             <div className='w-[90%] pt-2 '>
-              {element.status === "completed" ? (
+              {element.status === "accepted" && Date.now() > new Date(element.checkout).getTime() ? (
                 <button className='BookingButton border relative before:absolute dark:border-gray-600'>
                   <span className='w-[12px] h-[12px] rounded-full border bg-green-600 ' />
                   Completed
@@ -49,11 +56,16 @@ function BookingCard({ cards }) {
                   <span className='w-[12px] h-[12px] rounded-full border bg-orange-600 ' />
                   Pending
                 </button>
-              ) : element.status === "inprogress" ? (
+              ) : element.status === "accepted"  && Date.now() > new Date(element.checkin).getTime() && Date.now() < new Date(element.checkout).getTime() ? (
+                <button className='BookingButton border dark:border-gray-600'>
+                  <span className='w-[12px] h-[12px] rounded-full border bg-yellow-500 ' />
+                  In Progress
+                </button>
+              ) : element.status === "accepted" ?  (
                 <button className='BookingButton border dark:border-gray-600'>
                   <span className='w-[12px] h-[12px] rounded-full border bg-primary ' />
-                  In progress
-                </button>
+                  Accepted
+                </button> 
               ) : (<></>)}
             </div>
           </div>

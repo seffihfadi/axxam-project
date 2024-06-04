@@ -61,13 +61,24 @@ const App = () => {
           >
             <Route path="points" element={<PointSystemPage/>} />
             <Route path="ac" element={<BManagementPage/>} />
-          <Route path="ad" element={<PManagementPage/>} />
-          <Route path="ae" element={<AddListingPage/>} />
+            <Route path="ad" element={<PManagementPage/>} />
+            <Route path="ae" element={<AddListingPage/>} />
 
             {/* <Route index element={<HomePage />} /> */}
             {/* <Route path="/history" element={<BookingHistoryPage/>}/> */}
 
           </Route>
+
+          {/* <Route
+            element={
+              <PrivateRoute element={<LesseeLayout />} allowed={ROLES.all} />
+            }
+          >
+            <Route path="/profile" element={<ProfilePage/>}/>
+            
+
+            
+          </Route> */}
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

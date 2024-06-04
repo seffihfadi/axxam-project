@@ -1,15 +1,24 @@
 import Filters from "../components/home/Filters";
 import Properties from "../components/home/Properties";
 import AdvancedSearch from "../components/home/AdvancedSearch";
+import { useGetAnnouncementsQuery } from "../features/bookings/bookingsApiSlice";
+import Loader from "../components/common/Loader";
+import Empty from "../components/common/Empty";
+import { useLocation } from "react-router-dom";
+
 
 const HomePage = () => {
+  const { search } = useLocation()
+  const {data: announcements, isLoading: announcementsLoading} = useGetAnnouncementsQuery(search)
+
+  if (announcementsLoading) return <Loader msg='loading' />
+  if (announcements?.length == 0) return <Empty msg='No properties founded' />
+
   return (
     <>
-      {/* <div className="mt-20 relative"> */}
       <AdvancedSearch />
       <Filters />
-      {/* </div> */}
-      <Properties />
+      <Properties announcements={announcements} search={search} />
     </>
   );
 };

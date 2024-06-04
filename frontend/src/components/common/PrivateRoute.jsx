@@ -1,20 +1,18 @@
-import { Navigate, useLocation } from 'react-router-dom'
-import { useGetUserQuery } from '../../features/auth/authApiSlice';
-
-import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from '../../app/slices/authSlice';
-import Loader from './Loader';
-import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../app/slices/authSlice';
 
 const PrivateRoute = ({ element, allowed }) => {
 
   const user = useSelector(selectCurrentUser)
-  console.log('user', user)
-
-  if (!allowed.includes(user?.role)) {
+  // console.log('user', user)
+  
+  if (!!user && !allowed.includes(user.role)) {
     return window.history.back();
   }
+  // if (!user) {
+  //   window.location.href = '/'
+  // }
+
 
   return element;
 };
