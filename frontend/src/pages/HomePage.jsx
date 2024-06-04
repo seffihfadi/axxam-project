@@ -12,7 +12,6 @@ const HomePage = () => {
   const {data: announcements, isLoading: announcementsLoading} = useGetAnnouncementsQuery(search)
 
   if (announcementsLoading) return <Loader msg='loading' />
-  if (announcements?.length == 0) return <Empty msg='No properties founded' />
 
   return (
     <>

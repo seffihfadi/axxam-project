@@ -371,3 +371,44 @@ export const getUser = async (req, res, next) => {
     next(error)
   }
 }
+
+export const switchRole = async (req, res, next) =>{
+  const user = req.user
+
+  try{
+    const stripeAccount = UserExtraDetails.find({ stripeAccountId : user.extra.stripeAccountId})
+    if(!stripeAccount){
+      res.status(401)
+      throw new Error('unauthorized.')
+    }
+    const isChanged = user.role == 'Lessee'
+    if(isChanged){
+      var updatedUser = User.findByIdAndUpdate(user._id, {role : 'Lessor'})
+    }else{
+      var updatedUser = User.findByIdAndUpdate(user._id, {role : 'Lessee'})
+    }
+    if(!updatedUser){
+      res.status(500)
+      throw new Error('Internal server error.')
+    }
+    return res.status(200).json({message : 'mode switched seccessfully'})
+  }catch(err){
+    next(err)
+  }
+}
+
+export const getUserByID = async (req, res, next) => {
+  try {
+    
+    const {userID} = req.params
+
+    const user = User.findById(userID)
+    if(!user) {
+      return res.status(200).json(req.user)
+    }
+    return res.status(200).json(user)
+    
+  } catch (error) {
+    next(error)
+  }
+}

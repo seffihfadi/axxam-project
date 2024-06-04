@@ -1,6 +1,6 @@
 import Properties from "../components/PropertyManagement/Properties"
 
-const PManagement = () => {
+const PManagementPage = () => {
     return (
       <>
       <Properties/>
@@ -8,4 +8,4 @@ const PManagement = () => {
     )
   }
   
-  export default  PManagement
+  export default  PManagementPage

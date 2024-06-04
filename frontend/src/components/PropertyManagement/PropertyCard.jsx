@@ -6,17 +6,22 @@ import { IoEllipsisVerticalSharp } from "react-icons/io5";
 
 function PropertyCard({ props, Amenities }) {
   
+  const handleDelete = async () => {
+
+  }
+
   const [isopen, setIsopen] = useState(false);
    const handleMenuToggle = () => {
     setIsopen(!isopen);
   };
+  
   return (
     <div className="flex flex-wrap cursor-pointer mb-4 mx-4 md:mx-0 p-2 border border-gray-200 dark:border-gray-600 rounded-2xl">
       <div className="w-full h-[160px] lg:h-[150px] mb-4  overflow-hidden rounded-xl">
-        <img src={props.image} className="h-full w-full" alt="Property" />
+        <img src={props.images[1].secure_url} className="h-full w-full" alt="Property" />
       </div>
       <div className='flex justify-between font-semibold darktxt  w-full  pb-3'>
-        <span>{props.Price} DZD</span>
+        <span>{props.price} DZD</span>
         <span className="relative" onClick={handleMenuToggle}>
           <IoEllipsisVerticalSharp />
           {isopen && 
@@ -27,7 +32,7 @@ function PropertyCard({ props, Amenities }) {
                 <LuPencilLine />
                 Edit
               </div>
-              <div className='flex items-center gap-3 text-secondary darktxt'>
+              <div onClick={handleDelete} className='flex items-center gap-3 text-secondary darktxt'>
                 <AiOutlineDelete />
                 Delete
               </div>
@@ -41,15 +46,15 @@ function PropertyCard({ props, Amenities }) {
             <span className="">
               <PiMapPinLineLight/> 
             </span>
-            <span>{props.location} </span>
+            <span>{props.location.name} </span>
           </div>
           <div className="flex flex-wrap items-center text-secondary darktxt text-[15px] font-normal">
-            {Object.entries(Amenities).map(([amenityName, icon]) => (
-              <div key={amenityName} className="flex items-center mr-4 mb-2">
-                {icon} 
-                <span className="ml-2">{amenityName}</span> 
+            {props.tags.map((tag) => 
+              <div key={tag} className="flex items-center mr-4 mb-2">
+                {Amenities[tag]} 
+                <span className="ml-2">{tag}</span> 
               </div>
-            ))}
+            )}
           </div>
         </div>
       </div>

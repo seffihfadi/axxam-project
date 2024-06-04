@@ -3,11 +3,13 @@ import PropertyCard from './PropertyCard';
 import { AiOutlinePlus } from "react-icons/ai";
 import { Amenities } from '../common/Ameneties';
 import { Link } from 'react-router-dom';
-
+import { useGetLessorAnnouncementsQuery } from '../../features/bookings/bookingsApiSlice';
+import Loader from '../common/Loader';
 
 function Properties() {
-  // const {data: announcementLessor, isLoading} = useGetLessorAnnouncementsQuery();
-  // console.log(announcementLessor)
+  const {data: announcementLessor, isLoading} = useGetLessorAnnouncementsQuery();
+  console.log('sadjkghkjsdhgjasdhgjah',announcementLessor)
+  if (isLoading) return <Loader msg={'loading prop'} />
   return (
     <div className='container my-24'>
      <div className='flex justify-between  items-center '>
@@ -18,7 +20,7 @@ function Properties() {
         </button>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:gap-4 gap-6 ">  
-          {cards.map((element) => (       
+          {announcementLessor.map((element) => (       
             <PropertyCard key={element.id} props={element}  Amenities={Amenities} />
           ))}
         </div>
