@@ -7,13 +7,10 @@ import { useDropzone } from 'react-dropzone';
 function AddListing() {
   const [selectedProperty, setSelectedProperty] = useState(null);
   const [isNoteOpen, setIsNoteOpen] = useState(false);
-<<<<<<< Updated upstream
   const [price, setPrice] = useState('');
   const [propertyName, setPropertyName] = useState('');
   const [address, setAddress] = useState('');
-=======
   const [images, setImages] = useState([]);
->>>>>>> Stashed changes
 
   const PropertyType = [
     {
@@ -53,7 +50,6 @@ function AddListing() {
     }, 1800);
   };
 
-<<<<<<< Updated upstream
   const handlePriceChange = (event) => {
     setPrice(event.target.value);
   };
@@ -65,7 +61,6 @@ function AddListing() {
   const handleAddressChange = (event) => {
     setAddress(event.target.value);
   };
-=======
   const onDrop = (acceptedFiles) => {
     setImages([...images, ...acceptedFiles]);
   };
@@ -76,7 +71,6 @@ function AddListing() {
       'image/*': []
     }
   });
->>>>>>> Stashed changes
 
   return (
     <div className='container my-24'>
