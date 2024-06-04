@@ -5,7 +5,7 @@ function OwnersListings({cards,owner}) {
  
   return (
     <div className="container my-36">
-      <h1 className="pb-12 pt-3 md:pb-18 font-bold text-xl">{owner.name}'s Listings</h1>
+      <h1 className="pb-12 pt-3 md:pb-18 font-bold text-xl">{owner.fullname}'s Listings</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">  
         {cards.map((element, index) => (
           <div key={index} className="mb-3 cursor-pointer">

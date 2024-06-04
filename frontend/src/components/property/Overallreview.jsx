@@ -25,7 +25,7 @@ function Overallreview({ rating, owner }) {
           </div>
         </div> */}
         <div className='w-full flex gap-10 justify-between mb-10 items-center'>
-          <Link to={'/profile'}>
+          <Link to={`/profile/${owner._id}`}>
           <div className="user ">
             <div className="img">
               <Image src={owner?.avatar} userName={owner.fullname} />
