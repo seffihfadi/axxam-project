@@ -1,25 +1,32 @@
-import {FaTv} from "react-icons/fa6";
-import { PiPlantLight, PiPianoKeysLight, PiSwimmingPoolLight } from "react-icons/pi";
+import { FaTv } from "react-icons/fa";
+import { PiPlantLight, PiPianoKeysLight, PiSwimmingPoolLight, PiTentLight } from "react-icons/pi";
 import { MdOutlineBathtub, MdOutlineLocalLaundryService } from "react-icons/md";
-import { IoCarSportOutline, IoSnowOutline, IoWifiOutline  } from "react-icons/io5";
+import { IoCarSportOutline, IoSnowOutline, IoWifiOutline } from "react-icons/io5";
 import { CiDumbbell } from "react-icons/ci";
 import { SlScreenDesktop } from "react-icons/sl";
-import { LiaWaterSolid,LiaBedSolid } from "react-icons/lia";
+import { LiaWaterSolid, LiaBedSolid, LiaSkiingSolid } from "react-icons/lia";
 import { BsThermometerHalf } from "react-icons/bs";
-import { TbGrill, TbSportBillard} from "react-icons/tb";
+import { TbGrill, TbSportBillard } from "react-icons/tb";
+import { RiCaravanLine } from "react-icons/ri";
 
 export const Amenities = {
-  hot_tub : <MdOutlineBathtub/>,
-  air_conditioning: <IoSnowOutline/>,
-  wifi: <IoWifiOutline/>,
-  piano: <PiPianoKeysLight/>,
-  gym: <CiDumbbell/>,
-  workspace: <SlScreenDesktop/>,
-  parking: <IoCarSportOutline/>,
-  bbq_grill: <TbGrill/>,
-  beach_access: <LiaWaterSolid/>,
-  swimming_pool: <PiSwimmingPoolLight/>,
-  garden: <PiPlantLight/>,
-  tv: <FaTv/>,
-  heating: <BsThermometerHalf/>
-}
+  hot_tub: <MdOutlineBathtub />,
+  wifi: <IoWifiOutline />,
+  air_conditioning: <IoSnowOutline />,
+  piano: <PiPianoKeysLight />,
+  gym: <CiDumbbell />,
+  workspace: <SlScreenDesktop />,
+  bbq_grill: <TbGrill />,
+  parking: <IoCarSportOutline />,
+  beach_access: <LiaWaterSolid />,
+  garden: <PiPlantLight />,
+  tv: <FaTv />,
+  swimming_pool: <PiSwimmingPoolLight />,
+  heating: <BsThermometerHalf />,
+  arctic: <IoSnowOutline />,
+  office: <SlScreenDesktop />,
+  camping: <PiTentLight />,
+  ski: <LiaSkiingSolid />,
+  caravan: <RiCaravanLine />,
+  nature: <PiPlantLight />, 
+};

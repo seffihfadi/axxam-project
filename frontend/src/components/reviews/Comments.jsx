@@ -1,8 +1,9 @@
 import Comment from "./Comment"
 
 const Comments = () => {
+
   return (
-    <div>Comments</div>
+    <div></div>
   )
 }
 

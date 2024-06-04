@@ -6,12 +6,15 @@ import { useVerifyOtpMutation } from "../../../features/auth/authApiSlice";
 import { useDispatch } from "react-redux";
 import { setAlert } from "../../../app/slices/alertSlice";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../../app/slices/authSlice";
 
 function Signup2({ isOpen, number, openPopup3, title, handleClose }) {
   const [otp, setOtp] = useState("");
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [verifyOtp, { isLoading }] = useVerifyOtpMutation();
+  const user = useSelector(selectCurrentUser)
 
   // console.log('title', title)
   const verifyOTP = async (e) => {
@@ -26,8 +29,8 @@ function Signup2({ isOpen, number, openPopup3, title, handleClose }) {
         if (title === 'Signup') {
           openPopup3()
         } else {
-          navigate('/sl')
           handleClose()
+          window.location.href = '/sl'
         }
       })
       .catch((error) => dispatch(setAlert([error.data.message, 'error'])))

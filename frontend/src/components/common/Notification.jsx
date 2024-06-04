@@ -5,13 +5,13 @@ import { LuCalendarClock } from "react-icons/lu";
 import React, {useState, useEffect, useRef} from 'react';
 import Image from "./Image";
 import { useSignoutMutation } from "../../features/auth/authApiSlice";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 function Notification({user}) {
 
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   let menuRef = useRef();
   const [signOut] = useSignoutMutation()
 
@@ -35,7 +35,7 @@ function Notification({user}) {
 
   const handleLogout = async () => {
     signOut()
-    navigate('/')
+    window.location.href = '/'
   }
 
   return (

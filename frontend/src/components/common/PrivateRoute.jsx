@@ -10,8 +10,9 @@ import { selectCurrentUser } from '../../app/slices/authSlice';
 const PrivateRoute = ({ element, allowed }) => {
 
   const user = useSelector(selectCurrentUser)
+  console.log('user', user)
 
-  if (!!user && !allowed.includes(user.role)) {
+  if (!allowed.includes(user?.role)) {
     return window.history.back();
   }
 

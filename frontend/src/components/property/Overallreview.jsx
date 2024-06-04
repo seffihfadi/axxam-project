@@ -27,7 +27,7 @@ function Overallreview({ rating, owner }) {
         <div className='w-full flex gap-10 justify-between mb-10 items-center'>
           <div className="user ">
             <div className="img">
-              <Image src={owner.avatar} userName={owner.fullname} />
+              <Image src={owner?.avatar} userName={owner.fullname} />
             </div>
             <div className="name">
               <span>{owner.fullname}</span>

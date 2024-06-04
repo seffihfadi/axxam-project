@@ -16,7 +16,7 @@ const PropertyPage = () => {
 
   const {data: property, isLoading: propertyLoading} = useGetPropertyQuery(propID)
   const {data: reviews, isLoading: reviewsLoading} = useGetReviewsQuery(propID)
-  // console.log('reviews comments', property)
+  // console.log('reviews comments', reviews)
 
   
   // const propertyPosition = [36.75694627456025, 2.8524488210678105]
@@ -33,14 +33,14 @@ const PropertyPage = () => {
 
   
   if (propertyLoading || reviewsLoading) return <Loader msg='loading' />
-
   return (
     <>
       <PropertyDetails property={property} handleOpen={handleOpen}/>
       <Overallreview rating={reviews.rate} owner={property.owner} />
       <Reviews comments={reviews.comments} handleOpen={handleOpen}/>
+      {/* reviews need to be linked also */}
       <PropertyMap position={property.location.coordinates}/>
-      {isOpen && <Comments handleClose={handleClose}/>}
+      {isOpen && <Comments handleClose={handleClose} reviews={reviews} />}
     </>
   )
 }

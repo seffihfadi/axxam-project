@@ -6,8 +6,8 @@ const HomePage = () => {
   return (
     <>
       {/* <div className="mt-20 relative"> */}
-        <AdvancedSearch />
-        <Filters />
+      <AdvancedSearch />
+      <Filters />
       {/* </div> */}
       <Properties />
     </>
