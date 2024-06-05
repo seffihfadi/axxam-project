@@ -17,66 +17,9 @@ const ProfilePage = () => {
   const {userID} = useParams()
   const {data: owner, isLoading: ownerIsLoading} = useGetUserIdQuery(userID)
   const {data: announcements, isLoading: announcementsLoading} = useGetLessorAnnouncementsQuery(userID)
-  console.log(owner)
-  console.log(announcements)
-    const cards = [
-        {
-          image: "card7.jpg",
-          location: "Sidi mebrouk, Constantine",
-          description: "Villa with terrace",
-          date: "Mar 1-6",
-          price: "25000,00",
-          rating: "5.0",
-        },
-        {
-          image: "card8.jpg",
-          location: "Biskra",
-          description: "Villa with swimming pool",
-          date: "Mar 1-6",
-          price: "25000,00",
-          rating: "5.0",
-        },
-        {
-          image: "card9.jpg",
-          location: "Flifla, Skikda",
-          description: "Beachfront house",
-          date: "Mar 1-6",
-          price: "25000,00",
-          rating: "5.0",
-        },
-        {
-          image: "card10.jpg",
-          location: "Cherea, Blida",
-          description: "Log cabin",
-          date: "Mar 1-6",
-          price: "25000,00",
-          rating: "5.0",
-        },
-        {
-          image: "card8.jpg",
-          location: "Biskra",
-          description: "Villa with swimming pool",
-          date: "Mar 1-6",
-          price: "25000,00",
-          rating: "5.0",
-        },
-        {
-          image: "card9.jpg",
-          location: "Flifla, Skikda",
-          description: "Beachfront house",
-          date: "Mar 1-6",
-          price: "25000,00",
-          rating: "5.0",
-        },
-        {
-          image: "card10.jpg",
-          location: "Cherea, Blida",
-          description: "Log cabin",
-          date: "Mar 1-6",
-          price: "25000,00",
-          rating: "5.0",
-        },
-      ];
+  // console.log(owner)
+  // console.log(announcements)
+    
 
     if (ownerIsLoading || announcementsLoading) return <Loader msg="Loading"/>
     else{

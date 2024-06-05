@@ -44,7 +44,7 @@ const App = () => {
             <Route path="/favourite" element={<FavoritePropertiesPage/>}/>
             <Route path="/history" element={<BookingHistoryPage/>}/>
             <Route path="/info" element={<MainInfosPage/>}/>
-            <Route path="/profile/:userID" element={<ProfilePage/>}/>
+            {/* <Route path="/profile/:userID" element={<ProfilePage/>}/> */}
             <Route path="/success" element={<SuccessPayment />} />
             {/* <Route path="/canceled" element={<CanceledPayment />} /> */}
             {/* <Route path="/checkout" element={<PaymentIntegration><CheckoutPage /></PaymentIntegration>} /> */}
@@ -70,15 +70,13 @@ const App = () => {
 
           </Route>
 
+          <Route path="/profile/:userID" element={<ProfilePage/>}/>
           {/* <Route
             element={
               <PrivateRoute element={<LesseeLayout />} allowed={ROLES.all} />
             }
           >
-            <Route path="/profile" element={<ProfilePage/>}/>
-            
-
-            
+         
           </Route> */}
           <Route path="*" element={<NotFoundPage />} />
         </Route>
