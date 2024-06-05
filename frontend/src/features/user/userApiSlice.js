@@ -6,7 +6,7 @@ export const useApiSlice = apiSlice.injectEndpoints({
       query: () => '/get-user',
     }),
     getUserId: builder.query({
-      query: (userID) => `/get-user-by-id/:${userID}`
+      query: (userID) => `user/get-user-by-id/${userID}`
     })
   })
 })

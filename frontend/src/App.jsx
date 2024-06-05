@@ -44,7 +44,7 @@ const App = () => {
             <Route path="/favourite" element={<FavoritePropertiesPage/>}/>
             <Route path="/history" element={<BookingHistoryPage/>}/>
             <Route path="/info" element={<MainInfosPage/>}/>
-            <Route path="/profile" element={<ProfilePage/>}/>
+            <Route path="/profile/:userID" element={<ProfilePage/>}/>
             <Route path="/success" element={<SuccessPayment />} />
             {/* <Route path="/canceled" element={<CanceledPayment />} /> */}
             {/* <Route path="/checkout" element={<PaymentIntegration><CheckoutPage /></PaymentIntegration>} /> */}

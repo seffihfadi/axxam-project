@@ -41,9 +41,9 @@ function UserGreeting({ isSignedUp, isJoined,user }) {
     return (
       <nav className="flex items-center gap-[5px] lg:gap-[150px] md:gap-[36px] sm:flex-row">
         <div className={clicked ? "navbar active font-semibold dark:bg-darkmode gap-5 bg-white" : "navbar flex items-center font-semibold lg:gap-[35px] md:gap-[13px] "}>
-        <Link to="/" className="brd">Home</Link>
-          <Link to="/services" className="brd">Services</Link>
+          <Link to="/" className="brd">Home</Link>
           <Link to="/sl" className="brd">Properties</Link>
+          <Link to="/services" className="brd">Services</Link>
           <div className="md:hidden"><ThemeToggle /></div>
         </div>
         <div className="flex items-center gap-[7px] sm:gap-[12px] md:gap-[15px]">
@@ -64,8 +64,8 @@ function UserGreeting({ isSignedUp, isJoined,user }) {
       <nav className="flex items-center gap-[5px] lg:gap-[150px] md:gap-[25px] sm:flex-row">
         <div className={clicked ? "navbar active font-semibold dark:bg-darkmode gap-5 bg-white" : "navbar flex items-center font-semibold lg:gap-[35px] md:gap-[13px] "}>
           <Link to="/" className="brd">Home</Link>
-          <Link to="/services" className="brd">Services</Link>
           <Link to="/sl" className="brd">Properties</Link>
+          <Link to="/services" className="brd">Services</Link>
           <div className="md:hidden"><ThemeToggle /></div>
         </div>
         <div className="flex items-center gap-[6px] sm:gap-[20px] md:gap-[20px]">

@@ -5,7 +5,20 @@ import { BsTelephone } from "react-icons/bs";
 import { LiaPhoneSolid } from "react-icons/lia";
 import { IoMailOutline } from "react-icons/io5";
 import { TbLocation } from 'react-icons/tb';
+import { useGetUserIdQuery } from "../features/user/userApiSlice";
+import { useParams } from "react-router-dom";
+import { useGetLessorAnnouncementsQuery } from "../features/bookings/bookingsApiSlice";
+import Loader from "../components/common/Loader";
+
+
+
 const ProfilePage = () => {
+
+  const {userID} = useParams()
+  const {data: owner, isLoading: ownerIsLoading} = useGetUserIdQuery(userID)
+  const {data: announcements, isLoading: announcementsLoading} = useGetLessorAnnouncementsQuery(userID)
+  console.log(owner)
+  console.log(announcements)
     const cards = [
         {
           image: "card7.jpg",
@@ -64,24 +77,16 @@ const ProfilePage = () => {
           rating: "5.0",
         },
       ];
-    const owner={
-      image:"../../public/svc19.jpg",
-      name:"Ahmed",
-      lastname:"Benachour",
-      gender:"Male",
-      phonenumber:"+213 546 77 89 90",
-      email:"AhmedBenachour@gmail.com",
-      adress:"Algiers, douira",
-      biographie:"Hi there! I'm Benachour Ahmed, a dedicated property owner in Algiers. With years of experience in real estate, I strive to offer top-notch rental experiences. From cozy apartments to spacious homes, I take pride in providing quality living spaces. Looking forward to welcoming you to one of my properties!",
+
+    if (ownerIsLoading || announcementsLoading) return <Loader msg="Loading"/>
+    else{
+      return (
+        <>
+        <OwnerDetails  owner={owner}/>
+        <OwnersListings cards={announcements} owner={owner}/>
+        </>
+      ) 
     }
-  
-  return (
-    
-    <>
-    <OwnerDetails  owner={owner}/>
-    <OwnersListings cards={cards} owner={owner}/>
-    </>
-  )
 }
 
 export default ProfilePage

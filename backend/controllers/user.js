@@ -402,7 +402,7 @@ export const getUserByID = async (req, res, next) => {
     
     const {userID} = req.params
 
-    const user = User.findById(userID)
+    const user = await User.findById(userID).populate("extra")
     if(!user) {
       return res.status(200).json(req.user)
     }
