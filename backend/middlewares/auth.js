@@ -17,7 +17,10 @@ const access = (roles) => {
         throw new Error('something went wrong, please login')
       }
       const {userID} = verified
-      const user = await User.findById(userID).populate('extra')
+      const user = await User.findById(userID).populate({
+        path: 'extra',
+        populate: { path: 'saved', select: ['title', 'location.name', 'price', 'images'] } 
+      })
       
       if (!user) {
         res.status(401)

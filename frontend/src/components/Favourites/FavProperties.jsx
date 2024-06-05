@@ -1,6 +1,13 @@
 import React from "react";
 import FavPropertiesCard from "./FavPropertiesCard";
+import { selectCurrentUser } from "../../app/slices/authSlice";
+import { useSelector } from "react-redux";
+import Loader from "../common/Loader";
+import { Link } from "react-router-dom";
 function FavProperties(){
+
+  const user = useSelector(selectCurrentUser)
+  console.log('user', user?.extra?.saved.length)
   const cards = [
     {
       image: "public/card1.jpg",
@@ -99,14 +106,18 @@ function FavProperties(){
       rating: "5.0",
     },
   ];
+
+    if (!user) return <Loader msg={'load favorites'} />
     return (
     <div className="container my-24">
-      {cards.length > 1 ? (
+      {user?.extra?.saved.length > 0 ? (
         <>
         <h1 className="pb-12 pt-3 md:pb-20 font-bold text-xl">Favorite properties</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">  
-            {cards.map((element) => (
-              <FavPropertiesCard key={element.id} props={element} />
+            {user?.extra?.saved.map((element) => (
+              <Link to={'/property/'+element._id} >
+                <FavPropertiesCard key={element.id} props={element} />
+              </Link>
             ))}
         </div>
         </>

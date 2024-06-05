@@ -328,13 +328,13 @@ export const saveAnnouncement = async (req, res, next) => {
     }
 
     // Determine if the announcement is already saved and toggle the save status
-    const index = userDetails.saved.indexOf(announcementID);
+    const index = userDetails.saved.findIndex(savedItem => savedItem._id.toString() === announcementID.toString());
     let msg = "";
     if (index !== -1) {
       userDetails.saved.splice(index, 1);
       msg = `${announcement.title} removed from saved list.`;
     } else {
-      userDetails.saved.push(announcementID);
+      userDetails.saved.push(announcement);
       msg = `${announcement.title} saved.`;
     }
 
