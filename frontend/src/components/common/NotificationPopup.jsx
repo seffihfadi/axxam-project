@@ -49,10 +49,10 @@ export default function NotificationPopup() {
         <div>
             <div className='menu-container' ref={menuRef}>
                 <div className='menu-trigger overflow-auto' onClick={() => { setOpen(!open) }}>
-                    <MdNotificationsNone className="w-5 h-5 relative" />
+                    <MdNotificationsNone className="w-5 h-5 relative cursor-pointer" />
                     {newNotifCount > 0 && <div className={`w-[11px] h-[11px] text-xs bg-red-700 flex items-center justify-center p-[7px] right-[92px] top-[18px] md:top-[17px] sm:top-[19px] sm:right-[107px] md:right-[65px] rounded-full absolute`}>{newNotifCount}</div>}
                 </div>
-                <div className={`absolute overflow-y-auto top-[60px] shadow-md shadow-[#6D6D6D] rounded-md bg-[#fff] dark:bg-darkmode w-[250px] sm:w-[350px] right-1 before:absolute before:top-[-5px] before:right-[20px] before:transform before:rotate-45 before:h-[20px] before:w-[20px] before:dark:bg-darkmode ${open ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-20'}`}>
+                <div className={`absolute overflow-y-auto top-[60px] shadow-sm shadow-[#6D6D6D] dark:shadow-none dark:border-gray-600 dark:border rounded-lg bg-[#fff] dark:bg-darkmode w-[250px] sm:w-[350px] right-1  ${open ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible -translate-y-20'}`}>
                     <div className="text-white bg-primary py-3 px-3 rounded-t-lg font-semibold text-lg">
                         Notifications
                     </div>

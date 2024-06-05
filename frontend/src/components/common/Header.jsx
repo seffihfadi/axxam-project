@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 function Header()  {
   const user = useSelector(selectCurrentUser)
-  console.log(user)
   const isSignedUp = !!user
   const isJoined = !!user && !!user?.extra?.stripeAccountId
 

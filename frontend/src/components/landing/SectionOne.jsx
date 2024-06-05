@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const SectionOne = ({ rtl = false, data, showButton = true }) => {
   return (
     <section className='landing grid grid-cols-12 md:gap-10'>

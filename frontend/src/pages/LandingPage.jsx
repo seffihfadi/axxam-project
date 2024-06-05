@@ -1,8 +1,10 @@
+import Joinus from "../components/auth/joinus/Joinus"
 import Features from "../components/landing/Features"
 import HeroSection from "../components/landing/HeroSection"
 import SectionOne from "../components/landing/SectionOne"
 import SectionTwo from "../components/landing/SectionTwo"
 import Testomonials from "../components/landing/Testomonials"
+import { Link } from "react-router-dom"
 
 const LandingPage = () => {
   const sectionOne = {
@@ -12,7 +14,7 @@ const LandingPage = () => {
     span: 'Who we are',
     title: 'We offer property renting for individuals or falimies with amazing prices',
     desc: 'If you are searching for a seamless rental process, look no further. At AXXAM, we are dedicated to simplifying your property search and ensuring you find the perfect home to fit your lifestyle.',
-    btntext: 'Learn More'
+    btntext: <Link to={'/services'}>Learn More</Link>
   }
 
   const sectionTwo = {
@@ -22,7 +24,7 @@ const LandingPage = () => {
     span: 'Be an owner',
     title: 'Are you looking to rent out your property or find tenants ?',
     desc: 'Click "JOIN US" to start your journey towards hassle-free renting and make the most of your rental income today!',
-    btntext: 'Join us'
+    btntext: <Joinus/>
   }
 
   const sectionThree = {

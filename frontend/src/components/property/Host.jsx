@@ -10,7 +10,7 @@ function Host({owner, handleOpen, reviews}) {
     <>
     <div className='my-9 md:w-[85%] md:h-[90px] border border-gray-300 dark:border-gray-600  rounded-3xl'>
         <div className="h-full py-4 px-5 flex justify-between items-start md:items-center flex-col md:flex-row gap-5">
-          <Link to={'/profile'}>
+          <Link to={`/profile/${owner._id}`}>
           <div className="user cursor-pointer">
             <div className=" img">
               <Image src={owner?.avatar} userName={owner.fullname} />

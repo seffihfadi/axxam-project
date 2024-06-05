@@ -32,7 +32,6 @@ function Notification({user, isSignedUp, isJoined}) {
     }
 
   });
-  console.log(`isSigned ${isSignedUp} isJoined ${isJoined}`)
   const handleLogout = async () => {
     signOut()
     window.location.href = '/'
