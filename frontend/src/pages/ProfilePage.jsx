@@ -7,6 +7,7 @@ import { IoMailOutline } from "react-icons/io5";
 import { TbLocation } from 'react-icons/tb';
 import { useGetUserIdQuery } from "../features/user/userApiSlice";
 import { useParams } from "react-router-dom";
+import { useGetLessorAnnouncementsQuery } from "../features/bookings/bookingsApiSlice";
 import Loader from "../components/common/Loader";
 
 
@@ -15,7 +16,9 @@ const ProfilePage = () => {
 
   const {userID} = useParams()
   const {data: owner, isLoading: ownerIsLoading} = useGetUserIdQuery(userID)
+  const {data: announcements, isLoading: announcementsLoading} = useGetLessorAnnouncementsQuery(userID)
   console.log(owner)
+  console.log(announcements)
     const cards = [
         {
           image: "card7.jpg",
@@ -74,13 +77,13 @@ const ProfilePage = () => {
           rating: "5.0",
         },
       ];
-      
-    if (ownerIsLoading) return <Loader msg="Loading"/>
+
+    if (ownerIsLoading || announcementsLoading) return <Loader msg="Loading"/>
     else{
       return (
         <>
         <OwnerDetails  owner={owner}/>
-        <OwnersListings cards={cards} owner={owner}/>
+        <OwnersListings cards={announcements} owner={owner}/>
         </>
       ) 
     }
