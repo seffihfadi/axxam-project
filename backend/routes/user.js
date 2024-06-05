@@ -1,5 +1,6 @@
 import express from 'express';
 import access from '../middlewares/auth.js';
+import secure from '../middlewares/secure.js';
 import ROLES from '../utils/roles.js'
 import { 
   sendOTPSignup,
@@ -27,7 +28,7 @@ userRoutes.patch('/update-additional', access(ROLES.all), updateUserAdditional);
 userRoutes.patch('/signup', signupUser);
 userRoutes.get('/get-user', access(ROLES.all), getUser);
 userRoutes.patch('/switch-role', access(ROLES.all), switchRole);
-userRoutes.get('/get-user-by-id/:userID', access(ROLES.all), getUserByID);
+userRoutes.get('/get-user-by-id/:userID', secure(), getUserByID);
 export default userRoutes
 
 // //forgot password token

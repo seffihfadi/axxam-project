@@ -84,7 +84,7 @@ export const addReview = async (req, res, next) => {
   const {announcementID} = req.params
   const {_id: userID} = req.user
   const {comment, rating} = req.body
-console.log({comment, rating});
+// console.log({comment, rating});
   try {
 
     if (!comment) {
@@ -96,7 +96,6 @@ console.log({comment, rating});
       res.status(400)
       throw new Error('invalid rating: all ratings must be between 1 and 5 stars')
     }
-
 
 
     const announcement = await Announcement.findById(announcementID)

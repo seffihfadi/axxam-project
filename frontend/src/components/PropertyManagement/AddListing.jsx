@@ -75,7 +75,7 @@ function AddListing() {
   });
 
   const handleCreateAnnoncement = async () => {
-    
+    console.log(selectedProperty, isNoteOpen, price, propertyName, address, images)
   }
 
   return (

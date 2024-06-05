@@ -29,7 +29,7 @@ announcementRoutes.get("/get/:announcementID", secure(), getAnnouncement);
 announcementRoutes.get("/search", secure(), getAnnouncementForSearch);
 announcementRoutes.get(
   "/getsd/announcementLessor/:lessorID",
-  access(ROLES.all),
+  secure(),
   getAnnouncementLessor
 );
 announcementRoutes.delete(
